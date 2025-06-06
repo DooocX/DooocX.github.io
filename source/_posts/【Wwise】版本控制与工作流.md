@@ -11,7 +11,7 @@ tags:
 excerpt: 该文章总结于Wwise官方文档，加入了个人理解，欢迎讨论~
 toc: false
 date: 20205-6-5 18:15:36
-cover: 'https://cdn.jsdelivr.net/gh/DooocX/DocX_Images/test/%E9%AD%94%E6%B3%95%E8%A7%89%E9%86%92.jpg'
+cover: 'https://cdn.jsdelivr.net/gh/DooocX/DocX_Images/Wwise/Wwise%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E4%B8%8E%E5%B7%A5%E4%BD%9C%E6%B5%81.jpg'
 ---
 
 # [在Wwise中进行版本控制](https://www.audiokinetic.com/zh/public-library/2024.1.5_8803/?source=Help&id=using_wwise_with_source_control_system)
@@ -19,6 +19,8 @@ cover: 'https://cdn.jsdelivr.net/gh/DooocX/DocX_Images/test/%E9%AD%94%E6%B3%95%E
 
 所有 Wwise 工程文件（包括各个 Work Unit）都基于 XML。所以，用户可使用版本控制系统轻松管理这些文件。
 >XML（eXtensible Markup Language，可扩展标记语言）是一种用于存储和传输数据的标记语言，具有结构化、可读性强和跨平台的特点。
+
+![](https://cdn.jsdelivr.net/gh/DooocX/DocX_Images/Wwise/Git.png)
 
 ### 一、哪些文件要进行版本控制？
 
