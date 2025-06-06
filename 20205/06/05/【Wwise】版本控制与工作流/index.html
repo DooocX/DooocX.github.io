@@ -2,7 +2,7 @@
 <html>
 	<head>
 		
-<title>【音效设计】手游领域打造3A音频效果-Audio-Blog</title>
+<title>【Wwise】版本控制与工作流-Audio-Blog</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -12,8 +12,8 @@
 
 
 
-<meta name="keywords" content="音效设计,视频总结,">
-<meta name="description" content="该文章总结于WwiseTour">
+<meta name="keywords" content="Wwise,音频策划,版本控制,">
+<meta name="description" content="该文章总结于Wwise官方文档，加入了个人理解，欢迎讨论~">
 
 
 <script src="/js/jquery.min.js"></script>
@@ -284,14 +284,16 @@
         <ul class="post-header-tag">
             
             
-            <li><a href="/tags/音效设计">音效设计</a></li>
+            <li><a href="/tags/Wwise">Wwise</a></li>
             
-            <li><a href="/tags/视频总结">视频总结</a></li>
+            <li><a href="/tags/音频策划">音频策划</a></li>
+            
+            <li><a href="/tags/版本控制">版本控制</a></li>
             
             
         </ul>
         
-        <h1>【音效设计】手游领域打造3A音频效果</h1>
+        <h1>【Wwise】版本控制与工作流</h1>
         <div class="post-header-info">
             <div class="post-header-info-author">
                 
@@ -305,10 +307,10 @@
                 <span class="post-header-info-author-text"> <a target="_blank" rel="noopener" href="https://space.bilibili.com/5292339?spm_id_from=333.1391.0.0">DocX</a></span>
                 <div class="post-header-info-author-categories">
                     
-                         <a href="../../categories/音效设计/" target="_blank" >音效设计</a>
+                         <a href="../../categories/Wwise/" target="_blank" >Wwise</a>
                     
                 </div>
-                <p>20205-03-06 17:53:36</p>
+                <p>20205-06-05 18:15:36</p>
             </div>
         </div>
     </div>
@@ -318,13 +320,66 @@
   <div id="article" class="post-content-info">
     
 
-    <p>手游领域打造3A音频效果<br>【高投入、高质量、高回报】<br>【网易团队-阴阳师到哈利波特】</p>
-<p>一、现代化手游音频开发——见山是山<br>●所见即所得<br>●声音引擎运用<br>●高度工业化分工</p>
-<p>二、手游音频风格化——写实or写意<br>阴阳师——日本传统乐器Foly采样具备整体性</p>
-<p>哈利波特——音频本质内化<br>专注玩家感受、魔法沉浸感、细节及IP连结<br>引入美术VI概念：<br>●避免Si-fi类的声音“现代感”“未来感”“电子感”<br>●避免同时存在电能和机械的声音<br>●避免市场上出现过的声音<br>做出自我限制：<br>●每个声音必须有其存在的原因<br>●每个声音必须有背后表达的含义<br>●每个声音必须要有超载的细节诠释<br>●每个声音必须思考玩家的聆听感受<br>其他创新点：<br>●卡牌的介绍上增加了很多彩蛋和互动感<br>●药水瓶点击不放左右移动产生药水晃动的声音令人印象深刻<br>●猫头鹰实录20只</p>
-<p>三、音频与其他部门的联系</p>
-<p>●音频-策划：玩法是否和音频有良好的契合<br>●音频-程序：任何功能在整合上的可能性<br>●音频-文案：考量到各个文案背后的含义，音频是否能以更好方式去诠释或者升华<br>●音频-美术：透过声音方式将静态的东西升华<br>●音频-营销：IP拓展、玩家圈层的经营<br>●音频-QA：版本、排期、控制，保证开发顺利落地</p>
-<p>其他收获：<br>音频能力的拓展【立足于玩法，拓展至IP】<br>游戏音频并不是独立存在的<br>用户导向才是手游音频质量的回响<br>游戏应该是一种第九艺术，它应该存在内核所想传达的意义，它应该使人投入情感，它应该使人有所体悟。</p>
+    <h1 id="在Wwise中进行版本控制"><a href="#在Wwise中进行版本控制" class="headerlink" title="在Wwise中进行版本控制"></a><a target="_blank" rel="noopener" href="https://www.audiokinetic.com/zh/public-library/2024.1.5_8803/?source=Help&id=using_wwise_with_source_control_system">在Wwise中进行版本控制</a></h1><p>所有 Wwise 工程文件（包括各个 Work Unit）都基于 XML。所以，用户可使用版本控制系统轻松管理这些文件。</p>
+<blockquote>
+<p>XML（eXtensible Markup Language，可扩展标记语言）是一种用于存储和传输数据的标记语言，具有结构化、可读性强和跨平台的特点。</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/DooocX/DocX_Images/Wwise/Git.png"></p>
+<h3 id="一、哪些文件要进行版本控制？"><a href="#一、哪些文件要进行版本控制？" class="headerlink" title="一、哪些文件要进行版本控制？"></a>一、哪些文件要进行版本控制？</h3><p>Wwsie官方建议将下列文件纳入版本控制，这样任何人拉项目时Wwise会用这些文件生成工程所需的其他文件。</p>
+<p>.wproj Wwise的工程文件</p>
+<p>.wwu Wwise中的Work Unit，每一个Unit可以独立管理避免了同时协作时的冲突</p>
+<p>Originals folder 所有导入到Wwise项目中的原始音频文件（如 .wav、.mp3、.aiff 等）都会被自动复制到 Originals 文件夹中，如果需要迁移项目，必须同时复制 Originals 文件夹和 .wproj 文件，保持相对路径一致。</p>
+<p><strong>以下文件可以不用放到版本控制中，因为Wwise会用上方的文件自动生成：</strong></p>
+<p>.backup 文件夹 – 在使用新的 Wwise 大版本打开工程时，会对工程进行升级并生成 .backup 文件夹。这样是为了在需要时将工程恢复为升级之前的状态。若将工程添加到了版本控制系统，则可藉此恢复为升级之前的状态。为此，可将 .backup 文件夹放在版本控制系统之外。</p>
+<p>.cache 文件夹 – 工程目录下的 .cache 文件夹是 Wwise 的本地工作文件夹。**.cache 文件夹的内容不得添加到版本控制系统**，因为这可能造成 Wwise 中发生异常行为。</p>
+<p>.prof – 这些文件在每次捕获时生成，其并非工程数据的一部分</p>
+<p>.validationcache – 这些文件由 .wwu 文件生成，可放在版本控制系统之外。</p>
+<p>.wsettings – 此文件特定于本地用户和电脑。</p>
+<p>IncrementalSoundBankData.xml – 此文件用于根据 Wwise 工程的本地内容和本地 SoundBank 生成记录来追踪 SoundBank 的状态。</p>
+<p><strong>.gitignore and .p4ignore  Wwise在生成新项目时，会自动创建</strong>，我们可以将其添加至版本管理软件中，打开可以看到Wwise官方已经帮我们写好了忽略的项目，我们可以随时进行修改，非常方便</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># Wwise</span><br>.backup*<br>.cache*<br>*.akd<br>*.prof<br>*.validationcache<br>*.wsettings<br>IncrementalSoundBankData.xml<br></code></pre></td></tr></table></figure>
+
+<h3 id="二、如何在Wwise中快捷查看工程同步状态？"><a href="#二、如何在Wwise中快捷查看工程同步状态？" class="headerlink" title="二、如何在Wwise中快捷查看工程同步状态？"></a>二、如何在Wwise中快捷查看工程同步状态？</h3><p><a target="_blank" rel="noopener" href="https://www.audiokinetic.com/zh/public-library/2024.1.5_8803/?source=Help&id=managing_project_files_using_workgroup_plug_in">官方文档</a></p>
+<blockquote>
+<p>值得注意的是SVN插件在2023.1版本后就停止更新了</p>
+</blockquote>
+<p>为了帮助用户快速入门，Wwise 针对 Perforce® 和 Subversion 软件配置管理系统配套提供了两个功能完备的示例版本控制插件，如果在使用别的版本控制管理系统，可为 Wwise 创建自己的版本控制插件，请参阅 SDK 文档中的<a target="_blank" rel="noopener" href="https://www.audiokinetic.com/zh/public-library/2024.1.5_8803/?source=SDK&id=source_control_dll.html">如何创建版本控制插件 DLL </a>章节。</p>
+<h3 id="三、版本管理Tips"><a href="#三、版本管理Tips" class="headerlink" title="三、版本管理Tips"></a>三、版本管理Tips</h3><ol>
+<li><p>Wwise在保存.wwu&#x2F;.bnk&#x2F;.wproj文件时候，默认使用L换行，如果希望用CRLF保存这些文件，可以在项目设置General选项卡找到“Line Ending”选项进行修改（如果你的团队混合使用 Windows、macOS 或 Linux，换行符风格可能导致版本控制（Git）显示不必要的差异（尽管内容相同，如果某些工具或脚本依赖特定换行符（如 Bash 脚本需要 LF），需确保 Wwise 生成的文件兼容）<br><strong>在 Git 中设置 core.autocrlf&#x3D;input（Mac&#x2F;Linux）或 true（Windows），以自动处理换行符。</strong></p>
+<blockquote>
+<p>LF（\n） 是 Unix&#x2F;Linux&#x2F;macOS 系统的标准换行符，而 CRLF（\r\n） 是 Windows 的传统换行符。</p>
+</blockquote>
+</li>
+<li><p>详细划分工作单元避免冲突，并且为全局默认工作单元指定负责人</p>
+</li>
+<li><p><strong>定义全局工作元素相当重要</strong>当您重命名或删除某个全局工程元素（例如状态或游戏参数）时，注意，您可能修改了工程中的许多其他对象，包括使用这些元素的所有声音对象和容器。当保存和登入这些更改时，您可能会影响其他人正在处理的众多工程文件。为限制此类更改的影响，应该尽早定义全局工程元素，此后再尽力避免更改这些元素。如果在初始设置后需要更改，则应执行以下操作：</p>
+</li>
+</ol>
+<ul>
+<li>警告团队成员全局元素已被更改。</li>
+<li>要求团队全体成员登入他们的更改。</li>
+<li>check-in 您的文件</li>
+<li>要求团队全体成员更新他们的工程文件。</li>
+<li>通过执行此流程，团队成员只需更新就可以获得新文件，无需合并。</li>
+</ul>
+<ol start="4">
+<li><p>定期备份本地文件，在登入特定工作单元前生成完好度报告</p>
+</li>
+<li><p>在合并文件前，花一点时间熟悉 Wwise 工程文件的 XML 结构。在一些情况下，您可能必须更新 XML 代码。如果您没有正确理解它，可能会毁坏您的工程。如果您的确要修改 XML，请确保在 Wwise 中打开工程，然后将文件重新登入到版本控制系统中。这将确保您对 XML 的更改是有效的，并且是您所需的。</p>
+</li>
+<li><p>在 Wwise 中，使用 Container（容器）代替独立的 Sound SFX（单个音效对象）来组织音频内容，可以显著减少 SoundBank 文件的更改频率，因为Bank的生成机制依赖于对象ID，当修改了音频文件内容但命名和路径没有改变时，无需重新打包。</p>
+</li>
+</ol>
+<h3 id="四、理解工作流"><a href="#四、理解工作流" class="headerlink" title="四、理解工作流"></a>四、理解工作流</h3><ul>
+<li><p>不需要下载Wwise Authoring的策划或者程序，只需要将GeneratedSoundBanks文件夹添加到版本控制即可，具体涉及到了*.json&#x2F;<em>.bnk&#x2F;</em>.wem文件格式，例如：一个策划想要听到声音，ta只需要安装好Wwise插件并且在引擎中修改Soundbank路径</p>
+</li>
+<li><p>音频策划在集成音频时，可以在确保Ue和Wwise同时打开的状态在Ue中创建或更改资源。同时，相关的虚幻引擎和Wwise资源可以有不同的名称。两者之间的关联由GUID、ShortID和资源名称属性决定。因此，你可以重命名虚幻引擎资源，而不会影响它们所引用的Wwise对象。 </p>
+</li>
+<li><p>第三方音频设计师可以只用Wwise，但是测试只能在Soundcaster中进行</p>
+</li>
+<li><p>对于大型项目，拥有一个专门用于SoundBanks的服务器可能会很有用。<a target="_blank" rel="noopener" href="https://www.audiokinetic.com/zh/public-library/2024.1.5_8803/?source=UE4&id=using_features_generatecommandlet.html">SoundBank生成命令行工具</a>可以按计划在该服务器上运行，例如每晚运行一次，并将生成的SoundBanks推送到版本控制下的某个位置。然后，其他开发人员可以在虚幻引擎中使用最新的SoundBanks，而无需自己生成SoundBanks。在大型项目中，SoundBank生成可能很耗时，并且可能有多个贡献者致力于游戏音频的不同部分（音乐、语音、音效等），因此自动化可以使该过程比手动生成SoundBanks更高效。<br>然而，一些用户可能需要在开发过程中自行生成SoundBanks以进行实验或测试。在这种情况下，您可以维持基于服务器的设置，但使用<a target="_blank" rel="noopener" href="https://www.audiokinetic.com/zh/public-library/2024.1.5_8803/?source=UE4&id=using_soundbanks_override.html">用户覆盖来在本地生成SoundBanks。</a></p>
+</li>
+</ul>
 
   </div>
   <div id=""></div>
@@ -385,19 +440,12 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
 
     <div class="post-paging">
     
-    <a href="/20205/06/05/%E3%80%90Wwise%E3%80%91%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E4%B8%8E%E5%B7%A5%E4%BD%9C%E6%B5%81/">
-        <div class="post-paging-last">
-            <span>上一篇</span>
-            <p>【Wwise】版本控制与工作流</p>
-        </div>
-    </a>
-    
 
     
-    <a href="/20205/01/24/%E3%80%90Wwise%E3%80%91101/">
+    <a href="/20205/03/06/%E3%80%90%E8%A7%86%E9%A2%91%E6%80%BB%E7%BB%93%E3%80%91%E6%89%8B%E6%B8%B8%E9%A2%86%E5%9F%9F%E6%89%93%E9%80%A03A%E9%9F%B3%E9%A2%91%E6%95%88%E6%9E%9C/">
         <div class="post-paging-next">
             <span>下一篇</span>
-            <p>【Wwise】101笔记</p>
+            <p>【音效设计】手游领域打造3A音频效果</p>
         </div>
     </a>
     
