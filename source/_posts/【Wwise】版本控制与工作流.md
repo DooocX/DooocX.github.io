@@ -10,7 +10,7 @@ tags:
   - Wwise
 excerpt: 该文章总结于Wwise官方文档，加入了个人理解，欢迎讨论~
 toc: false
-date: 20205-6-5 18:15:36
+date: 2025-6-5 18:15:36
 cover: 'https://cdn.jsdelivr.net/gh/DooocX/DocX_Images/Wwise/Wwise%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E4%B8%8E%E5%B7%A5%E4%BD%9C%E6%B5%81.jpg'
 ---
 

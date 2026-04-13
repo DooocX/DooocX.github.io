@@ -3,17 +3,17 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle: ''
-description: ''
-keywords:
-author: John Doe
-language: en
-timezone: ''
+title: DocX的游戏音频博客
+subtitle: '游戏音频 | Wwise | 音效设计'
+description: 'DocX的个人博客，专注游戏音频、Wwise技术笔记与音效设计分享'
+keywords: 游戏音频, Wwise, 音效设计, 游戏开发
+author: DocX
+language: zh-CN
+timezone: Asia/Shanghai
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: http://example.com
+url: https://DooocX.github.io
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
