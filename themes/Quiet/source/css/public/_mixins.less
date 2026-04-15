@@ -1,0 +1,147 @@
+// ============================================================
+// Mixin 工具库
+// 通用的可复用样式函数
+// ============================================================
+
+@import (reference) "./_variables";
+
+// === 响应式断点 ===
+
+// max-width 媒体查询（小于等于断点时生效）
+.respond-below(@breakpoint, @rules) {
+  @media screen and (max-width: @breakpoint) {
+    @rules();
+  }
+}
+
+// min-width 媒体查询（大于等于断点时生效）
+.respond-above(@breakpoint, @rules) {
+  @media screen and (min-width: @breakpoint) {
+    @rules();
+  }
+}
+
+// === 文本工具 ===
+
+// 多行文本截断
+.text-line(@number: 2) {
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: @number;
+  line-clamp: @number;
+  -webkit-box-orient: vertical;
+}
+
+// 单行文本截断
+.text-ellipsis() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// === 过渡动画 ===
+
+.transition(@property: all, @duration: 0.3s, @easing: ease-in-out) {
+  transition: @property @duration @easing;
+}
+
+// === Flex 布局工具 ===
+
+.flex-center() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-between() {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-column() {
+  display: flex;
+  flex-direction: column;
+}
+
+// === 内容容器 ===
+
+// 主内容区域容器（保留原有 mixin）
+.content-style() {
+  display: flex;
+  max-width: @max-width-content;
+  margin: 0 auto;
+  margin-top: 0;
+  background: @color-bg-white;
+  border-radius: @border-radius-lg;
+  flex-direction: column;
+}
+
+// 内容上移动画（保留原有 mixin）
+.content-move-style() {
+  margin-top: -64px !important;
+  transition: @transition-content-move;
+}
+
+// === 页面头部背景 ===
+
+.header-background() {
+  width: 100%;
+  display: flex;
+  flex-shrink: 0;
+  background: @color-bg-page;
+  height: @header-height-banner;
+}
+
+.background-content() {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.header-title-span() {
+  display: flex;
+  height: 152px;
+  font-size: @font-size-banner;
+  line-height: 48px;
+  color: @color-text-primary;
+  align-items: center;
+}
+
+.header-title-h2() {
+  display: flex;
+  margin-top: @spacing-xs;
+  font-size: @font-size-base;
+  font-weight: normal;
+  line-height: 22px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-align: center;
+  color: @color-text-primary;
+}
+
+.header-icon-img(@w: 56px, @h: 56px) {
+  width: @w;
+  height: @h;
+}
+
+.base-header-content-style() {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  h2 {
+    .header-title-h2();
+  }
+  span {
+    .header-title-span();
+    img {
+      .header-icon-img(56px, 56px);
+    }
+  }
+}

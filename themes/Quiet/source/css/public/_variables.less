@@ -1,0 +1,147 @@
+// ============================================================
+// 设计令牌系统 (Design Tokens)
+// 所有颜色、尺寸、间距等值的唯一定义来源
+// ============================================================
+
+// === 颜色系统 ===
+
+// 主色
+@color-primary: #006AFF;
+@color-primary-alt: #006af7;
+@color-primary-hover: #409EFF;
+
+// 文本色
+@color-text-primary: #12183A;
+@color-text-secondary: #898FA0;
+@color-text-muted: #999;
+@color-text-dark: #333;
+@color-text-body: #333333;
+@color-text-heading: #3C4858;
+@color-text-table-head: #4c4948;
+@color-text-tag: #424242;
+@color-text-tag-alt: #43576B;
+@color-text-subtitle: #718096;
+@color-text-inline-code: #58586C;
+
+// 背景色
+@color-bg-gradient-start: #f1f5fb;
+@color-bg-gradient-end: #f9fcff;
+@color-bg-page: linear-gradient(to top, @color-bg-gradient-start, @color-bg-gradient-end);
+@color-bg-white: #ffffff;
+@color-bg-light: #F8F9FB;
+@color-bg-code: #F1F5FB;
+@color-bg-blockquote: #fafafa;
+@color-bg-header: rgba(255, 255, 255, 0.98);
+@color-bg-paging: hsla(0, 0%, 100%, .8);
+@color-bg-tag: rgba(18, 24, 58, .06);
+@color-bg-tag-active: #607d8b;
+@color-bg-tag-hover: rgba(96, 125, 139, .05);
+@color-bg-table-odd: hsla(0, 0%, 96.5%, .51);
+@color-bg-table-header: rgba(153, 169, 191, .1);
+
+// 边框色
+@color-border: rgba(153, 169, 191, .1);
+@color-border-light: #F8F9FB;
+@color-border-blockquote: #e0e2e5;
+@color-border-tag-hover: #bec8d3;
+@color-border-category: #ddd;
+
+// 功能色
+@color-link: #006AFF;
+@color-link-hover: #4CA5CE;
+@color-danger: #F56C6C;
+@color-h1-border: #e06c75;
+@color-h2-border: #73b1e0;
+
+// 代码块装饰色（macOS 三色点）
+@color-code-dot-red: #fc625d;
+@color-code-dot-yellow: #fdbc40;
+@color-code-dot-green: #35cd4b;
+
+// 表格阴影
+@color-table-shadow: #d4d4d4;
+
+// 旧变量兼容（保留以避免引用断裂）
+@textColorTheme: @color-text-primary;
+@headerBackgroundColor: @color-bg-page;
+
+// === 排版系统 ===
+
+@font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+@font-family-code: Menlo, Consolas, "DejaVu Sans Mono", monospace;
+
+@font-size-base: 16px;
+@font-size-xs: 12px;
+@font-size-sm: 14px;
+@font-size-md: 15px;
+@font-size-lg: 18px;
+@font-size-xl: 20px;
+@font-size-h1: 32px;
+@font-size-h2: 25px;
+@font-size-h3: 24px;
+@font-size-h4: 19px;
+@font-size-h5: 18px;
+@font-size-page-title: 30px;
+@font-size-banner: 36px;
+
+// === 间距系统 ===
+
+@spacing-xs: 4px;
+@spacing-sm: 8px;
+@spacing-md: 16px;
+@spacing-lg: 24px;
+@spacing-xl: 40px;
+@spacing-xxl: 64px;
+
+// === 布局尺寸 ===
+
+@max-width-content: 1160px;
+@max-width-article: 1000px;
+@max-width-paging: 980px;
+@max-width-grouping: 900px;
+@max-width-post-basis: 721px;
+
+@header-height-banner: 466px;
+
+// === 圆角 ===
+
+@border-radius-xs: 3px;
+@border-radius-sm: 4px;
+@border-radius-md: 6px;
+@border-radius-lg: 10px;
+@border-radius-xl: 50%;
+
+// === 阴影 ===
+
+@shadow-card: 0 20px 40px 0 rgba(50, 50, 50, 0.08);
+@shadow-card-hover: 0 20px 40px 0 rgba(50, 50, 50, 0.1);
+@shadow-header: 0 10px 40px 0 rgba(50, 50, 50, 0.08);
+@shadow-post-hover: 0 10px 40px 0 rgba(50, 50, 50, .1);
+@shadow-link-hover: 0 10px 10px 0 rgba(50, 50, 50, 0.1);
+@shadow-category: 4px 6px 14px @color-border-category;
+@shadow-table: 0 0 2px @color-table-shadow;
+
+// === 过渡 ===
+
+@transition-default: all 0.4s ease-in-out;
+@transition-fast: all 0.3s ease-in-out;
+@transition-slow: all 0.5s ease-in-out;
+@transition-content-move: margin-top 0.8s ease-in-out;
+
+// === 响应式断点 ===
+
+@breakpoint-sm: 600px;
+@breakpoint-md: 800px;
+@breakpoint-lg: 1000px;
+@breakpoint-xl: 1300px;
+
+// === Z-index 层级 ===
+
+@z-base: 1;
+@z-content: 2;
+@z-card-overlay: 3;
+@z-element: 4;
+@z-header-scroll: 99;
+@z-header: 199;
+@z-sidebar-overlay: 1998;
+@z-sidebar: 1999;

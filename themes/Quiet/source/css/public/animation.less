@@ -1,0 +1,14 @@
+// === 内容进场动画（纯 CSS，无需 JS 触发） ===
+@keyframes content-enter {
+  from {
+    transform: translateY(40px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+#content {
+  animation: content-enter 0.6s cubic-bezier(0.4, 0, 0.0, 1) both;
+  margin-top: -64px;
+}
