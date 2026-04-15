@@ -1,13 +1,14 @@
-@import "../public/content";
+@import (reference) "../public/_variables";
+@import (reference) "../public/_mixins";
 
-.archive{
-	&-content{
-		.content-style();
-		&-data{
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			width: 100%;
-		}
-	}
+.archive {
+  &-content {
+    .content-style();
+    &-data {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+  }
 }

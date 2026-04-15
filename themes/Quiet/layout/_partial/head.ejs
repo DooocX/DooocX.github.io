@@ -1,31 +1,48 @@
 <%
-var title = theme.title
+var title = theme.title;
 if (page.title) {
-  title = page.title
+  title = page.title;
+}
+var isPost = (page.layout === 'post');
+var pageDescription = '';
+if (page.excerpt) {
+  pageDescription = strip_html(page.excerpt).substring(0, 200);
+} else {
+  pageDescription = theme.web_description;
+}
+var pageKeywords = theme.keyword;
+if (page.tags && page.tags.data.length) {
+  pageKeywords = page.tags.data.map(function(item) { return item.name; }).join(',');
 }
 %>
-<title><%= title %>-<%- theme.suffix %></title>
+<title><%= title %> - <%- theme.suffix %></title>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="shortcut icon" type="image/x-icon" href="<%- theme.icon %>">
+<meta name="keywords" content="<%- pageKeywords %>">
+<meta name="description" content="<%- pageDescription %>">
+<%# Open Graph %>
+<meta property="og:title" content="<%= title %>">
+<meta property="og:description" content="<%- pageDescription %>">
+<meta property="og:type" content="<%= isPost ? 'article' : 'website' %>">
+<meta property="og:url" content="<%- config.url %><%- url_for(page.path) %>">
+<meta property="og:site_name" content="<%= config.title %>">
+<%# Twitter Card %>
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="<%= title %>">
+<meta name="twitter:description" content="<%- pageDescription %>">
+<%# CSS %>
 <%- css('css/index.css') %>
-<% if(page.tags && page.tags.data.length) { 
-  let text = ''
-  %>
-<% page.tags.data.forEach((item, index) => {
-    text += item.name + ','
-}) %>
-<meta name="keywords" content="<%- text %>">
-<meta name="description" content="<%- page.excerpt %>">
-<% }else{ %>
-<meta name="keywords" content="<%- theme.keyword %>">
-<meta name="description" content="<%- theme.web_description %>">
+<%# JS - 全局脚本（defer 非阻塞加载） %>
+<script defer src="<%- url_for('js/index.js') %>"></script>
+<% if (isPost) { %>
+<%# JS - 仅文章详情页加载 %>
+<script defer src="<%- url_for('js/fancybox.umd.js') %>"></script>
+<script defer src="<%- url_for('js/hljs.min.js') %>"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof hljs !== 'undefined') { hljs.highlightAll(); }
+  });
+</script>
 <% } %>
-<%- js('js/jquery.min.js') %>
-<%- js('js/index.js') %>
-<%- js('js/fancybox.umd.js') %>
-<%- js('js/fancybox-images.js') %>
-<%- js('js/gitalk.min.js') %>
-<%- js('js/hljs.min.js') %> 
-<script>hljs.highlightAll();</script>

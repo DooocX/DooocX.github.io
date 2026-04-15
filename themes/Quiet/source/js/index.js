@@ -1,49 +1,142 @@
-// 内容自动上升
-function contentMove(){
-    const contentDom = document.getElementById('content');
-    contentDom.classList.add('content-move');
-}
+/**
+ * Quiet 主题主脚本
+ * - 内容上移动画
+ * - 导航栏滚动吸顶
+ * - 移动端侧边栏开关
+ * - 回到顶部按钮
+ * - Fancybox 图片灯箱绑定
+ */
 
-// header 滚动动画
-window.onscroll = function() {
-    //为了保证兼容性，这里取两个值，哪个有值取哪一个
-    //scrollTop就是触发滚轮事件时滚轮的高度
+(function () {
+  'use strict';
+
+  // === rAF 节流的滚动事件 ===
+  let ticking = false;
+
+  function onScroll() {
     const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
     const headerTopDom = document.getElementById('header-top');
-    if (scrollTop > 100) {
-        headerTopDom.classList.remove("header-move2");
+    const goTopDom = document.getElementById('js-go_top');
+
+    // 导航栏滚动吸顶
+    if (headerTopDom) {
+      if (scrollTop > 100) {
+        headerTopDom.classList.remove('header-move2');
         headerTopDom.classList.add('header-move1');
-        return
+      } else {
+        headerTopDom.classList.remove('header-move1');
+        headerTopDom.classList.add('header-move2');
+      }
     }
-    headerTopDom.classList.remove('header-move1');
-    headerTopDom.classList.add("header-move2");
-}
 
+    // 回到顶部按钮显隐
+    if (goTopDom) {
+      if (scrollTop > 500) {
+        goTopDom.classList.add('visible');
+      } else {
+        goTopDom.classList.remove('visible');
+      }
+    }
+  }
 
+  window.addEventListener('scroll', function () {
+    if (!ticking) {
+      window.requestAnimationFrame(function () {
+        onScroll();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
 
-// 在浏览器加载完成前执行
-function ready ( fn ) {
+  // === 移动端侧边栏 ===
+  function initSidebar() {
+    const toggleBtn = document.querySelector('.h-right-close > svg');
+    const sidebar = document.getElementById('sidebar');
+    const shelter = document.getElementById('shelter');
 
-	if ( document.addEventListener ) { //标准浏览器
-        
-		document.addEventListener( 'DOMContentLoaded', function () {
-			//注销时间，避免重复触发
-			document.removeEventListener( 'DOMContentLoaded', arguments.callee, false );
-			fn(); //运行函数
-		}, false );
+    if (!toggleBtn || !sidebar || !shelter) return;
 
-	} else if ( document.attachEvent ) { //IE浏览器
+    toggleBtn.addEventListener('click', function () {
+      sidebar.classList.add('active');
+      shelter.classList.add('active');
+    });
 
-		document.attachEvent( 'onreadystatechange', function () {
+    shelter.addEventListener('click', function () {
+      sidebar.classList.remove('active');
+      shelter.classList.remove('active');
+    });
+  }
 
-			if ( document.readyState == 'complete' ) {
-				document.detachEvent( 'onreadystatechange', arguments.callee );
-				fn(); //函数运行
-			}
+  // === 回到顶部 ===
+  function initGoTop() {
+    const goTopDom = document.getElementById('js-go_top');
+    if (!goTopDom) return;
 
-		} );
-	}
-}
+    goTopDom.addEventListener('click', function () {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  }
 
-// 执行动画
-ready(contentMove);
+  // === Fancybox 图片灯箱绑定 ===
+  function initFancybox() {
+    if (typeof Fancybox === 'undefined') return;
+
+    const article = document.getElementById('article');
+    if (!article) return;
+
+    // 为文章中的图片包裹 Fancybox 链接
+    const images = article.querySelectorAll('img');
+    images.forEach(function (img) {
+      if (img.parentElement.classList.contains('fancybox')) return;
+      if (img.classList.contains('nofancybox')) return;
+
+      const link = document.createElement('a');
+      const src = img.getAttribute('data-src') || img.src;
+      link.href = src;
+      link.title = img.alt || '';
+      link.setAttribute('data-src', img.src);
+      link.classList.add('fancybox');
+      link.setAttribute('data-fancybox', 'fancybox-gallery-img');
+
+      img.parentNode.insertBefore(link, img);
+      link.appendChild(img);
+    });
+
+    // 初始化 Fancybox
+    Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
+      dragToClose: true,
+      Toolbar: true,
+      closeButton: 'top',
+      Image: {
+        zoom: true,
+      },
+      on: {
+        initCarousel: function (fancybox) {
+          const slide = fancybox.Carousel.slides[fancybox.Carousel.page];
+          fancybox.$container.style.setProperty(
+            '--bg-image',
+            'url("' + slide.$thumb.src + '")'
+          );
+        },
+        'Carousel.change': function (fancybox, carousel, to) {
+          const slide = carousel.slides[to];
+          fancybox.$container.style.setProperty(
+            '--bg-image',
+            'url("' + slide.$thumb.src + '")'
+          );
+        },
+      },
+    });
+  }
+
+  // === 初始化 ===
+  document.addEventListener('DOMContentLoaded', function () {
+    initSidebar();
+    initGoTop();
+    initFancybox();
+  });
+})();
