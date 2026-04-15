@@ -2,7 +2,7 @@
   font-size: 20px;
 }
 .post #post-toc ol {
-  color: red;
+  color: #F56C6C;
   list-style-type: none;
 }
 .post #post-toc ol a {
@@ -33,7 +33,7 @@
 }
 .post-header-background-content h1 {
   margin: 32px 0 24px;
-  color: #12183a;
+  color: #12183A;
   font-weight: 500;
   font-size: 30px;
   line-height: 1.6;
@@ -44,9 +44,9 @@
   flex-wrap: wrap;
 }
 .post-header-background-content .post-header-tag li {
-  z-index: 4!important;
-  background: #fff !important;
-  color: #fff;
+  z-index: 4 !important;
+  background: #ffffff !important;
+  color: #ffffff;
   display: flex;
   margin-top: 20px;
   margin-right: 16px;
@@ -54,10 +54,7 @@
   border-radius: 4px;
   background: rgba(18, 24, 58, 0.06);
   line-height: 20px;
-  -webkit-transition: background 0.5s;
-  -moz-transition: background 0.5s;
-  -o-transition: background 0.5s;
-  transition: ease-in-out;
+  transition: background 0.5s ease-in-out;
   flex-grow: 0;
 }
 .post-header-background-content .post-header-tag li:hover {
@@ -68,10 +65,7 @@
   z-index: 4 !important;
   color: #333333;
   text-decoration: none;
-  -webkit-transition: color 0.5s;
-  -moz-transition: color 0.5s;
-  -o-transition: color 0.5s;
-  transition: ease-in-out;
+  transition: color 0.5s ease-in-out;
 }
 .post-header-background-content .post-header-info {
   display: flex;
@@ -82,19 +76,19 @@
 }
 .post-header-background-content .post-header-info-author span {
   margin-left: 8px;
-  color: #12183a;
+  color: #12183A;
   font-weight: 500;
   font-size: 15px;
 }
 .post-header-background-content .post-header-info-author span a {
-  color: #12183a;
+  color: #12183A;
   text-decoration: none;
 }
 .post-header-background-content .post-header-info-author span a:hover {
   color: #006af7 !important;
 }
 .post-header-background-content .post-header-info-author p {
-  color: #12183a;
+  color: #12183A;
   font-size: 14px;
 }
 .post-header-background-content .post-header-info-author-text {
@@ -107,12 +101,12 @@
 }
 .post-header-background-content .post-header-info-author-categories a {
   display: block;
-  border: 1px solid #12183a;
+  border: 1px solid #12183A;
   border-radius: 4px;
   padding: 2px 4px;
   font-size: 12px;
   margin-right: 10px;
-  color: #12183a;
+  color: #12183A;
   text-decoration: none;
 }
 .post-header-background-content .post-header-info-author-categories a:hover {
@@ -125,7 +119,7 @@
 }
 .post-header-img h1 {
   z-index: 2;
-  color: #fff !important;
+  color: #ffffff !important;
 }
 .post-header-img img {
   display: flex;
@@ -148,10 +142,10 @@
   z-index: 4;
 }
 .post-header-img .post-header-info-author span a {
-  color: #fff !important;
+  color: #ffffff !important;
 }
 .post-header-img .post-header-info-author p {
-  color: #fff !important;
+  color: #ffffff !important;
 }
 .post-header-img .post-header-info-author-categories a {
   border: 1px solid #f1f5fb !important;
@@ -196,7 +190,7 @@
   font-size: 16px;
 }
 .post-paging a {
-  color: #12183a;
+  color: #12183A;
   font-size: 16px;
   text-decoration: none;
 }

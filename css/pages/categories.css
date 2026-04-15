@@ -42,7 +42,7 @@
   box-shadow: 4px 6px 14px #ddd;
 }
 .categories-class-card-title {
-  color: #fff;
+  color: #ffffff;
   position: relative;
   z-index: 2;
   font-size: 20px;
@@ -56,7 +56,7 @@
 .categories-class-card-number .categories-length {
   position: relative;
   font-size: 50px;
-  color: #fff;
+  color: #ffffff;
   z-index: 2;
   font-style: oblique;
   font-weight: bold;
@@ -64,7 +64,7 @@
 .categories-class-card-number span {
   position: relative;
   font-size: 20px;
-  color: #fff;
+  color: #ffffff;
   z-index: 2;
   font-style: oblique;
 }

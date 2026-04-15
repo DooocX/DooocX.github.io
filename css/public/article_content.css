@@ -43,7 +43,7 @@
 }
 #article a {
   position: relative;
-  color: #006aff;
+  color: #006AFF;
   text-decoration: none;
   outline: 0;
   cursor: pointer;
@@ -125,7 +125,7 @@
 }
 #article ul li:before {
   content: "\2022";
-  color: #006aff;
+  color: #006AFF;
   float: left;
   margin-right: 10px;
   line-height: 31px;

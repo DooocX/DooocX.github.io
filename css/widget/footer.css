@@ -6,12 +6,17 @@
 .footer .Copyright {
   display: flex;
   margin-left: 18px;
-  color: #898fa0;
+  color: #898FA0;
   font-size: 14px;
   flex-basis: 0;
   justify-content: flex-start;
   align-items: center;
   flex-grow: 1;
+}
+.footer .Copyright .footer-theme-link {
+  text-decoration: none;
+  display: contents;
+  color: #898FA0;
 }
 .footer .contact {
   display: flex;
@@ -26,7 +31,7 @@
   margin-right: 10px;
   width: 30px;
   height: 30px;
-  color: #898fa0;
+  color: #898FA0;
   justify-content: center;
   align-items: center;
 }

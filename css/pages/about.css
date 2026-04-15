@@ -14,7 +14,7 @@
   margin-top: 40px;
   font-size: 30px;
   font-weight: 500;
-  color: #12183a;
+  color: #12183A;
   flex: 1;
   flex-direction: column;
 }
@@ -22,7 +22,7 @@
   display: flex;
   font-size: 15px;
   margin-top: 10px;
-  color: #898F9F;
+  color: #898FA0;
 }
 .about-header-background-content img {
   display: flex;
