@@ -10,7 +10,7 @@
 
 ```
 DooocX.github.io/
-├── _config.yml                 # Hexo 主配置文件
+├── _config.yml                 # Hexo 主配置文件（含 marked.lazyload 图片懒加载配置）
 ├── Rules.md                    # 编程规范文件
 ├── PROJECT_STRUCTURE.md        # 项目结构说明
 ├── .editorconfig               # 编辑器统一配置
@@ -40,7 +40,7 @@ DooocX.github.io/
 └── themes/Quiet/               # Quiet 主题
     ├── _config.yml             #   主题配置（唯一配置入口）
     ├── layout/                 #   EJS 模板
-    │   ├── layout.ejs          #     根布局
+    │   ├── layout.ejs          #     根布局（含进度条 div + 主题初始化脚本）
     │   ├── index.ejs           #     首页
     │   ├── post.ejs            #     文章详情
     │   ├── archive.ejs         #     归档/分类归档
@@ -52,19 +52,19 @@ DooocX.github.io/
     │   ├── 404.ejs             #     404 页面
     │   ├── _partial/           #     局部模板
     │   │   ├── head.ejs        #       HTML head
-    │   │   ├── header.ejs      #       导航栏
+    │   │   ├── header.ejs      #       导航栏（含暗色模式切换按钮）
     │   │   ├── foot.ejs        #       页脚
     │   │   ├── home.ejs        #       首页文章列表
-    │   │   ├── post_head.ejs   #       文章头部
-    │   │   ├── post_content.ejs#       文章正文
+    │   │   ├── post_head.ejs   #       文章头部（含字数统计 + 阅读时间）
+    │   │   ├── post_content.ejs#       文章正文（含 Giscus 动态主题）
     │   │   └── post_paging.ejs #       上下篇导航
     │   └── _widget/            #     小组件
     │       ├── analytics.ejs   #       百度统计（已禁用）
-    │       ├── comment.ejs     #       Gitalk 评论
+    │       ├── comment.ejs     #       Giscus 评论（已迁至 post_content.ejs）
     │       ├── gotop.ejs       #       回到顶部按钮
     │       ├── grouping.ejs    #       按年份分组列表
     │       ├── header_body.ejs #       页面 banner
-    │       └── sidebar.ejs     #       移动端侧边栏
+    │       └── sidebar.ejs     #       移动端侧边栏（含暗色模式切换入口）
     └── source/                 #   主题静态资源
         ├── css/
         │   ├── index.less      #     样式入口（仅 @import）
@@ -72,21 +72,23 @@ DooocX.github.io/
         │   │   ├── _variables.less  # 设计令牌系统
         │   │   ├── _mixins.less     # Mixin 工具库
         │   │   ├── article_content.less  # 文章正文排版样式
-        │   │   └── animation.less   # 内容进场动画
+        │   │   ├── animation.less   # 内容进场动画
+        │   │   ├── dark-mode.less   # 暗色模式全局覆盖样式（NEW）
+        │   │   ├── progress-bar.less # 阅读进度条样式（NEW）
+        │   │   └── code-copy.less   # 代码块复制按钮样式（NEW）
         │   ├── pages/          #     页面级样式（8 个 .less 文件）
         │   ├── widget/         #     组件样式
-        │   │   ├── header.less
+        │   │   ├── header.less #     含暗色切换按钮样式
         │   │   ├── footer.less
         │   │   ├── header_body.less
         │   │   ├── grouping.less
         │   │   ├── sidebar.less
         │   │   └── gotop.less
         │   ├── highlight/      #     代码高亮（Atom One Dark）
-        │   └── plugin/         #     第三方插件样式（Fancybox、Gitalk）
+        │   └── plugin/         #     第三方插件样式（Fancybox、Giscus）
         ├── js/
-        │   ├── index.js        #     主脚本（原生 ES6+）
+        │   ├── index.js        #     主脚本（含暗色模式、进度条、代码复制）
         │   ├── fancybox.umd.js #     Fancybox 图片灯箱
-        │   ├── gitalk.min.js   #     Gitalk 评论插件
         │   └── hljs.min.js     #     highlight.js 代码高亮
         └── image/
             ├── favicon.ico     #     网站图标
@@ -106,7 +108,7 @@ DooocX.github.io/
 | `hexo-generator-archive/category/index/tag` | 页面生成器 |
 | `hexo-renderer-ejs` | EJS 模板渲染 |
 | `hexo-renderer-less` | Less CSS 编译 |
-| `hexo-renderer-marked` | Markdown 渲染 |
+| `hexo-renderer-marked` | Markdown 渲染（含图片懒加载） |
 | `hexo-server` | 本地开发服务器 |
 
 ---
@@ -125,10 +127,15 @@ DooocX.github.io/
 ## 主题配置要点
 
 - **首页布局**：`block-card`（图文块状卡片）
-- **导航栏**：HOME / ARCHIVE / CATEGORIES / TAGS / LINKS / ABOUT
+- **导航栏**：HOME / ARCHIVE / CATEGORIES / TAGS / LINKS / ABOUT + 暗色模式切换
+- **暗色模式**：跟随系统偏好自动切换，支持手动切换，localStorage 持久化
 - **代码高亮**：highlight.js（Atom One Dark 主题，仅文章页加载）
 - **图片灯箱**：Fancybox（仅文章页加载）
-- **评论系统**：Giscus（基于 GitHub Discussions，已启用）
+- **评论系统**：Giscus（基于 GitHub Discussions，已启用，主题跟随暗色模式）
+- **阅读进度条**：仅文章页顶部显示，3px 主色调进度条
+- **代码复制**：代码块右上角一键复制按钮
+- **字数统计**：文章头部显示字数和预计阅读时间
+- **图片懒加载**：通过 `marked.lazyload: true` 自动为 Markdown 图片添加 `loading="lazy"`
 - **统计**：百度统计（已禁用）
 - **底部图标**：GitHub（链接到 `github.com/DooocX`）
 
@@ -139,13 +146,14 @@ DooocX.github.io/
 ### 设计令牌系统
 - 所有颜色、间距、断点等值集中在 `_variables.less` 中管理
 - 通用 mixin 集中在 `_mixins.less` 中（响应式断点、过渡动画、flex 布局等）
-- 禁止硬编码颜色/断点值
+- 暗色模式使用 `[data-theme="dark"]` CSS 选择器覆盖，不破坏现有 LESS 变量体系
 
 ### 性能优化
 - 移除 jQuery 依赖，使用原生 ES6+ DOM API
 - JS 脚本 `defer` 非阻塞加载
 - Fancybox / highlight.js 仅在文章详情页按需加载
 - scroll 事件使用 `requestAnimationFrame` 节流
+- 图片懒加载（`loading="lazy"`）减少首屏加载负担
 
 ### SEO
 - `<html lang="zh-CN">` 语言标识
@@ -158,5 +166,8 @@ DooocX.github.io/
 
 1. **Logo 文件偏大**：`logo.png` 约 1.03 MB，建议压缩至 200KB 以下
 2. **关于页内容为空**：`source/about/index.md` 只有 front-matter，没有正文
-3. **Gitalk 评论配置**：当前为占位值，如需启用需替换为真实 GitHub OAuth 凭据
-4. **默认封面**：使用第三方随机图片 API，建议替换为本地或可控 CDN 图片
+3. **默认封面**：使用第三方随机图片 API，建议替换为本地或可控 CDN 图片
+4. **搜索功能**：待添加全站搜索
+5. **TOC 目录**：所有文章 `toc: false`，待开启并优化悬浮定位
+6. **404 页面**：依赖外部 CDN 图片，建议本地化
+7. **社交图标**：待添加 B 站、邮箱等联系方式

@@ -37,6 +37,15 @@
                 </div>
                 <p><%- date(page.date, "YYYY-MM-DD HH:mm:ss") %></p>
             </div>
+            <%
+              var plainText = strip_html(page.content);
+              var chineseCount = (plainText.match(/[\u4e00-\u9fff]/g) || []).length;
+              var englishWords = plainText.replace(/[\u4e00-\u9fff]/g, '').split(/\s+/).filter(function(w) { return w.length > 0; }).length;
+              var totalWords = chineseCount + englishWords;
+              var readingTime = Math.ceil(chineseCount / 300 + englishWords / 200);
+              if (readingTime < 1) readingTime = 1;
+            %>
+            <p class="post-wordcount">约 <%= totalWords %> 字 · 预计 <%= readingTime %> 分钟</p>
         </div>
     </div>
 </div>

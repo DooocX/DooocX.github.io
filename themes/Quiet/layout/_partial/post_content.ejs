@@ -9,7 +9,7 @@
     <%- page.content %>
   </div>
   <% if(theme.giscus && theme.giscus.enable && page.comments) { %>
-  <div class="giscus-container">
+  <div class="giscus-container" id="giscus-container">
     <script src="https://giscus.app/client.js"
       data-repo="<%= theme.giscus.repo %>"
       data-repo-id="<%= theme.giscus.repo_id %>"
@@ -20,7 +20,7 @@
       data-reactions-enabled="<%= theme.giscus.reactions_enabled %>"
       data-emit-metadata="<%= theme.giscus.emit_metadata %>"
       data-input-position="<%= theme.giscus.input_position %>"
-      data-theme="<%= theme.giscus.theme %>"
+      data-theme="<%= (theme.giscus.theme === 'light') ? 'light' : theme.giscus.theme %>"
       data-lang="<%= theme.giscus.lang %>"
       crossorigin="anonymous"
       async>

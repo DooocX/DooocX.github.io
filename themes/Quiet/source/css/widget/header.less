@@ -3,8 +3,11 @@
 
 .header {
   position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   z-index: @z-header;
+  background: #ffffff;
   .header-top {
     display: flex;
     height: 100px;
@@ -78,6 +81,25 @@
           position: relative;
           top: -12px;
           left: 2px;
+        }
+      }
+      .theme-toggle-btn {
+        padding: 0 12px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        list-style: none;
+        svg {
+          width: 20px;
+          height: 20px;
+          stroke: @color-text-secondary;
+          .transition(stroke, 0.3s);
+        }
+        &:hover svg {
+          stroke: @color-text-primary;
+        }
+        .icon-moon {
+          display: none;
         }
       }
     }

@@ -73,6 +73,7 @@
       }
       .post-header-info {
         display: flex;
+        flex-direction: column;
         &-author {
           display: flex;
           align-items: center;
@@ -115,6 +116,11 @@
               }
             }
           }
+        }
+        .post-wordcount {
+          color: @color-text-primary;
+          font-size: @font-size-xs;
+          margin-top: 8px;
         }
       }
     }
@@ -159,6 +165,11 @@
           color: @color-bg-white !important;
         }
       }
+    }
+    .post-wordcount {
+      color: @color-bg-white !important;
+      position: relative;
+      z-index: @z-element;
     }
   }
   &-header-color {
