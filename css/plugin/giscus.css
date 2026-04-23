@@ -1,0 +1,16 @@
+/* Giscus 评论容器 - 和 .post-content-info 的 margin 对齐 */
+.giscus-container {
+  margin: 0 80px 60px;
+}
+
+@media screen and (max-width: 800px) {
+  .giscus-container {
+    margin: 0 50px 50px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .giscus-container {
+    margin: 0 20px 40px;
+  }
+}

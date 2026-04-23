@@ -190,20 +190,7 @@
 </div>
 
 
-
-    <!-- Gitalk -->
-    <script>
-        const data = '{"clientID":"02b3c","clientSecret":"adfc7b4","repo":"gimment","owner":"duneng","admin":"duneng"}'
-        const gitalk = new Gitalk({
-            ...JSON.parse( data),
-            id:location.pathname,
-            distractionFreeMode:false
-        })
-        
-        if(Boolean('')){
-            gitalk.render('gitalk-container')
-        }
-    </script>
+<!-- Giscus 评论已直接嵌入文章模板 post_content.ejs -->
 
 
   </body>

@@ -149,6 +149,14 @@
         <div class="tags-content-data">
             <h2>7 Tags In Total</h2>
             
+                <a href="/tags/Wwise%E7%AC%94%E8%AE%B0/" class="tag-Wwise笔记" value="Wwise笔记">
+                    <span># Wwise笔记 <i>1</i> </span>
+                </a>
+            
+                <a href="/tags/Wwise/" class="tag-Wwise" value="Wwise">
+                    <span># Wwise <i>2</i> </span>
+                </a>
+            
                 <a href="/tags/Markdown/" class="tag-Markdown" value="Markdown">
                     <span># Markdown <i>1</i> </span>
                 </a>
@@ -159,14 +167,6 @@
             
                 <a href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" class="tag-版本控制" value="版本控制">
                     <span># 版本控制 <i>1</i> </span>
-                </a>
-            
-                <a href="/tags/Wwise/" class="tag-Wwise" value="Wwise">
-                    <span># Wwise <i>2</i> </span>
-                </a>
-            
-                <a href="/tags/Wwise%E7%AC%94%E8%AE%B0/" class="tag-Wwise笔记" value="Wwise笔记">
-                    <span># Wwise笔记 <i>1</i> </span>
                 </a>
             
                 <a href="/tags/%E9%9F%B3%E6%95%88%E8%AE%BE%E8%AE%A1/" class="tag-音效设计" value="音效设计">
@@ -204,20 +204,7 @@
 </div>
 
 
-
-    <!-- Gitalk -->
-    <script>
-        const data = '{"clientID":"02b3c","clientSecret":"adfc7b4","repo":"gimment","owner":"duneng","admin":"duneng"}'
-        const gitalk = new Gitalk({
-            ...JSON.parse( data),
-            id:location.pathname,
-            distractionFreeMode:false
-        })
-        
-        if(Boolean('true')){
-            gitalk.render('gitalk-container')
-        }
-    </script>
+<!-- Giscus 评论已直接嵌入文章模板 post_content.ejs -->
 
 
   </body>

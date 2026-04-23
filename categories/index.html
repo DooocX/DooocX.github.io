@@ -148,17 +148,6 @@
         <div class="categories-content-data">
 				<div class="categories-class">
 					
-						<a class="categories-class-card" href="/categories/Markdown/"
-							style="background-image: url('https://api.ixiaowai.cn/gqapi/gqapi.php');"
-						>
-							<span class="categories-class-card-title">Markdown</span>
-							<div class="categories-class-card-number">
-								<span>
-									<span class="categories-length">1</span> 篇
-								</span>
-							</div>
-						</a>
-					
 						<a class="categories-class-card" href="/categories/Wwise/"
 							style="background-image: url('https://api.ixiaowai.cn/gqapi/gqapi.php');"
 						>
@@ -166,6 +155,17 @@
 							<div class="categories-class-card-number">
 								<span>
 									<span class="categories-length">2</span> 篇
+								</span>
+							</div>
+						</a>
+					
+						<a class="categories-class-card" href="/categories/Markdown/"
+							style="background-image: url('https://api.ixiaowai.cn/gqapi/gqapi.php');"
+						>
+							<span class="categories-class-card-title">Markdown</span>
+							<div class="categories-class-card-number">
+								<span>
+									<span class="categories-length">1</span> 篇
 								</span>
 							</div>
 						</a>
@@ -209,20 +209,7 @@
 </div>
 
 
-
-    <!-- Gitalk -->
-    <script>
-        const data = '{"clientID":"02b3c","clientSecret":"adfc7b4","repo":"gimment","owner":"duneng","admin":"duneng"}'
-        const gitalk = new Gitalk({
-            ...JSON.parse( data),
-            id:location.pathname,
-            distractionFreeMode:false
-        })
-        
-        if(Boolean('true')){
-            gitalk.render('gitalk-container')
-        }
-    </script>
+<!-- Giscus 评论已直接嵌入文章模板 post_content.ejs -->
 
 
   </body>
