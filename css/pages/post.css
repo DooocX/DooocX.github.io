@@ -1,22 +1,3 @@
-.post #post-toc .post-toc-title {
-  font-size: 20px;
-}
-.post #post-toc ol {
-  color: #F56C6C;
-  list-style-type: none;
-}
-.post #post-toc ol a {
-  display: inline;
-}
-.post #post-toc ol .toc-link {
-  display: inline;
-}
-.post #post-toc ol .toc-text {
-  color: #006af7;
-}
-.post #post-toc ol li {
-  list-style-type: none;
-}
 .post-header-background {
   position: relative;
   display: flex;

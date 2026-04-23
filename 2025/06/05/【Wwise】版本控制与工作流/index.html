@@ -166,7 +166,15 @@
   <div class="my_foot">
     
     <a target="_blank" rel="noopener" href="https://github.com/DooocX">
-      <img src="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Github">
+      <img src="/image/icon-github.svg" alt="Github">
+    </a>
+    
+    <a target="_blank" rel="noopener" href="https://space.bilibili.com/5292339">
+      <img src="/image/icon-bilibili.svg" alt="Bilibili">
+    </a>
+    
+    <a href="mailto:your-email@example.com">
+      <img src="/image/icon-email.svg" alt="Email">
     </a>
     
   </div>
@@ -215,9 +223,43 @@
         </div>
     </div>
 </div>
-    <div class="post-content" id="content">
-  <div id="article" class="post-content-info">
     
+<div class="post-content" id="content">
+  
+  <aside class="toc-sidebar toc-no-transition" id="toc-sidebar">
+    <div class="toc-sidebar-inner">
+      <button class="toc-toggle-btn" id="toc-toggle-btn" title="折叠/展开目录" type="button">
+        <svg class="toc-icon-collapse" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+        <svg class="toc-icon-expand" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+      <div class="toc-sidebar-content">
+        <span class="toc-sidebar-title">文章目录</span>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9C%A8Wwise%E4%B8%AD%E8%BF%9B%E8%A1%8C%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6"><span class="toc-text">在Wwise中进行版本控制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%93%AA%E4%BA%9B%E6%96%87%E4%BB%B6%E8%A6%81%E8%BF%9B%E8%A1%8C%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%EF%BC%9F"><span class="toc-text">一、哪些文件要进行版本控制？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%A6%82%E4%BD%95%E5%9C%A8Wwise%E4%B8%AD%E5%BF%AB%E6%8D%B7%E6%9F%A5%E7%9C%8B%E5%B7%A5%E7%A8%8B%E5%90%8C%E6%AD%A5%E7%8A%B6%E6%80%81%EF%BC%9F"><span class="toc-text">二、如何在Wwise中快捷查看工程同步状态？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86Tips"><span class="toc-text">三、版本管理Tips</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E7%90%86%E8%A7%A3%E5%B7%A5%E4%BD%9C%E6%B5%81"><span class="toc-text">四、理解工作流</span></a></li></ol></li></ol></li></ol>
+      </div>
+      <div class="toc-sidebar-collapsed-label">目录</div>
+    </div>
+  </aside>
+  <script>
+    // 在浏览器解析阶段立即读取 localStorage 折叠状态，避免 JS 初始化后才加类导致的动画闪现
+    (function () {
+      var el = document.getElementById('toc-sidebar');
+      if (!el) return;
+      if (localStorage.getItem('tocCollapsed') === '1') {
+        el.classList.add('collapsed');
+      }
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          el.classList.remove('toc-no-transition');
+        });
+      });
+    })();
+  </script>
+  
+  <div id="article" class="post-content-info">
     <h1 id="在Wwise中进行版本控制"><a href="#在Wwise中进行版本控制" class="headerlink" title="在Wwise中进行版本控制"></a><a target="_blank" rel="noopener" href="https://www.audiokinetic.com/zh/public-library/2024.1.5_8803/?source=Help&id=using_wwise_with_source_control_system">在Wwise中进行版本控制</a></h1><p>所有 Wwise 工程文件（包括各个 Work Unit）都基于 XML。所以，用户可使用版本控制系统轻松管理这些文件。</p>
 <blockquote>
 <p>XML（eXtensible Markup Language，可扩展标记语言）是一种用于存储和传输数据的标记语言，具有结构化、可读性强和跨平台的特点。</p>
@@ -321,8 +363,19 @@
   </div>
   <div class="contact">
     
+    
     <a target="_blank" rel="noopener" href="https://github.com/DooocX">
-      <img src="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Github">
+      <img src="/image/icon-github.svg" alt="Github">
+    </a>
+    
+    
+    <a target="_blank" rel="noopener" href="https://space.bilibili.com/5292339">
+      <img src="/image/icon-bilibili.svg" alt="Bilibili">
+    </a>
+    
+    
+    <a href="mailto:your-email@example.com" data-email="your-email@example.com" class="contact-mailto">
+      <img src="/image/icon-email.svg" alt="Email">
     </a>
     
   </div>

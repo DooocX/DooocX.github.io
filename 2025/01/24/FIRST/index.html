@@ -166,7 +166,15 @@
   <div class="my_foot">
     
     <a target="_blank" rel="noopener" href="https://github.com/DooocX">
-      <img src="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Github">
+      <img src="/image/icon-github.svg" alt="Github">
+    </a>
+    
+    <a target="_blank" rel="noopener" href="https://space.bilibili.com/5292339">
+      <img src="/image/icon-bilibili.svg" alt="Bilibili">
+    </a>
+    
+    <a href="mailto:your-email@example.com">
+      <img src="/image/icon-email.svg" alt="Email">
     </a>
     
   </div>
@@ -211,9 +219,43 @@
         </div>
     </div>
 </div>
-    <div class="post-content" id="content">
-  <div id="article" class="post-content-info">
     
+<div class="post-content" id="content">
+  
+  <aside class="toc-sidebar toc-no-transition" id="toc-sidebar">
+    <div class="toc-sidebar-inner">
+      <button class="toc-toggle-btn" id="toc-toggle-btn" title="折叠/展开目录" type="button">
+        <svg class="toc-icon-collapse" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+        <svg class="toc-icon-expand" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+      <div class="toc-sidebar-content">
+        <span class="toc-sidebar-title">文章目录</span>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A0%87%E9%A2%98%E4%B8%80"><span class="toc-text">标题一</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%87%E9%A2%98%E4%BA%8C"><span class="toc-text">标题二</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E9%A2%98%E4%B8%89"><span class="toc-text">标题三</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%87%E9%A2%98%E5%9B%9B"><span class="toc-text">标题四</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%A0%87%E9%A2%98%E4%BA%94"><span class="toc-text">标题五</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Start"><span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol></li></ol>
+      </div>
+      <div class="toc-sidebar-collapsed-label">目录</div>
+    </div>
+  </aside>
+  <script>
+    // 在浏览器解析阶段立即读取 localStorage 折叠状态，避免 JS 初始化后才加类导致的动画闪现
+    (function () {
+      var el = document.getElementById('toc-sidebar');
+      if (!el) return;
+      if (localStorage.getItem('tocCollapsed') === '1') {
+        el.classList.add('collapsed');
+      }
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          el.classList.remove('toc-no-transition');
+        });
+      });
+    })();
+  </script>
+  
+  <div id="article" class="post-content-info">
     <h1 id="标题一"><a href="#标题一" class="headerlink" title="标题一"></a>标题一</h1><h2 id="标题二"><a href="#标题二" class="headerlink" title="标题二"></a>标题二</h2><h3 id="标题三"><a href="#标题三" class="headerlink" title="标题三"></a>标题三</h3><h4 id="标题四"><a href="#标题四" class="headerlink" title="标题四"></a>标题四</h4><h5 id="标题五"><a href="#标题五" class="headerlink" title="标题五"></a>标题五</h5><p><strong>这是加粗</strong></p>
 <p><em>这是斜体</em></p>
 <p><del>这是横线</del></p>
@@ -323,8 +365,19 @@
   </div>
   <div class="contact">
     
+    
     <a target="_blank" rel="noopener" href="https://github.com/DooocX">
-      <img src="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Github">
+      <img src="/image/icon-github.svg" alt="Github">
+    </a>
+    
+    
+    <a target="_blank" rel="noopener" href="https://space.bilibili.com/5292339">
+      <img src="/image/icon-bilibili.svg" alt="Bilibili">
+    </a>
+    
+    
+    <a href="mailto:your-email@example.com" data-email="your-email@example.com" class="contact-mailto">
+      <img src="/image/icon-email.svg" alt="Email">
     </a>
     
   </div>

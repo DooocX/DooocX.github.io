@@ -166,7 +166,15 @@
   <div class="my_foot">
     
     <a target="_blank" rel="noopener" href="https://github.com/DooocX">
-      <img src="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Github">
+      <img src="/image/icon-github.svg" alt="Github">
+    </a>
+    
+    <a target="_blank" rel="noopener" href="https://space.bilibili.com/5292339">
+      <img src="/image/icon-bilibili.svg" alt="Bilibili">
+    </a>
+    
+    <a href="mailto:your-email@example.com">
+      <img src="/image/icon-email.svg" alt="Email">
     </a>
     
   </div>
@@ -213,9 +221,43 @@
         </div>
     </div>
 </div>
-    <div class="post-content" id="content">
-  <div id="article" class="post-content-info">
     
+<div class="post-content" id="content">
+  
+  <aside class="toc-sidebar toc-no-transition" id="toc-sidebar">
+    <div class="toc-sidebar-inner">
+      <button class="toc-toggle-btn" id="toc-toggle-btn" title="折叠/展开目录" type="button">
+        <svg class="toc-icon-collapse" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+        <svg class="toc-icon-expand" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+      <div class="toc-sidebar-content">
+        <span class="toc-sidebar-title">文章目录</span>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Wwise101%E7%AC%94%E8%AE%B0"><span class="toc-text">Wwise101笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E8%AE%B0%E5%BF%86"><span class="toc-text">基础知识记忆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3D%E5%A3%B0%E9%9F%B3%E8%AE%BE%E7%BD%AE"><span class="toc-text">3D声音设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%B7%E9%9F%B3%E6%96%B9%E9%9D%A2"><span class="toc-text">混音方面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E6%96%B9%E9%9D%A2"><span class="toc-text">内存管理方面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8EStreaming"><span class="toc-text">关于Streaming</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%84%E7%90%86%E5%99%A8%E4%BC%98%E5%8C%96"><span class="toc-text">处理器优化</span></a></li></ol></li></ol></li></ol>
+      </div>
+      <div class="toc-sidebar-collapsed-label">目录</div>
+    </div>
+  </aside>
+  <script>
+    // 在浏览器解析阶段立即读取 localStorage 折叠状态，避免 JS 初始化后才加类导致的动画闪现
+    (function () {
+      var el = document.getElementById('toc-sidebar');
+      if (!el) return;
+      if (localStorage.getItem('tocCollapsed') === '1') {
+        el.classList.add('collapsed');
+      }
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          el.classList.remove('toc-no-transition');
+        });
+      });
+    })();
+  </script>
+  
+  <div id="article" class="post-content-info">
     <p><img src="https://cdn.jsdelivr.net/gh/DooocX/DocX_Images/test/101.png" loading="lazy"></p>
 <h1 id="Wwise101笔记"><a href="#Wwise101笔记" class="headerlink" title="Wwise101笔记"></a><a target="_blank" rel="noopener" href="https://www.audiokinetic.com/zh/courses/wwise101/?source=wwise101&id=quick_start_from_silence_to_sound#read">Wwise101</a>笔记</h1><h3 id="基础知识记忆"><a href="#基础知识记忆" class="headerlink" title="基础知识记忆"></a>基础知识记忆</h3><p>音高这个值以音分（cent）为单位。音乐上每个半音程为 100 音分，一个八度音程为 1200 音分。</p>
 <p>虽然你只想用这个 Switch Group 中设置的Material（材质）属性不光可以用于脚步声，还可以用于其他碰撞，所以提前规定一个游戏内常见的材质类型集合在设计前期是非常重要的</p>
@@ -293,8 +335,19 @@
   </div>
   <div class="contact">
     
+    
     <a target="_blank" rel="noopener" href="https://github.com/DooocX">
-      <img src="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Github">
+      <img src="/image/icon-github.svg" alt="Github">
+    </a>
+    
+    
+    <a target="_blank" rel="noopener" href="https://space.bilibili.com/5292339">
+      <img src="/image/icon-bilibili.svg" alt="Bilibili">
+    </a>
+    
+    
+    <a href="mailto:your-email@example.com" data-email="your-email@example.com" class="contact-mailto">
+      <img src="/image/icon-email.svg" alt="Email">
     </a>
     
   </div>
