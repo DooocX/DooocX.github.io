@@ -128,7 +128,7 @@ DooocX.github.io/
 - **导航栏**：HOME / ARCHIVE / CATEGORIES / TAGS / LINKS / ABOUT
 - **代码高亮**：highlight.js（Atom One Dark 主题，仅文章页加载）
 - **图片灯箱**：Fancybox（仅文章页加载）
-- **评论系统**：Gitalk（配置为占位值，待启用时替换为真实 GitHub OAuth 凭据）
+- **评论系统**：Giscus（基于 GitHub Discussions，已启用）
 - **统计**：百度统计（已禁用）
 - **底部图标**：GitHub（链接到 `github.com/DooocX`）
 

@@ -1,6 +1,6 @@
 ---
 title: MarkDown语法示例
-comments: false
+comments: true
 categories: Markdown
 aubot: DocX
 aubot_link: 'https://github.com/DooocX'

@@ -61,13 +61,20 @@ headers:
 web_analytics:  
   enable: false #需要改为true
   baidu: 4b5fe1472f22fadsfs  # （替换）百度统计的 Key，参见 https://tongji.baidu.com/sc-web/10000033910/home/site/getjs?siteId=13751376 代码获取中 hm.js? 后边的字符串
-# 评论 
-gitalk:
-  clientID: 02b3c # （需要替换）GitHub Application Client ID.
-  clientSecret: adfc7b4 #（需要替换）GitHub Application Client Secret.
-  repo: gimment #（需要替换）GitHub repository.
-  owner: duneng #（需要替换）GitHub repository 所有者，可以是个人或者组织。
-  admin: ['duneng'] #（需要替换）GitHub repository 的所有者和合作者 (对这个 repository 有写权限的用户)。
+# 评论（Giscus - 基于 GitHub Discussions）
+giscus:
+  enable: true
+  repo: DooocX/DooocX.github.io
+  repo_id: R_kgDONuR9yQ
+  category: Announcements
+  category_id: DIC_kwDONuR9yc4C7fTb
+  mapping: pathname
+  strict: 0
+  reactions_enabled: 1
+  emit_metadata: 0
+  input_position: top
+  theme: light
+  lang: zh-CN
 
 # 底部显示的图标（github 或者其他）
 bottomIcon: 

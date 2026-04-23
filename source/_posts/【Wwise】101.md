@@ -1,6 +1,6 @@
 ---
 title: 【Wwise】101笔记
-comments: false
+comments: true
 categories: Wwise
 aubot: DocX
 aubot_link: 'https://space.bilibili.com/5292339?spm_id_from=333.1391.0.0'
