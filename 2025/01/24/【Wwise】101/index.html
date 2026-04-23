@@ -90,6 +90,22 @@
             </li>
           
         
+        <li class="theme-toggle-btn" id="theme-toggle" title="切换暗色模式">
+          <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </li>
       </ul>
     </div>
     <div class="h-right-close">
@@ -131,6 +147,22 @@
     </li>
     
   </ul>
+  <div class="sidebar-theme-toggle" id="sidebar-theme-toggle" style="margin-top:20px;text-align:center;cursor:pointer;" title="切换暗色模式">
+    <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+    <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+  </div>
   <div class="my_foot">
     
     <a target="_blank" rel="noopener" href="https://github.com/DooocX">
@@ -176,13 +208,15 @@
                 </div>
                 <p>2025-01-24 14:26:36</p>
             </div>
+            
+            <p class="post-wordcount">约 1616 字 · 预计 6 分钟</p>
         </div>
     </div>
 </div>
     <div class="post-content" id="content">
   <div id="article" class="post-content-info">
     
-    <p><img src="https://cdn.jsdelivr.net/gh/DooocX/DocX_Images/test/101.png"></p>
+    <p><img src="https://cdn.jsdelivr.net/gh/DooocX/DocX_Images/test/101.png" loading="lazy"></p>
 <h1 id="Wwise101笔记"><a href="#Wwise101笔记" class="headerlink" title="Wwise101笔记"></a><a target="_blank" rel="noopener" href="https://www.audiokinetic.com/zh/courses/wwise101/?source=wwise101&id=quick_start_from_silence_to_sound#read">Wwise101</a>笔记</h1><h3 id="基础知识记忆"><a href="#基础知识记忆" class="headerlink" title="基础知识记忆"></a>基础知识记忆</h3><p>音高这个值以音分（cent）为单位。音乐上每个半音程为 100 音分，一个八度音程为 1200 音分。</p>
 <p>虽然你只想用这个 Switch Group 中设置的Material（材质）属性不光可以用于脚步声，还可以用于其他碰撞，所以提前规定一个游戏内常见的材质类型集合在设计前期是非常重要的</p>
 <p>RTPC（Real Time Parameter Control，实时参数控制）。</p>
@@ -212,7 +246,7 @@
 
   </div>
   
-  <div class="giscus-container">
+  <div class="giscus-container" id="giscus-container">
     <script src="https://giscus.app/client.js"
       data-repo="DooocX/DooocX.github.io"
       data-repo-id="R_kgDONuR9yQ"
@@ -279,5 +313,13 @@
 <!-- Giscus 评论已直接嵌入文章模板 post_content.ejs -->
 
 
+    <script>
+      // 在 DOM 加载前立即设置主题，避免闪屏
+      (function() {
+        var saved = localStorage.getItem('theme');
+        var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
   </body>
 </html>

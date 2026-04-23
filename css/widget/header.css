@@ -1,7 +1,10 @@
 .header {
   position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   z-index: 199;
+  background: #ffffff;
 }
 .header .header-top {
   display: flex;
@@ -77,6 +80,25 @@
   position: relative;
   top: -12px;
   left: 2px;
+}
+.header .header-top .h-right .theme-toggle-btn {
+  padding: 0 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  list-style: none;
+}
+.header .header-top .h-right .theme-toggle-btn svg {
+  width: 20px;
+  height: 20px;
+  stroke: #898FA0;
+  transition: stroke 0.3s ease-in-out;
+}
+.header .header-top .h-right .theme-toggle-btn:hover svg {
+  stroke: #12183A;
+}
+.header .header-top .h-right .theme-toggle-btn .icon-moon {
+  display: none;
 }
 .header .header-move1 {
   height: 72px;

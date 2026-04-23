@@ -69,6 +69,7 @@
 }
 .post-header-background-content .post-header-info {
   display: flex;
+  flex-direction: column;
 }
 .post-header-background-content .post-header-info-author {
   display: flex;
@@ -113,6 +114,11 @@
   border: 1px solid #409EFF;
   color: #409EFF;
 }
+.post-header-background-content .post-header-info .post-wordcount {
+  color: #12183A;
+  font-size: 12px;
+  margin-top: 8px;
+}
 .post-header-img {
   height: 100%;
   background-size: cover;
@@ -150,6 +156,11 @@
 .post-header-img .post-header-info-author-categories a {
   border: 1px solid #f1f5fb !important;
   color: #ffffff !important;
+}
+.post-header-img .post-wordcount {
+  color: #ffffff !important;
+  position: relative;
+  z-index: 4;
 }
 .post-header-color {
   background: linear-gradient(0deg, #f1f5fb, #f9fcff) !important;

@@ -90,6 +90,22 @@
             </li>
           
         
+        <li class="theme-toggle-btn" id="theme-toggle" title="切换暗色模式">
+          <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </li>
       </ul>
     </div>
     <div class="h-right-close">
@@ -131,6 +147,22 @@
     </li>
     
   </ul>
+  <div class="sidebar-theme-toggle" id="sidebar-theme-toggle" style="margin-top:20px;text-align:center;cursor:pointer;" title="切换暗色模式">
+    <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+    <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+  </div>
   <div class="my_foot">
     
     <a target="_blank" rel="noopener" href="https://github.com/DooocX">
@@ -178,6 +210,8 @@
                 </div>
                 <p>2025-06-05 18:15:36</p>
             </div>
+            
+            <p class="post-wordcount">约 1823 字 · 预计 7 分钟</p>
         </div>
     </div>
 </div>
@@ -188,7 +222,7 @@
 <blockquote>
 <p>XML（eXtensible Markup Language，可扩展标记语言）是一种用于存储和传输数据的标记语言，具有结构化、可读性强和跨平台的特点。</p>
 </blockquote>
-<p><img src="https://cdn.jsdelivr.net/gh/DooocX/DocX_Images/Wwise/Git.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/DooocX/DocX_Images/Wwise/Git.png" loading="lazy"></p>
 <h3 id="一、哪些文件要进行版本控制？"><a href="#一、哪些文件要进行版本控制？" class="headerlink" title="一、哪些文件要进行版本控制？"></a>一、哪些文件要进行版本控制？</h3><p>Wwsie官方建议将下列文件纳入版本控制，这样任何人拉项目时Wwise会用这些文件生成工程所需的其他文件。</p>
 <p>.wproj Wwise的工程文件</p>
 <p>.wwu Wwise中的Work Unit，每一个Unit可以独立管理避免了同时协作时的冲突</p>
@@ -247,7 +281,7 @@
 
   </div>
   
-  <div class="giscus-container">
+  <div class="giscus-container" id="giscus-container">
     <script src="https://giscus.app/client.js"
       data-repo="DooocX/DooocX.github.io"
       data-repo-id="R_kgDONuR9yQ"
@@ -307,5 +341,13 @@
 <!-- Giscus 评论已直接嵌入文章模板 post_content.ejs -->
 
 
+    <script>
+      // 在 DOM 加载前立即设置主题，避免闪屏
+      (function() {
+        var saved = localStorage.getItem('theme');
+        var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
   </body>
 </html>
