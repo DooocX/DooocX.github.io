@@ -5,6 +5,7 @@
  * - 移动端侧边栏开关
  * - 回到顶部按钮
  * - Fancybox 图片灯箱绑定
+ * - TOC 滚动高亮 & 平滑跳转
  * - 代码块一键复制
  */
 
@@ -208,6 +209,157 @@
     });
   }
 
+  // === TOC 滚动高亮 & 平滑跳转 ===
+  function initToc() {
+    var tocSidebar = document.getElementById('toc-sidebar');
+    if (!tocSidebar) return;
+
+    // --- 折叠/展开 ---
+    var toggleBtn = document.getElementById('toc-toggle-btn');
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        tocSidebar.classList.toggle('collapsed');
+        localStorage.setItem('tocCollapsed', tocSidebar.classList.contains('collapsed') ? '1' : '0');
+      });
+
+      // 折叠态下点击整个侧边栏也能展开
+      tocSidebar.addEventListener('click', function (e) {
+        if (tocSidebar.classList.contains('collapsed') && e.target !== toggleBtn && !toggleBtn.contains(e.target)) {
+          tocSidebar.classList.remove('collapsed');
+          localStorage.setItem('tocCollapsed', '0');
+        }
+      });
+    }
+
+    var tocLinks = tocSidebar.querySelectorAll('.toc-link');
+    if (!tocLinks.length) return;
+
+    // 平滑跳转
+    tocLinks.forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        var targetId = decodeURIComponent(this.getAttribute('href').slice(1));
+        var target = document.getElementById(targetId);
+        if (target) {
+          var offset = target.getBoundingClientRect().top + window.pageYOffset - 90;
+          window.scrollTo({ top: offset, behavior: 'smooth' });
+        }
+      });
+    });
+
+    // IntersectionObserver 滚动高亮
+    var article = document.getElementById('article');
+    if (!article) return;
+
+    var headings = article.querySelectorAll('h1, h2, h3, h4, h5, h6');
+    if (!headings.length) return;
+
+    // 构建 id -> tocLink 映射
+    var tocMap = {};
+    tocLinks.forEach(function (link) {
+      var href = decodeURIComponent(link.getAttribute('href').slice(1));
+      tocMap[href] = link;
+    });
+
+    var currentActive = null;
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var id = entry.target.id;
+          if (tocMap[id]) {
+            if (currentActive) currentActive.classList.remove('active');
+            tocMap[id].classList.add('active');
+            currentActive = tocMap[id];
+
+            // 自动滚动 TOC 侧边栏让高亮项可见
+            var inner = tocSidebar.querySelector('.toc-sidebar-inner');
+            if (inner) {
+              var linkTop = tocMap[id].offsetTop - inner.offsetTop;
+              var innerHeight = inner.clientHeight;
+              if (linkTop < inner.scrollTop || linkTop > inner.scrollTop + innerHeight - 40) {
+                inner.scrollTop = linkTop - innerHeight / 3;
+              }
+            }
+          }
+        }
+      });
+    }, {
+      rootMargin: '-80px 0px -60% 0px',
+      threshold: 0
+    });
+
+    headings.forEach(function (heading) {
+      if (heading.id && tocMap[heading.id]) {
+        observer.observe(heading);
+      }
+    });
+  }
+
+  // === 通用 Toast 提示 ===
+  var toastTimer = null;
+  function showToast(message) {
+    var existing = document.querySelector('.toast');
+    if (existing) existing.remove();
+    if (toastTimer) clearTimeout(toastTimer);
+
+    var toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    // 触发过渡
+    requestAnimationFrame(function () {
+      toast.classList.add('show');
+    });
+
+    toastTimer = setTimeout(function () {
+      toast.classList.remove('show');
+      setTimeout(function () {
+        if (toast.parentNode) toast.parentNode.removeChild(toast);
+      }, 300);
+    }, 2000);
+  }
+
+  // === 邮箱点击：唤起 mailto + 同时复制到剪贴板 ===
+  function initMailto() {
+    var links = document.querySelectorAll('a.contact-mailto');
+    links.forEach(function (link) {
+      link.addEventListener('click', function () {
+        // 不阻止默认行为，mailto: 会正常唤起邮件客户端
+        var email = link.getAttribute('data-email');
+        if (!email) return;
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(email).then(function () {
+            showToast('邮箱已复制：' + email);
+          }).catch(function () {
+            fallbackCopyText(email, '邮箱已复制：' + email);
+          });
+        } else {
+          fallbackCopyText(email, '邮箱已复制：' + email);
+        }
+      });
+    });
+  }
+
+  function fallbackCopyText(text, toastMsg) {
+    var textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+      document.execCommand('copy');
+      showToast(toastMsg);
+    } catch (e) {
+      // 静默处理
+    }
+    document.body.removeChild(textarea);
+  }
+
   // === 代码块一键复制 ===
   function initCodeCopy() {
     var article = document.getElementById('article');
@@ -276,6 +428,8 @@
     initSidebar();
     initGoTop();
     initFancybox();
+    initToc();
     initCodeCopy();
+    initMailto();
   });
 })();

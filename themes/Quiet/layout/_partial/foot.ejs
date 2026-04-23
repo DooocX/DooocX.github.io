@@ -5,7 +5,8 @@
   </div>
   <div class="contact">
     <% theme.bottomIcon.forEach(function(item) { %>
-    <a href="<%= item.toUrl %>">
+    <% var isMailto = typeof item.toUrl === 'string' && item.toUrl.indexOf('mailto:') === 0; %>
+    <a href="<%= item.toUrl %>"<% if (isMailto) { %> data-email="<%= item.toUrl.replace('mailto:', '') %>" class="contact-mailto"<% } %>>
       <img src="<%= item.iconLink %>" alt="<%= item.name %>">
     </a>
     <% }) %>

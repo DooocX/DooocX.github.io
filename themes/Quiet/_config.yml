@@ -80,12 +80,19 @@ giscus:
 bottomIcon: 
   #可以多个
   - {
-    #描述名称
     name: 'Github',
-    #图标    
-    iconLink: 'https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png',
-    #跳转链接    
+    iconLink: '/image/icon-github.svg',
     toUrl: 'https://github.com/DooocX'
+  }
+  - {
+    name: 'Bilibili',
+    iconLink: '/image/icon-bilibili.svg',
+    toUrl: 'https://space.bilibili.com/5292339'
+  }
+  - {
+    name: 'Email',
+    iconLink: '/image/icon-email.svg',
+    toUrl: 'mailto:your-email@example.com'
   }
 # 友情链接
 linksList:

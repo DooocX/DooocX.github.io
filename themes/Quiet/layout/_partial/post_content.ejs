@@ -1,11 +1,40 @@
+<% var showToc = (page.toc !== false) && toc(page.content).length > 0; %>
 <div class="post-content" id="content">
-  <div id="article" class="post-content-info">
-    <% if (page.toc) { %>
-      <div id="post-toc">
-        <span class="post-toc-title">文章目录</span>
+  <% if (showToc) { %>
+  <aside class="toc-sidebar toc-no-transition" id="toc-sidebar">
+    <div class="toc-sidebar-inner">
+      <button class="toc-toggle-btn" id="toc-toggle-btn" title="折叠/展开目录" type="button">
+        <svg class="toc-icon-collapse" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+        <svg class="toc-icon-expand" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+      <div class="toc-sidebar-content">
+        <span class="toc-sidebar-title">文章目录</span>
         <%- toc(page.content, {list_number: false}) %>
       </div>
-    <% } %>
+      <div class="toc-sidebar-collapsed-label">目录</div>
+    </div>
+  </aside>
+  <script>
+    // 在浏览器解析阶段立即读取 localStorage 折叠状态，避免 JS 初始化后才加类导致的动画闪现
+    (function () {
+      var el = document.getElementById('toc-sidebar');
+      if (!el) return;
+      if (localStorage.getItem('tocCollapsed') === '1') {
+        el.classList.add('collapsed');
+      }
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          el.classList.remove('toc-no-transition');
+        });
+      });
+    })();
+  </script>
+  <% } %>
+  <div id="article" class="post-content-info">
     <%- page.content %>
   </div>
   <% if(theme.giscus && theme.giscus.enable && page.comments) { %>
