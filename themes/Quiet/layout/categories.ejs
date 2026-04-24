@@ -1,23 +1,51 @@
-<%- partial('_partial/header',{name:'categories'}) %>
+<%- partial('_partial/header', { name: 'categories' }) %>
 
 <div class="categories">
-    <%- partial('_widget/header_body',{message:theme.headers.categories.message,icon:theme.headers.categories.icon}) %>
+    <%- partial('_widget/header_body', { message: theme.headers.categories.message, icon: theme.headers.categories.icon }) %>
     <div class="categories-content" id="content">
         <div class="categories-content-data">
-				<div class="categories-class">
-					<% site.categories.map(function(category,index){  %>
-						<a class="categories-class-card" href="<%- url_for(category.path) %>"
-							style="background-image: url('<%- theme.default_cover %>');"
-						>
-							<span class="categories-class-card-title"><%= category.name %></span>
-							<div class="categories-class-card-number">
-								<span>
-									<span class="categories-length"><%= category.length %></span> 篇
-								</span>
-							</div>
-						</a>
-					<% }) %>
-				</div>
+
+            <%# ───── Tab 头：分类 / 标签（带计数徽章） ───── %>
+            <div class="cat-tab-nav" role="tablist">
+                <button class="cat-tab-nav-btn active" type="button"
+                        data-tab="categories" role="tab" aria-selected="true">
+                    分类 <span class="cat-tab-nav-count"><%= site.categories.length %></span>
+                </button>
+                <button class="cat-tab-nav-btn" type="button"
+                        data-tab="tags" role="tab" aria-selected="false">
+                    标签 <span class="cat-tab-nav-count"><%= site.tags.length %></span>
+                </button>
+            </div>
+
+            <%# ───── Tab Panel 1：分类卡片（保留原结构） ───── %>
+            <div class="cat-tab-panel active" data-panel="categories" role="tabpanel">
+                <div class="categories-class">
+                    <% site.categories.map(function(category, index) { %>
+                        <a class="categories-class-card" href="<%- url_for(category.path) %>"
+                            style="background-image: url('<%- theme.default_cover %>');"
+                        >
+                            <span class="categories-class-card-title"><%= category.name %></span>
+                            <div class="categories-class-card-number">
+                                <span>
+                                    <span class="categories-length"><%= category.length %></span> 篇
+                                </span>
+                            </div>
+                        </a>
+                    <% }) %>
+                </div>
+            </div>
+
+            <%# ───── Tab Panel 2：标签云（吸收自 tags.ejs，复用 .tags-content-data 样式） ───── %>
+            <div class="cat-tab-panel" data-panel="tags" role="tabpanel">
+                <div class="tags-content-data cat-tab-tags-inner">
+                    <% site.tags.map(function(tag, i) { %>
+                        <a href="<%- url_for(tag.path) %>" class="tag-<%= tag.name %>" value="<%= tag.name %>">
+                            <span># <%= tag.name %> <i><%= tag.length %></i> </span>
+                        </a>
+                    <% }) %>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

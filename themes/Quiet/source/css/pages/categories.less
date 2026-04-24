@@ -95,3 +95,103 @@
     }
   }
 });
+
+// ============================================================
+// CATEGORIES Tab 切换（分类 / 标签）
+// 类名前缀 .cat-tab-* 避免与未来组件冲突。
+// 标签 Panel 内复用 .tags-content-data 已有标签云样式，零重复。
+// ============================================================
+
+.cat-tab-nav {
+  display: flex;
+  gap: @spacing-lg;
+  border-bottom: 1px solid @color-border;
+  margin-bottom: @spacing-xl;
+
+  &-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: @spacing-sm @spacing-md;
+    font-family: inherit;
+    font-size: @font-size-base;
+    color: @color-text-secondary;
+    position: relative;
+    transition: color 0.3s ease-in-out;
+
+    &:hover {
+      color: @color-text-primary;
+    }
+
+    &.active {
+      color: @color-text-primary;
+      font-weight: 600;
+      &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -1px;
+        height: 2px;
+        background: @color-primary;
+      }
+    }
+  }
+
+  &-count {
+    margin-left: 6px;
+    padding: 1px 8px;
+    background: @color-bg-tag;
+    color: @color-text-tag;
+    font-size: @font-size-xs;
+    border-radius: @border-radius-xl;
+    font-weight: normal;
+    line-height: 1.5;
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
+.cat-tab-panel {
+  display: none;
+  &.active {
+    display: block;
+    animation: cat-tab-fade-in 0.2s ease;
+  }
+}
+
+// 标签 Panel 内的容器：去掉原 tags.less 中的大 padding（外层 categories-content-data
+// 已经提供了内边距），保留标签云样式。
+.cat-tab-tags-inner.tags-content-data {
+  padding: 0;
+}
+
+@keyframes cat-tab-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ─── 暗色模式 ───
+[data-theme="dark"] {
+  .cat-tab-nav {
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+    &-btn {
+      color: #8a9bb0;
+      &:hover { color: #e0e0e0; }
+      &.active {
+        color: #e0e0e0;
+        &::after { background: #409EFF; }
+      }
+    }
+    &-count {
+      background: rgba(255, 255, 255, 0.06);
+      color: #c0cad8;
+    }
+  }
+}
