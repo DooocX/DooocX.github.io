@@ -1,0 +1,35 @@
+<%#
+  SHOWREEL 邻接导航
+  ────────────────
+  方向语义（与列表页时间倒序保持一致，类 B 站 / YouTube）：
+    - prev = 更新的一部（数组位置更前）→ "上一部（更新）"
+    - next = 更早的一部（数组位置更后）→ "下一部（更早）"
+  首作品 prev=null、末作品 next=null，对应位置渲染为占位元素以保持左右对齐。
+%>
+<% if (page.prev || page.next) { %>
+<nav class="showreel-paging" aria-label="作品导航">
+  <% if (page.prev) { %>
+    <a class="showreel-paging-item showreel-paging-prev" href="<%- url_for(page.prev.path) %>">
+      <span class="showreel-paging-label">← 上一部（更新）</span>
+      <% if (page.prev.cover) { %>
+        <img class="showreel-paging-cover" src="<%- page.prev.cover %>" alt="" loading="lazy">
+      <% } %>
+      <p class="showreel-paging-title"><%= page.prev.title %></p>
+    </a>
+  <% } else { %>
+    <span class="showreel-paging-item showreel-paging-placeholder" aria-hidden="true"></span>
+  <% } %>
+
+  <% if (page.next) { %>
+    <a class="showreel-paging-item showreel-paging-next" href="<%- url_for(page.next.path) %>">
+      <span class="showreel-paging-label">下一部（更早）→</span>
+      <% if (page.next.cover) { %>
+        <img class="showreel-paging-cover" src="<%- page.next.cover %>" alt="" loading="lazy">
+      <% } %>
+      <p class="showreel-paging-title"><%= page.next.title %></p>
+    </a>
+  <% } else { %>
+    <span class="showreel-paging-item showreel-paging-placeholder" aria-hidden="true"></span>
+  <% } %>
+</nav>
+<% } %>

@@ -1,0 +1,54 @@
+<%- partial('_partial/header', { name: 'showreel' }) %>
+
+<div class="showreel">
+  <%- partial('_widget/header_body', {
+    message: theme.headers.showreel.message,
+    icon: theme.headers.showreel.icon
+  }) %>
+
+  <div class="showreel-content" id="content">
+    <% if (page.items && page.items.length) { %>
+      <ul class="showreel-list">
+        <% page.items.forEach(function(item) { %>
+          <li class="showreel-card">
+            <a class="showreel-card-link" href="<%- url_for(item.path) %>">
+              <div class="showreel-card-cover">
+                <img src="<%- item.cover %>" alt="<%= item.title %>" loading="lazy">
+                <% if (item.duration) { %>
+                  <span class="showreel-card-duration"><%= item.duration %></span>
+                <% } %>
+                <% if (item.video && item.video.type === 'bilibili') { %>
+                  <span class="showreel-card-source" title="来自 Bilibili">
+                    <img src="/image/icon-bilibili.svg" alt="bilibili">
+                  </span>
+                <% } %>
+              </div>
+              <div class="showreel-card-info">
+                <h3 class="showreel-card-title"><%= item.title %></h3>
+                <% if (item.description) { %>
+                  <p class="showreel-card-desc"><%= item.description %></p>
+                <% } %>
+                <div class="showreel-card-meta">
+                  <% if (item.tools && item.tools.length) { %>
+                    <ul class="showreel-card-tools">
+                      <% item.tools.forEach(function(t) { %>
+                        <li><%= t %></li>
+                      <% }) %>
+                    </ul>
+                  <% } %>
+                  <time class="showreel-card-date">
+                    <%- date(item.date, 'YYYY-MM-DD') %>
+                  </time>
+                </div>
+              </div>
+            </a>
+          </li>
+        <% }) %>
+      </ul>
+    <% } else { %>
+      <div class="showreel-empty">
+        <p>作品正在路上，敬请期待 ☕</p>
+      </div>
+    <% } %>
+  </div>
+</div>

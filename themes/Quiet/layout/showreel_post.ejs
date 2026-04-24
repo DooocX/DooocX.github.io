@@ -1,0 +1,61 @@
+<%- partial('_partial/header', { name: 'showreel' }) %>
+
+<div class="showreel-post">
+  <%# ───────────── 视频播放器区块 ───────────── %>
+  <div class="showreel-post-player-wrap">
+    <%- partial('_partial/showreel_player', {
+      video: page.video,
+      cover: page.cover,
+      title: page.title
+    }) %>
+  </div>
+
+  <%# ───────────── 标题 / 日期 / 工具标签 ───────────── %>
+  <header class="showreel-post-header">
+    <h1 class="showreel-post-title"><%= page.title %></h1>
+    <div class="showreel-post-meta">
+      <time class="showreel-post-date"><%- date(page.date, 'YYYY-MM-DD') %></time>
+      <% if (page.duration) { %>
+        <span class="showreel-post-duration">· <%= page.duration %></span>
+      <% } %>
+    </div>
+    <% if (page.tools && page.tools.length) { %>
+      <ul class="showreel-post-tools">
+        <% page.tools.forEach(function(t) { %>
+          <li><%= t %></li>
+        <% }) %>
+      </ul>
+    <% } %>
+  </header>
+
+  <%# ───────────── 创作说明（Markdown 正文） ───────────── %>
+  <% if (page.content && page.content.trim()) { %>
+    <article class="showreel-post-content post-content-info" id="article">
+      <%- page.content %>
+    </article>
+  <% } %>
+
+  <%# ───────────── 评论区（Giscus，T7 将抽取为 partial） ───────────── %>
+  <% if (theme.giscus && theme.giscus.enable) { %>
+    <div class="giscus-container" id="giscus-container">
+      <script src="https://giscus.app/client.js"
+        data-repo="<%= theme.giscus.repo %>"
+        data-repo-id="<%= theme.giscus.repo_id %>"
+        data-category="<%= theme.giscus.category %>"
+        data-category-id="<%= theme.giscus.category_id %>"
+        data-mapping="<%= theme.giscus.mapping %>"
+        data-strict="<%= theme.giscus.strict %>"
+        data-reactions-enabled="<%= theme.giscus.reactions_enabled %>"
+        data-emit-metadata="<%= theme.giscus.emit_metadata %>"
+        data-input-position="<%= theme.giscus.input_position %>"
+        data-theme="<%= theme.giscus.theme %>"
+        data-lang="<%= theme.giscus.lang %>"
+        crossorigin="anonymous"
+        async>
+      </script>
+    </div>
+  <% } %>
+
+  <%# ───────────── 邻接导航：上一部（更新） / 下一部（更早） ───────────── %>
+  <%- partial('_partial/showreel_paging') %>
+</div>

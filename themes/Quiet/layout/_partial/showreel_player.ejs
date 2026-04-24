@@ -1,0 +1,44 @@
+<%#
+  视频播放器抽象 partial
+  ──────────────────────
+  输入参数（locals）：
+    - video: { type, bvid?, page?, src? } 视频源配置
+    - cover: 封面图（mp4 模式作为 poster）
+    - title: 作品标题（用于 iframe title 等无障碍属性）
+  根据 video.type 分支渲染：
+    - bilibili → iframe 嵌入 player.bilibili.com
+    - mp4      → 原生 <video> 标签
+    - 其他     → "Coming soon" 占位
+%>
+<% var v = (locals.video || page.video) || {}; %>
+<% var poster = locals.cover || page.cover || ''; %>
+<% var label = locals.title || page.title || ''; %>
+
+<div class="showreel-player">
+  <% if (v.type === 'bilibili' && v.bvid) { %>
+    <iframe
+      class="showreel-player-iframe"
+      src="//player.bilibili.com/player.html?bvid=<%= v.bvid %>&page=<%= v.page || 1 %>&high_quality=1&danmaku=0"
+      title="<%= label %>"
+      scrolling="no"
+      frameborder="0"
+      framespacing="0"
+      allowfullscreen="true"
+      loading="lazy">
+    </iframe>
+  <% } else if (v.type === 'mp4' && v.src) { %>
+    <video
+      class="showreel-player-video"
+      src="<%= v.src %>"
+      <% if (poster) { %>poster="<%= poster %>"<% } %>
+      controls
+      preload="metadata"
+      playsinline>
+      您的浏览器不支持 HTML5 video 标签。
+    </video>
+  <% } else { %>
+    <div class="showreel-player-placeholder">
+      <p>Coming soon</p>
+    </div>
+  <% } %>
+</div>

@@ -1,0 +1,240 @@
+// ============================================================
+// SHOWREEL 详情页样式
+// 结构：播放器 16:9 → 标题/日期/工具 → 创作说明 → 评论 → 邻接导航
+// 全部沿用 _variables.less 设计令牌，零新增。
+// ============================================================
+
+@import (reference) "../public/_variables";
+@import (reference) "../public/_mixins";
+
+// ─── 详情页容器 ───
+.showreel-post {
+  max-width: @max-width-content;
+  margin: 0 auto;
+  padding: @spacing-xxl @spacing-xl;
+
+  // 播放器外框
+  &-player-wrap {
+    margin-bottom: @spacing-xl;
+    border-radius: @border-radius-lg;
+    overflow: hidden;
+    box-shadow: @shadow-card;
+    background: #000;
+  }
+
+  // 标题信息区
+  &-header {
+    margin-bottom: @spacing-xl;
+  }
+  &-title {
+    margin: 0 0 @spacing-sm;
+    font-size: @font-size-page-title;
+    font-weight: 500;
+    color: @color-text-primary;
+    line-height: 1.4;
+  }
+  &-meta {
+    color: @color-text-secondary;
+    font-size: @font-size-sm;
+    margin-bottom: @spacing-md;
+  }
+  &-duration {
+    margin-left: @spacing-xs;
+  }
+  &-tools {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: @spacing-sm;
+    li {
+      padding: 4px @spacing-md;
+      background: @color-bg-tag;
+      color: @color-text-tag;
+      font-size: @font-size-xs;
+      border-radius: @border-radius-sm;
+      transition: @transition-fast;
+      &:hover {
+        background: @color-bg-tag-hover;
+        color: @color-text-primary;
+      }
+    }
+  }
+
+  // 创作说明（叠加 .post-content-info 复用文章排版）
+  &-content {
+    background: @color-bg-white;
+    padding: @spacing-xl;
+    border-radius: @border-radius-lg;
+    box-shadow: @shadow-card;
+    margin-bottom: @spacing-xl;
+    font-size: @font-size-base;
+    line-height: 1.8;
+  }
+}
+
+// ─── 视频播放器（partial 内部，全局类名）───
+.showreel-player {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; // 16:9
+  background: #000;
+
+  &-iframe,
+  &-video,
+  &-placeholder {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    margin: 0;
+  }
+  &-video {
+    object-fit: contain;
+    background: #000;
+  }
+  &-placeholder {
+    .flex-center();
+    color: #fff;
+    font-size: @font-size-lg;
+    background: linear-gradient(135deg, #2a3340, #0f1923);
+    p {
+      margin: 0;
+      opacity: 0.75;
+      letter-spacing: 1px;
+    }
+  }
+}
+
+// ─── 邻接导航：上一部 / 下一部 ───
+.showreel-paging {
+  max-width: @max-width-content;
+  margin: 0 auto @spacing-xxl;
+  padding: 0 @spacing-xl;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: @spacing-lg;
+
+  &-item {
+    display: block;
+    padding: @spacing-md;
+    background: @color-bg-white;
+    border-radius: @border-radius-lg;
+    box-shadow: @shadow-card;
+    text-decoration: none;
+    color: @color-text-primary;
+    transition: @transition-fast;
+    overflow: hidden;
+    min-width: 0;
+  }
+  // 实际链接 hover 效果
+  a&-item:hover {
+    transform: translateY(-4px);
+    box-shadow: @shadow-card-hover;
+    .showreel-paging-cover {
+      transform: scale(1.04);
+    }
+    .showreel-paging-title {
+      color: @color-primary;
+    }
+  }
+  // 占位项（首/末作品对侧）
+  &-placeholder {
+    background: transparent;
+    box-shadow: none;
+    pointer-events: none;
+  }
+  &-prev { text-align: left; }
+  &-next { text-align: right; }
+  &-label {
+    display: block;
+    color: @color-text-secondary;
+    font-size: @font-size-xs;
+    margin-bottom: @spacing-sm;
+    letter-spacing: 0.5px;
+  }
+  &-cover {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: @border-radius-sm;
+    margin-bottom: @spacing-sm;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+  &-title {
+    margin: 0;
+    font-size: @font-size-base;
+    color: @color-text-primary;
+    .text-line(1);
+    transition: color 0.3s;
+  }
+}
+
+// ─── 详情页 Giscus 容器外边距对齐 ───
+.showreel-post + .giscus-container,
+.showreel-post .giscus-container {
+  max-width: @max-width-content;
+  margin: 0 auto @spacing-xl;
+  padding: 0 @spacing-xl;
+}
+
+// ─── 平板：内容区收紧 ───
+.respond-below(@breakpoint-lg, {
+  .showreel-post {
+    padding: @spacing-xl @spacing-lg;
+    &-content { padding: @spacing-lg; }
+  }
+  .showreel-paging { padding: 0 @spacing-lg; }
+});
+
+// ─── 移动端：邻接导航堆叠 ───
+.respond-below(@breakpoint-md, {
+  .showreel-post {
+    padding: @spacing-lg @spacing-md;
+    &-title { font-size: @font-size-h3; }
+    &-content { padding: @spacing-md; }
+  }
+  .showreel-paging {
+    grid-template-columns: 1fr;
+    padding: 0 @spacing-md;
+    &-next { text-align: left; }
+  }
+});
+
+// ─── 暗色模式 ───
+[data-theme="dark"] {
+  .showreel-post {
+    &-title { color: #e0e0e0; }
+    &-meta { color: #8a9bb0; }
+    &-tools li {
+      background: rgba(255, 255, 255, 0.06);
+      color: #c0cad8;
+      &:hover {
+        background: rgba(255, 255, 255, 0.12);
+        color: #ffffff;
+      }
+    }
+    &-content {
+      background: #162030;
+      box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.3);
+    }
+  }
+  .showreel-paging-item {
+    background: #1a2638;
+    color: #e0e0e0;
+    box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.3);
+    &.showreel-paging-placeholder {
+      background: transparent;
+      box-shadow: none;
+    }
+  }
+  a.showreel-paging-item:hover {
+    box-shadow: 0 24px 48px 0 rgba(0, 0, 0, 0.45);
+    .showreel-paging-title { color: #409EFF; }
+  }
+  .showreel-paging-label { color: #8a9bb0; }
+  .showreel-paging-title { color: #e0e0e0; }
+}

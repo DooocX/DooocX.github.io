@@ -1,0 +1,220 @@
+// ============================================================
+// SHOWREEL 列表页样式
+// 响应式策略：
+//   ≥1000px → 3 列网格
+//   800-999px → 2 列网格
+//   <800px   → 单列垂直列表（左封面右信息）
+// 全部沿用 _variables.less 设计令牌，零新增。
+// ============================================================
+
+@import (reference) "../public/_variables";
+@import (reference) "../public/_mixins";
+
+.showreel {
+  // 内容容器（复用文章页白底圆角容器）
+  &-content {
+    .content-style();
+    padding: @spacing-xxl @spacing-xl;
+    transition: padding 1s;
+  }
+
+  // ─── 列表容器（默认 3 列网格，移动端切换）───
+  &-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: @spacing-lg;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  // ─── 卡片 ───
+  &-card {
+    background: @color-bg-white;
+    border-radius: @border-radius-lg;
+    overflow: hidden;
+    box-shadow: @shadow-card;
+    transition: @transition-fast;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: @shadow-card-hover;
+      .showreel-card-cover img {
+        transform: scale(1.04);
+      }
+    }
+
+    &-link {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    // 16:9 封面容器（防 CLS）
+    &-cover {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      overflow: hidden;
+      background: @color-bg-light;
+      img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+      }
+    }
+
+    // 时长角标（右下）
+    &-duration {
+      position: absolute;
+      right: @spacing-sm;
+      bottom: @spacing-sm;
+      padding: 2px @spacing-sm;
+      background: rgba(0, 0, 0, 0.65);
+      color: #fff;
+      font-size: @font-size-xs;
+      border-radius: @border-radius-sm;
+      z-index: @z-element;
+      line-height: 1.4;
+    }
+
+    // 视频来源角标（右上，目前用于 B 站）
+    &-source {
+      position: absolute;
+      right: @spacing-sm;
+      top: @spacing-sm;
+      width: 24px;
+      height: 24px;
+      .flex-center();
+      background: rgba(0, 0, 0, 0.55);
+      border-radius: @border-radius-xl;
+      z-index: @z-element;
+      img {
+        position: static;
+        width: 14px;
+        height: 14px;
+        // 把原图标涂白以贴合深色徽章背景
+        filter: brightness(0) invert(1);
+      }
+    }
+
+    // 信息区
+    &-info {
+      padding: @spacing-md;
+    }
+    &-title {
+      margin: 0 0 @spacing-xs;
+      font-size: @font-size-lg;
+      font-weight: 500;
+      color: @color-text-primary;
+      line-height: 1.4;
+      .text-line(2);
+    }
+    &-desc {
+      margin: 0 0 @spacing-md;
+      font-size: @font-size-sm;
+      color: @color-text-secondary;
+      line-height: 1.6;
+      .text-line(2);
+    }
+    &-meta {
+      .flex-between();
+      gap: @spacing-sm;
+    }
+    &-tools {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      li {
+        padding: 2px @spacing-sm;
+        background: @color-bg-tag;
+        color: @color-text-tag;
+        font-size: @font-size-xs;
+        border-radius: @border-radius-sm;
+        line-height: 1.5;
+      }
+    }
+    &-date {
+      color: @color-text-secondary;
+      font-size: @font-size-xs;
+      flex-shrink: 0;
+    }
+  }
+
+  // ─── 空状态 ───
+  &-empty {
+    text-align: center;
+    padding: @spacing-xxl @spacing-md;
+    color: @color-text-secondary;
+    font-size: @font-size-lg;
+    p { margin: 0; }
+  }
+}
+
+// ─── 平板：2 列 ───
+.respond-below(@breakpoint-lg, {
+  .showreel-content { padding: @spacing-xl @spacing-lg; }
+  .showreel-list { grid-template-columns: repeat(2, 1fr); }
+});
+
+// ─── 移动端：垂直列表（左封面右信息）───
+.respond-below(@breakpoint-md, {
+  .showreel-content { padding: @spacing-xl @spacing-md; }
+  .showreel-list {
+    grid-template-columns: 1fr;
+    gap: @spacing-md;
+  }
+  .showreel-card {
+    &-link {
+      display: flex;
+      align-items: stretch;
+    }
+    &-cover {
+      flex: 0 0 40%;
+      // 40% 宽度的 16:9
+      padding-top: 22.5%;
+      align-self: stretch;
+    }
+    &-info {
+      flex: 1;
+      padding: @spacing-sm @spacing-md;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-width: 0;
+    }
+    &-title {
+      font-size: @font-size-base;
+      margin-bottom: @spacing-xs;
+    }
+    // 移动端隐藏描述节省空间（仅保留标题/工具/日期）
+    &-desc { display: none; }
+  }
+});
+
+// ─── 暗色模式 ───
+[data-theme="dark"] {
+  .showreel-content { background: #162030; }
+  .showreel-card {
+    background: #1a2638;
+    box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.3);
+    &:hover {
+      box-shadow: 0 24px 48px 0 rgba(0, 0, 0, 0.45);
+    }
+    &-cover { background: #0f1923; }
+    &-title { color: #e0e0e0; }
+    &-desc { color: #8a9bb0; }
+    &-tools li {
+      background: rgba(255, 255, 255, 0.06);
+      color: #c0cad8;
+    }
+    &-date { color: #8a9bb0; }
+  }
+  .showreel-empty { color: #8a9bb0; }
+}
