@@ -1,0 +1,468 @@
+// ============================================================
+// 暗色模式覆盖样式
+// 使用 [data-theme="dark"] 选择器覆盖亮色主题颜色
+// 配色方案：深蓝 + 黑
+// ============================================================
+
+// === 平滑过渡 ===
+body,
+.header-top,
+.sidebar,
+.post-content,
+.about-content,
+.tags-content,
+.categories-content,
+.links-content,
+.archive-content,
+.tag-content,
+.footer {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+[data-theme="dark"] {
+
+  // === 全局 ===
+  body {
+    background: linear-gradient(to top, #0f1923, #0a1018) !important;
+    color: #e0e0e0;
+  }
+
+  // === 导航栏 ===
+  .header {
+    background: #0f1923;
+  }
+  .header .header-top {
+    background: #0f1923;
+    .h-left a img {
+      filter: brightness(1.2);
+    }
+    .h-right ul li a {
+      color: #8a9bb0;
+      &:hover {
+        color: #e0e0e0;
+      }
+    }
+    .h-right .select a {
+      color: #e0e0e0;
+    }
+    .h-right .select .dot {
+      background: #409EFF;
+    }
+  }
+  .header .header-move1 {
+    box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.4);
+  }
+
+  // === 汉堡菜单图标 ===
+  .h-right-close svg path[fill] {
+    fill: #8a9bb0 !important;
+  }
+
+  // === 页面 Banner 区域 ===
+  .header-body-background {
+    background: linear-gradient(to top, #0f1923, #0a1018) !important;
+    &-content {
+      h2 {
+        color: #8a9bb0;
+      }
+      span {
+        color: #e0e0e0;
+      }
+    }
+  }
+
+  // === 首页卡片（block-card 布局） ===
+  .home .main .post-block-content {
+    background-color: #162030;
+    box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.3);
+    &-info {
+      h2 {
+        color: #e0e0e0;
+        &:hover {
+          color: #ffffff;
+        }
+      }
+      &-excerpt {
+        color: #8a9bb0;
+      }
+      &-exhibition .post-tag {
+        color: #8a9bb0;
+      }
+    }
+    img {
+      background: linear-gradient(to top, #0f1923, #0a1018);
+    }
+  }
+
+  // === 首页卡片（card 布局） ===
+  .home .main .post-card-display {
+    background-color: #162030;
+    box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.3);
+    a .post-card-title {
+      color: #e0e0e0;
+    }
+    a img {
+      background: linear-gradient(to top, #0f1923, #0a1018);
+    }
+  }
+  .home .main .post-card-meat .meat-info {
+    .info-auth a {
+      color: #8a9bb0;
+    }
+    .info-data {
+      color: #8a9bb0;
+    }
+  }
+
+  // === 首页分页 ===
+  .home .change-page {
+    color: #e0e0e0;
+    .p-page a {
+      color: #e0e0e0;
+      .previous {
+        color: #8a9bb0;
+        box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.3);
+      }
+    }
+    .n-page a {
+      color: #e0e0e0;
+      .next {
+        color: #8a9bb0;
+        box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.3);
+      }
+    }
+  }
+
+  // === 文章详情页头部 ===
+  .post-header-background {
+    background: linear-gradient(0deg, #0f1923, #0a1018) !important;
+    &-content {
+      h1 {
+        color: #e0e0e0;
+      }
+      .post-header-tag li {
+        background: rgba(255, 255, 255, 0.06) !important;
+        a {
+          color: #e0e0e0;
+        }
+        &:hover {
+          background: rgba(255, 255, 255, 0.12) !important;
+        }
+      }
+      .post-header-info-author {
+        span {
+          color: #e0e0e0;
+          a {
+            color: #e0e0e0;
+          }
+        }
+        p {
+          color: #8a9bb0;
+        }
+        &-categories a {
+          border-color: #8a9bb0;
+          color: #8a9bb0;
+          &:hover {
+            border-color: #409EFF;
+            color: #409EFF;
+          }
+        }
+      }
+    }
+  }
+
+  // === 内容区域（.content-style() 生成的白色背景区） ===
+  .post-content,
+  .about-content,
+  .tags-content,
+  .categories-content,
+  .links-content,
+  .archive-content,
+  .tag-content {
+    background: #162030;
+  }
+
+  // === 文章正文上下篇导航 ===
+  .post-paging {
+    background: rgba(22, 32, 48, 0.8);
+    a {
+      color: #e0e0e0;
+      .post-paging-last:hover,
+      .post-paging-next:hover {
+        box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.4);
+      }
+    }
+  }
+
+  // === 文章正文排版（#article） ===
+  #article {
+    h1, h2, h3, h4, h5, h6 {
+      color: #e0e0e0;
+    }
+    p {
+      color: #c8d0dc;
+    }
+    a {
+      color: #409EFF;
+    }
+    hr {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    blockquote {
+      background: rgba(255, 255, 255, 0.03);
+      border-left-color: #3a5068;
+      p {
+        color: #8a9bb0;
+      }
+    }
+    p code, ul li code {
+      color: #c0cad8;
+      background: rgba(255, 255, 255, 0.07);
+    }
+    ul li::before {
+      color: #409EFF;
+    }
+    // 表格
+    table {
+      border-color: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+      td {
+        border-color: rgba(255, 255, 255, 0.06);
+        color: #c8d0dc;
+      }
+      tr:first-child td {
+        border-color: rgba(255, 255, 255, 0.06);
+      }
+      tr td:first-child {
+        border-color: rgba(255, 255, 255, 0.06);
+      }
+      td:hover, tr:hover {
+        background: rgba(255, 255, 255, 0.04);
+      }
+    }
+    thead {
+      th {
+        background: rgba(255, 255, 255, 0.04);
+        color: #c0cad8;
+      }
+      tr:nth-child(odd) {
+        background: rgba(255, 255, 255, 0.02);
+      }
+    }
+    tbody td {
+      color: #c8d0dc;
+    }
+  }
+
+  // === 关于页 ===
+  .about-header-background {
+    background: linear-gradient(to top, #0f1923, #0a1018) !important;
+    &-content {
+      h1 {
+        color: #e0e0e0;
+        span {
+          color: #8a9bb0;
+        }
+      }
+    }
+  }
+
+  // === 分类页 ===
+  .categories-content-data {
+    .categories-class-card:hover {
+      box-shadow: 4px 6px 14px rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  // === 标签页 ===
+  .tags-content-data {
+    h2 {
+      color: #e0e0e0;
+    }
+    a > span {
+      color: #8a9bb0;
+      background-color: rgba(255, 255, 255, 0.04);
+      &:hover {
+        background-color: #1e3a50;
+        color: #ffffff;
+      }
+      > i {
+        color: #F56C6C;
+      }
+    }
+  }
+
+  // === 友链页 ===
+  .links-content-data-item {
+    background: #1a2a3a;
+    border-color: rgba(255, 255, 255, 0.05);
+    &:hover {
+      background: #1e3044;
+      box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.3);
+    }
+    a {
+      color: #c8d0dc;
+    }
+    .card .user-link-info {
+      h1 {
+        color: #e0e0e0;
+      }
+      span {
+        color: #8a9bb0;
+      }
+    }
+  }
+
+  // === 归档/分组列表 ===
+  .grouping {
+    a {
+      color: #c8d0dc;
+      &:hover {
+        background: rgba(255, 255, 255, 0.04);
+        color: #409EFF;
+      }
+    }
+  }
+
+  // === 页脚 ===
+  .footer {
+    .Copyright {
+      color: #8a9bb0;
+      .footer-theme-link {
+        color: #8a9bb0;
+      }
+    }
+    .contact a {
+      color: #8a9bb0;
+      img {
+        filter: invert(1) brightness(0.8);
+      }
+      &:hover img {
+        filter: invert(53%) sepia(98%) saturate(1573%) hue-rotate(195deg) brightness(100%) contrast(100%);
+      }
+    }
+  }
+
+  // === 侧边栏 ===
+  .sidebar {
+    background: #0d1a28;
+    box-shadow: -6px 0 20px rgba(0, 0, 0, .7);
+    ul li a {
+      color: #8a9bb0;
+    }
+  }
+
+  // === 遮罩层 ===
+  .shelter {
+    background-color: #000;
+  }
+
+  // === 回到顶部按钮 ===
+  .goTop > span {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.08);
+    svg path {
+      fill: #8a9bb0;
+    }
+    &:hover {
+      border-color: #409EFF;
+    }
+  }
+
+  // === 404 页面 ===
+  .view404 p {
+    color: #e0e0e0;
+  }
+  .view404-btn {
+    border-color: #8a9bb0;
+    a {
+      color: #8a9bb0;
+    }
+    &:hover {
+      border-color: #e0e0e0;
+      background: #e0e0e0;
+      a {
+        color: #0f1923;
+      }
+    }
+  }
+
+  // === Giscus 评论容器 ===
+  .giscus-container {
+    // Giscus iframe 主题通过 JS 动态切换为 dark_dimmed
+  }
+
+  // === 暗色模式切换按钮 ===
+  .theme-toggle-btn {
+    svg {
+      stroke: #8a9bb0 !important;
+    }
+    &:hover svg {
+      stroke: #e0e0e0 !important;
+    }
+  }
+
+  // === 字数统计 ===
+  .post-wordcount {
+    color: #e0e0e0 !important;
+  }
+
+  // === Toast 提示 ===
+  .toast {
+    background: rgba(240, 244, 250, 0.95);
+    color: #162030;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  // === TOC 侧边栏 ===
+  .toc-sidebar-inner {
+    background: #162030;
+    box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.3);
+  }
+  .toc-sidebar-title {
+    color: #e0e0e0;
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+  }
+  .toc-toggle-btn {
+    color: #8a9bb0;
+    &:hover {
+      color: #409EFF;
+      background: rgba(64, 158, 255, 0.1);
+    }
+  }
+  .toc-sidebar-collapsed-label {
+    color: #8a9bb0;
+  }
+  .toc-sidebar.collapsed .toc-sidebar-inner {
+    background: #162030;
+    &:hover {
+      background: #1a2a3a;
+    }
+  }
+  .toc-sidebar .toc-link {
+    color: #8a9bb0;
+    &:hover {
+      color: #409EFF;
+      background: rgba(64, 158, 255, 0.06);
+    }
+    &.active {
+      color: #409EFF;
+      border-left-color: #409EFF;
+      background: rgba(64, 158, 255, 0.08);
+    }
+  }
+  // TOC 内嵌版
+  .post-toc-inline {
+    background: rgba(255, 255, 255, 0.03);
+    border-left-color: #409EFF;
+    .post-toc-title {
+      color: #e0e0e0;
+    }
+    .toc-link {
+      color: #8a9bb0;
+      &:hover {
+        color: #409EFF;
+      }
+    }
+  }
+}

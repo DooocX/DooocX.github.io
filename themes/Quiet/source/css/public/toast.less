@@ -1,0 +1,29 @@
+@import (reference) "./_variables";
+
+// ============================================================
+// Toast 全局提示
+// 用法：通过 JS 创建并插入 body，显示后自动消失
+// ============================================================
+
+.toast {
+  position: fixed;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  padding: 10px 20px;
+  background: rgba(18, 24, 58, 0.92);
+  color: #ffffff;
+  font-size: @font-size-sm;
+  border-radius: @border-radius-md;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  white-space: nowrap;
+
+  &.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}

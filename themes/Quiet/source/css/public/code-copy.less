@@ -1,0 +1,40 @@
+// ============================================================
+// 代码块复制按钮
+// 绝对定位在 pre 元素右上角
+// ============================================================
+
+@import (reference) "./_variables";
+
+.code-copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 4px 10px;
+  border: none;
+  border-radius: @border-radius-sm;
+  background: rgba(255, 255, 255, 0.12);
+  color: #abb2bf;
+  font-size: @font-size-xs;
+  font-family: @font-family-base;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease, background 0.2s ease;
+  z-index: 5;
+  line-height: 1.5;
+  white-space: nowrap;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.22);
+  }
+
+  &.copied {
+    background: rgba(53, 205, 75, 0.3);
+    color: #35cd4b;
+  }
+}
+
+#article pre code {
+  &:hover .code-copy-btn {
+    opacity: 1;
+  }
+}
