@@ -78,9 +78,12 @@
     });
 
     // Giscus iframe 加载完成后同步主题
+    // 放宽判定：任何来自 giscus 的 postMessage 都触发一次主题同步，
+    // 确保 iframe 首次加载（首条 resize 事件）时就把当前 data-theme 推过去，
+    // 解决"首次以暗色模式打开页面，评论区仍为白色"的问题。
     window.addEventListener('message', function (event) {
       if (event.origin !== 'https://giscus.app') return;
-      if (event.data && event.data.giscus && event.data.giscus.discussion) {
+      if (event.data && event.data.giscus) {
         syncGiscus(html.getAttribute('data-theme') || 'light');
       }
     });
@@ -422,6 +425,39 @@
     }, 2000);
   }
 
+  // === Categories Tab 切换 ===
+  // 分类 / 标签 两个 Tab；支持 URL hash 直达（#categories / #tags）
+  function initCategoriesTabs() {
+    var navBtns = document.querySelectorAll('.cat-tab-nav-btn');
+    var panels = document.querySelectorAll('.cat-tab-panel');
+    if (navBtns.length === 0 || panels.length === 0) return;
+
+    function activate(tabName, updateHash) {
+      navBtns.forEach(function (btn) {
+        var isActive = btn.dataset.tab === tabName;
+        btn.classList.toggle('active', isActive);
+        btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+      panels.forEach(function (p) {
+        p.classList.toggle('active', p.dataset.panel === tabName);
+      });
+      if (updateHash && history && history.replaceState) {
+        history.replaceState(null, '', '#' + tabName);
+      }
+    }
+
+    // 初始化：URL hash 决定首屏 Tab，缺省为 categories
+    var initialTab = (location.hash === '#tags') ? 'tags' : 'categories';
+    activate(initialTab, false);
+
+    // 绑定点击
+    navBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        activate(btn.dataset.tab, true);
+      });
+    });
+  }
+
   // === 初始化 ===
   document.addEventListener('DOMContentLoaded', function () {
     initDarkMode();
@@ -431,5 +467,6 @@
     initToc();
     initCodeCopy();
     initMailto();
+    initCategoriesTabs();
   });
 })();

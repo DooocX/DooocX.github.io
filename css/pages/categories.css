@@ -89,3 +89,87 @@
     padding: 64px 20px;
   }
 }
+.cat-tab-nav {
+  display: flex;
+  gap: 24px;
+  border-bottom: 1px solid rgba(153, 169, 191, 0.1);
+  margin-bottom: 40px;
+}
+.cat-tab-nav-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px 16px;
+  font-family: inherit;
+  font-size: 16px;
+  color: #898FA0;
+  position: relative;
+  transition: color 0.3s ease-in-out;
+}
+.cat-tab-nav-btn:hover {
+  color: #12183A;
+}
+.cat-tab-nav-btn.active {
+  color: #12183A;
+  font-weight: 600;
+}
+.cat-tab-nav-btn.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: #006AFF;
+}
+.cat-tab-nav-count {
+  margin-left: 6px;
+  padding: 1px 8px;
+  background: rgba(18, 24, 58, 0.06);
+  color: #424242;
+  font-size: 12px;
+  border-radius: 50%;
+  font-weight: normal;
+  line-height: 1.5;
+  display: inline-block;
+  vertical-align: middle;
+}
+.cat-tab-panel {
+  display: none;
+}
+.cat-tab-panel.active {
+  display: block;
+  animation: cat-tab-fade-in 0.2s ease;
+}
+.cat-tab-tags-inner.tags-content-data {
+  padding: 0;
+}
+@keyframes cat-tab-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+[data-theme="dark"] .cat-tab-nav {
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+[data-theme="dark"] .cat-tab-nav-btn {
+  color: #8a9bb0;
+}
+[data-theme="dark"] .cat-tab-nav-btn:hover {
+  color: #e0e0e0;
+}
+[data-theme="dark"] .cat-tab-nav-btn.active {
+  color: #e0e0e0;
+}
+[data-theme="dark"] .cat-tab-nav-btn.active::after {
+  background: #409EFF;
+}
+[data-theme="dark"] .cat-tab-nav-count {
+  background: rgba(255, 255, 255, 0.06);
+  color: #c0cad8;
+}

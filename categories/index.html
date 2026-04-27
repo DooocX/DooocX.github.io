@@ -48,6 +48,13 @@
         
           
             <li>
+              <a href="/showreel">SHOWREEL</a>
+              <span class="dot"></span>
+            </li>
+          
+        
+          
+            <li>
               <a href="/archives">ARCHIVE</a>
               <span class="dot"></span>
             </li>
@@ -56,13 +63,6 @@
           
             <li class="select">
               <a href="/categories">CATEGORIES</a>
-              <span class="dot"></span>
-            </li>
-          
-        
-          
-            <li>
-              <a href="/tags">TAGS</a>
               <span class="dot"></span>
             </li>
           
@@ -118,15 +118,15 @@
     </li>
     
     <li>
+      <a href="/showreel">SHOWREEL</a>
+    </li>
+    
+    <li>
       <a href="/archives">ARCHIVE</a>
     </li>
     
     <li>
       <a href="/categories">CATEGORIES</a>
-    </li>
-    
-    <li>
-      <a href="/tags">TAGS</a>
     </li>
     
     <li>
@@ -181,50 +181,103 @@
             <img src="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imgblogmyCategory.svg" alt="Quiet">
         </span>
 
-        <h2>文章分类</h2>
+        <h2>分类 & 标签</h2>
     </div>
 </div>
     <div class="categories-content" id="content">
         <div class="categories-content-data">
-				<div class="categories-class">
-					
-						<a class="categories-class-card" href="/categories/Markdown/"
-							style="background-image: url('https://api.ixiaowai.cn/gqapi/gqapi.php');"
-						>
-							<span class="categories-class-card-title">Markdown</span>
-							<div class="categories-class-card-number">
-								<span>
-									<span class="categories-length">1</span> 篇
-								</span>
-							</div>
-						</a>
-					
-						<a class="categories-class-card" href="/categories/Wwise/"
-							style="background-image: url('https://api.ixiaowai.cn/gqapi/gqapi.php');"
-						>
-							<span class="categories-class-card-title">Wwise</span>
-							<div class="categories-class-card-number">
-								<span>
-									<span class="categories-length">2</span> 篇
-								</span>
-							</div>
-						</a>
-					
-						<a class="categories-class-card" href="/categories/%E9%9F%B3%E6%95%88%E8%AE%BE%E8%AE%A1/"
-							style="background-image: url('https://api.ixiaowai.cn/gqapi/gqapi.php');"
-						>
-							<span class="categories-class-card-title">音效设计</span>
-							<div class="categories-class-card-number">
-								<span>
-									<span class="categories-length">1</span> 篇
-								</span>
-							</div>
-						</a>
-					
-				</div>
+
+            
+            <div class="cat-tab-nav" role="tablist">
+                <button class="cat-tab-nav-btn active" type="button"
+                        data-tab="categories" role="tab" aria-selected="true">
+                    分类 <span class="cat-tab-nav-count">3</span>
+                </button>
+                <button class="cat-tab-nav-btn" type="button"
+                        data-tab="tags" role="tab" aria-selected="false">
+                    标签 <span class="cat-tab-nav-count">7</span>
+                </button>
+            </div>
+
+            
+            <div class="cat-tab-panel active" data-panel="categories" role="tabpanel">
+                <div class="categories-class">
+                    
+                        <a class="categories-class-card" href="/categories/Wwise/"
+                            style="background-image: url('https://api.ixiaowai.cn/gqapi/gqapi.php');"
+                        >
+                            <span class="categories-class-card-title">Wwise</span>
+                            <div class="categories-class-card-number">
+                                <span>
+                                    <span class="categories-length">2</span> 篇
+                                </span>
+                            </div>
+                        </a>
+                    
+                        <a class="categories-class-card" href="/categories/%E9%9F%B3%E6%95%88%E8%AE%BE%E8%AE%A1/"
+                            style="background-image: url('https://api.ixiaowai.cn/gqapi/gqapi.php');"
+                        >
+                            <span class="categories-class-card-title">音效设计</span>
+                            <div class="categories-class-card-number">
+                                <span>
+                                    <span class="categories-length">1</span> 篇
+                                </span>
+                            </div>
+                        </a>
+                    
+                        <a class="categories-class-card" href="/categories/Markdown/"
+                            style="background-image: url('https://api.ixiaowai.cn/gqapi/gqapi.php');"
+                        >
+                            <span class="categories-class-card-title">Markdown</span>
+                            <div class="categories-class-card-number">
+                                <span>
+                                    <span class="categories-length">1</span> 篇
+                                </span>
+                            </div>
+                        </a>
+                    
+                </div>
+            </div>
+
+            
+            <div class="cat-tab-panel" data-panel="tags" role="tabpanel">
+                <div class="tags-content-data cat-tab-tags-inner">
+                    
+                        <a href="/tags/Wwise%E7%AC%94%E8%AE%B0/" class="tag-Wwise笔记" value="Wwise笔记">
+                            <span># Wwise笔记 <i>1</i> </span>
+                        </a>
+                    
+                        <a href="/tags/Wwise/" class="tag-Wwise" value="Wwise">
+                            <span># Wwise <i>2</i> </span>
+                        </a>
+                    
+                        <a href="/tags/%E9%9F%B3%E6%95%88%E8%AE%BE%E8%AE%A1/" class="tag-音效设计" value="音效设计">
+                            <span># 音效设计 <i>1</i> </span>
+                        </a>
+                    
+                        <a href="/tags/%E8%A7%86%E9%A2%91%E6%80%BB%E7%BB%93/" class="tag-视频总结" value="视频总结">
+                            <span># 视频总结 <i>1</i> </span>
+                        </a>
+                    
+                        <a href="/tags/Markdown/" class="tag-Markdown" value="Markdown">
+                            <span># Markdown <i>1</i> </span>
+                        </a>
+                    
+                        <a href="/tags/%E9%9F%B3%E9%A2%91%E7%AD%96%E5%88%92/" class="tag-音频策划" value="音频策划">
+                            <span># 音频策划 <i>1</i> </span>
+                        </a>
+                    
+                        <a href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" class="tag-版本控制" value="版本控制">
+                            <span># 版本控制 <i>1</i> </span>
+                        </a>
+                    
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
+
     <div class="footer">
   <div class="Copyright">
     &copy;2026 By DocX.
