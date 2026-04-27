@@ -39,7 +39,7 @@ body,
 [data-theme="dark"] .header .header-move1 {
   box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.4);
 }
-[data-theme="dark"] .h-right-close svg path[fill] {
+[data-theme="dark"] .h-right-close svg path[fill]:not([fill="none"]) {
   fill: #8a9bb0 !important;
 }
 [data-theme="dark"] .header-body-background {
@@ -276,15 +276,24 @@ body,
 [data-theme="dark"] .footer .contact a img {
   filter: invert(1) brightness(0.8);
 }
-[data-theme="dark"] .footer .contact a:hover img {
-  filter: invert(53%) sepia(98%) saturate(1573%) hue-rotate(195deg) brightness(100%) contrast(100%);
-}
 [data-theme="dark"] .sidebar {
   background: #0d1a28;
   box-shadow: -6px 0 20px rgba(0, 0, 0, 0.7);
 }
 [data-theme="dark"] .sidebar ul li a {
   color: #8a9bb0;
+}
+[data-theme="dark"] .sidebar ul li a:hover {
+  color: #e0e0e0;
+}
+[data-theme="dark"] .sidebar .my_foot a {
+  opacity: 0.7;
+}
+[data-theme="dark"] .sidebar .my_foot a:hover {
+  opacity: 1;
+}
+[data-theme="dark"] .sidebar .my_foot a img {
+  filter: invert(1) brightness(0.8);
 }
 [data-theme="dark"] .shelter {
   background-color: #000;

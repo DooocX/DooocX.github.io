@@ -35,11 +35,10 @@
   justify-content: center;
   align-items: center;
   opacity: 0.55;
-  transition: opacity 0.2s ease, filter 0.2s ease;
+  transition: opacity 0.2s ease;
 }
 .footer .contact a:hover {
   opacity: 1;
-  filter: invert(32%) sepia(98%) saturate(2573%) hue-rotate(208deg) brightness(101%) contrast(103%);
 }
 .footer .contact a img {
   width: 100%;

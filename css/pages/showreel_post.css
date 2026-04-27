@@ -1,7 +1,7 @@
 .showreel-post {
   max-width: 1160px;
   margin: 0 auto;
-  padding: 64px 40px;
+  padding: calc(50px + 64px) 40px 64px;
 }
 .showreel-post-player-wrap {
   margin-bottom: 40px;
@@ -168,7 +168,7 @@ a.showreel-paging-item:hover .showreel-paging-title {
 }
 @media screen and (max-width: 1000px) {
   .showreel-post {
-    padding: 40px 24px;
+    padding: calc(70px + 40px) 24px 40px;
   }
   .showreel-post-content {
     padding: 24px;
@@ -179,7 +179,7 @@ a.showreel-paging-item:hover .showreel-paging-title {
 }
 @media screen and (max-width: 800px) {
   .showreel-post {
-    padding: 24px 16px;
+    padding: calc(70px + 24px) 16px 24px;
   }
   .showreel-post-title {
     font-size: 24px;
