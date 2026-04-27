@@ -54,7 +54,7 @@ body,
   }
 
   // === 汉堡菜单图标 ===
-  .h-right-close svg path[fill] {
+  .h-right-close svg path[fill]:not([fill="none"]) {
     fill: #8a9bb0 !important;
   }
 
@@ -337,9 +337,6 @@ body,
       img {
         filter: invert(1) brightness(0.8);
       }
-      &:hover img {
-        filter: invert(53%) sepia(98%) saturate(1573%) hue-rotate(195deg) brightness(100%) contrast(100%);
-      }
     }
   }
 
@@ -349,6 +346,19 @@ body,
     box-shadow: -6px 0 20px rgba(0, 0, 0, .7);
     ul li a {
       color: #8a9bb0;
+      &:hover {
+        color: #e0e0e0;
+      }
+    }
+    // 暗色模式：反色让黑色 SVG 图标变灰白，与底部 footer 处理一致
+    .my_foot a {
+      opacity: 0.7;
+      &:hover {
+        opacity: 1;
+      }
+      img {
+        filter: invert(1) brightness(0.8);
+      }
     }
   }
 

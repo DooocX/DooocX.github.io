@@ -1,5 +1,5 @@
 <div class="post-header-background <%- theme.is_article_img?'post-header-img':'post-header-color'  %>"
-    style="background: url('<%- theme.is_article_img ?  theme.default_cover : null %>')" 
+    style="background: url('<%- theme.is_article_img ? (page.cover || theme.default_cover) : null %>')" 
 >
     <div class="post-header-background-content">
         <ul class="post-header-tag">

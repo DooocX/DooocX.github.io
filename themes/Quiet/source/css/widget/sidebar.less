@@ -73,7 +73,9 @@
 
 .sidebar ul {
   width: 100%;
-  margin-top: 50px;
+  margin: 50px 0 0 0;
+  padding: 0; // 清除浏览器默认 padding-left:40px，避免内容溢出到屏幕外
+  list-style: none;
 }
 
 .sidebar ul li {
@@ -85,11 +87,20 @@
 }
 
 .sidebar ul li a {
-  display: grid;
+  display: block;
   color: #5d606a;
-  text-overflow: ellipsis;
   width: 100%;
   text-decoration: none;
+  // 省略号三件套，防止未来菜单名变长时溢出
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: @color-text-primary;
+  }
 }
 
 .my_foot {
@@ -103,6 +114,12 @@
     text-decoration: none;
     margin-right: 10px;
     display: inline-block;
+    opacity: 0.55;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 1;
+    }
 
     img {
       width: 30px;

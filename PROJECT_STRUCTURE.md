@@ -180,10 +180,6 @@ DooocX.github.io/
 
 ## 待优化项
 
-1. **Logo 文件偏大**：`logo.png` 约 1.03 MB，建议压缩至 200KB 以下
-2. **关于页内容为空**：`source/about/index.md` 只有 front-matter，没有正文
-3. **默认封面**：使用第三方随机图片 API，建议替换为本地或可控 CDN 图片
-4. **搜索功能**：待添加全站搜索
-5. **TOC 目录**：所有文章 `toc: false`，待开启并优化悬浮定位
-6. **404 页面**：依赖外部 CDN 图片，建议本地化
-7. **社交图标**：待添加 B 站、邮箱等联系方式
+1. **Header 响应式重构**：header 高度当前固定 `100px`（桌面/平板/移动同值），建议抽出 `@header-height-desktop / @header-height-mobile` 变量并做响应式（桌面 100px / 平板 80px / 移动 56-64px），同步收敛各页面对 fixed header 的避让 padding，避免零散硬编码（如 `showreel_post.less` 中的 `calc(50px + ...)` / `calc(70px + ...)`）
+2. **首页/分类页默认封面优化**：文章详情页已支持 `page.cover` 优先（front-matter 有 cover 则用文章自己的），但首页卡片（`home.ejs`）和分类页 banner（`categories.ejs`）在 `post.cover` 缺失时仍回退到第三方随机图片 API（`api.ixiaowai.cn`），建议替换为本地图片池或可控 CDN
+3. **全站搜索功能**：基于 `hexo-generator-searchdb` + 前端搜索框实现站内搜索
