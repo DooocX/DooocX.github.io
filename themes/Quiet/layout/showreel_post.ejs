@@ -35,26 +35,8 @@
     </article>
   <% } %>
 
-  <%# ───────────── 评论区（Giscus，T7 将抽取为 partial） ───────────── %>
-  <% if (theme.giscus && theme.giscus.enable) { %>
-    <div class="giscus-container" id="giscus-container">
-      <script src="https://giscus.app/client.js"
-        data-repo="<%= theme.giscus.repo %>"
-        data-repo-id="<%= theme.giscus.repo_id %>"
-        data-category="<%= theme.giscus.category %>"
-        data-category-id="<%= theme.giscus.category_id %>"
-        data-mapping="<%= theme.giscus.mapping %>"
-        data-strict="<%= theme.giscus.strict %>"
-        data-reactions-enabled="<%= theme.giscus.reactions_enabled %>"
-        data-emit-metadata="<%= theme.giscus.emit_metadata %>"
-        data-input-position="<%= theme.giscus.input_position %>"
-        data-theme="<%= theme.giscus.theme %>"
-        data-lang="<%= theme.giscus.lang %>"
-        crossorigin="anonymous"
-        async>
-      </script>
-    </div>
-  <% } %>
+  <%# ───────────── 评论区（Giscus，复用公共 partial） ───────────── %>
+  <%- partial('_partial/comment') %>
 
   <%# ───────────── 邻接导航：上一部（更新） / 下一部（更早） ───────────── %>
   <%- partial('_partial/showreel_paging') %>

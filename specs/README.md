@@ -17,7 +17,7 @@ specs/
 
 | 版本 | 功能 | 状态 | 文档 |
 | --- | --- | --- | --- |
-| v1.1.0 | SHOWREEL 音效作品展示模块 + 导航栏 Categories/Tags Tab 合并 | 📝 待实施 | [showreel-feature-v1.1.0/spec.md](./showreel-feature-v1.1.0/spec.md) |
+| v1.1.0 | SHOWREEL 音效作品展示模块 + 导航栏 Categories/Tags Tab 合并 | ✅ 已完成 | [showreel-feature-v1.1.0/spec.md](./showreel-feature-v1.1.0/spec.md) |
 
 ## 状态图例
 

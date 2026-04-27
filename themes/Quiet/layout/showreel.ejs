@@ -13,7 +13,7 @@
           <li class="showreel-card">
             <a class="showreel-card-link" href="<%- url_for(item.path) %>">
               <div class="showreel-card-cover">
-                <img src="<%- item.cover %>" alt="<%= item.title %>" loading="lazy">
+                <img src="<%- item.cover %>" alt="<%= item.title %>" loading="lazy" referrerpolicy="no-referrer">
                 <% if (item.duration) { %>
                   <span class="showreel-card-duration"><%= item.duration %></span>
                 <% } %>

@@ -3,9 +3,10 @@
 | 字段 | 值 |
 | --- | --- |
 | 版本 | v1.1.0 |
-| 状态 | 📝 待实施 |
+| 状态 | ✅ 已完成 |
 | 创建日期 | 2026-04-24 |
-| 关联 Changelog | `CHANGELOG.md` → v1.1.0（待发布） |
+| 完成日期 | 2026-04-27 |
+| 关联 Changelog | `CHANGELOG.md` → [1.1.0] |
 | 实施范围 | Hexo Quiet 主题 + 根目录 scripts / scaffolds / source |
 
 ---

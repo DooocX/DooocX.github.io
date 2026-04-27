@@ -19,6 +19,36 @@
 
 ---
 
+## [1.1.0] - 2026-04-27
+
+### 🎉 新增 (Added)
+
+- **🎬 SHOWREEL 音效作品展示模块**
+  - 新增 `/showreel/` 列表页（响应式：桌面 3 列网格 / 平板 2 列 / 移动端垂直列表）
+  - 新增作品详情页 `/showreel/<slug>/`：播放器 + 创作说明 + 工具标签 + 评论 + 邻接导航
+  - 视频源抽象：首期支持 B 站 iframe 嵌入，架构预留 mp4 / CDN 扩展
+  - Markdown 内容管理：`source/_showreel/` 目录 + `hexo new showreel "标题"` 命令
+  - 自定义 Hexo Generator（`scripts/showreel.js`）负责扫描、解析、排序、邻接计算
+- **🏷️ `CATEGORIES` 页 Tab 化改造**：合并"分类 / 标签"为同页 Tab 切换（支持 URL hash `#tags` 直达）
+- **💬 公共评论 Partial** `_partial/comment.ejs`：博客文章页与作品详情页共享一份 Giscus 配置
+
+### 🔄 变更 (Changed)
+
+- **顶部导航重排**：移除独立 `TAGS` 入口，新增 `SHOWREEL`，顺序为 HOME → SHOWREEL → ARCHIVE → CATEGORIES → LINKS → ABOUT
+- `categories.message` 更新为 "分类 & 标签"
+
+### 🔧 修复 (Fixed)
+
+- **Giscus 暗色模式同步**：放宽 postMessage 判定逻辑，iframe 首次加载即同步当前主题（修复"空评论页首次打开保持白色"的 bug，影响博客文章页与作品页）
+- **hexo-front-matter CRLF 兼容**：generator 读取 md 前归一化换行符与 BOM，避免 Windows 下新建作品 md 解析失败
+
+### 📝 备注 (Notes)
+
+- 原 `/tags`、`/tags/<name>` 子页面仍保留可访问，不破坏外链
+- 详细规格文档：[`specs/showreel-feature-v1.1.0/spec.md`](./specs/showreel-feature-v1.1.0/spec.md)
+
+---
+
 ## [1.0.1] - 2026-04-23
 
 ### 🔧 修复 (Fixed)

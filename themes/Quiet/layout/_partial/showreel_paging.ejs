@@ -24,7 +24,7 @@
     <a class="showreel-paging-item showreel-paging-next" href="<%- url_for(page.next.path) %>">
       <span class="showreel-paging-label">下一部（更早）→</span>
       <% if (page.next.cover) { %>
-        <img class="showreel-paging-cover" src="<%- page.next.cover %>" alt="" loading="lazy">
+        <img class="showreel-paging-cover" src="<%- page.next.cover %>" alt="" loading="lazy" referrerpolicy="no-referrer">
       <% } %>
       <p class="showreel-paging-title"><%= page.next.title %></p>
     </a>
