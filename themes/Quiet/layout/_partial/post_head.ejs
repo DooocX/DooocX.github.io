@@ -10,7 +10,9 @@
             <% } %>
         </ul>
         
-        <h1><%- page.title %></h1>
+        <% var _titleFirstChar = page.title ? page.title.charAt(0) : ''; %>
+        <% var _needsIndent = /[【『「《〈（［｛]/.test(_titleFirstChar); %>
+        <h1<%- _needsIndent ? ' class="has-fullwidth-start"' : '' %>><%- page.title %></h1>
         <div class="post-header-info">
             <div class="post-header-info-author">
                 <% if(theme.is_article_img) { %>

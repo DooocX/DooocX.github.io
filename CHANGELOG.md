@@ -20,6 +20,43 @@
 
 ---
 
+## [1.1.2] - 2026-04-27
+
+### ✨ 优化 (Changed)
+
+- **文章详情页标题区收紧 + 响应式补齐**：`.post-header-background-content` 桌面 padding 从 `196/160` 调到 `140/96`（总空白压缩 34%）；新增平板（≤992px）`116/72`、移动（≤768px）`104/56` 两档断点；h1/标签/字数统计的垂直 margin 同步收敛
+- **标题区四元素左基准线对齐**：tag 列表清除 `<ul>` 默认 `padding-left: 40px`、容器固定 `width: @max-width-post-basis`，使"tag 胶囊左边框 / h1 / 作者头像 / 字数行"严格垂直对齐
+- **tag 胶囊瘦身**：字号 `font-size-xs`、内边距 `4px 10px`、行高 `18px`，视觉权重让位标题
+- **中文全角开括号标题智能首行缩进**：以【『「《〈（［｛开头的标题自动加 `text-indent: -0.5em`，避免视觉左偏（h1 加条件 class `has-fullwidth-start`）
+
+### 🔧 修复 (Fixed)
+
+- **EJS 模板属性输出转义陷阱（高危教训）**：`post_head.ejs` 用 `<%= %>` 拼装 h1 的 class 属性，导致引号被转成 `&quot;`，浏览器把 className 解析成带引号的字符串 `"has-fullwidth-start"`，CSS 选择器 `.has-fullwidth-start` 永远命中失败。**规则**：EJS 中拼装含 `"` 的 HTML 属性片段必须用 `<%- %>` 不转义输出；`<%= %>` 仅用于纯文本内容
+
+---
+
+## [1.1.1] - 2026-04-27
+
+### 🔧 修复 (Fixed)
+
+- **SHOWREEL 详情页视频被 fixed header 遮挡**：移动端/平板/桌面三档分别为 `.showreel-post` 容器顶部新增 50-70px 避让，视频播放器不再被顶部导航裁剪
+- **文章详情页 banner 强制使用第三方随机图**：`post_head.ejs` 的封面回退链改为 `page.cover || theme.default_cover`，文章 front-matter 中自定义 cover 现已生效（与首页卡片行为一致）
+- **移动端侧边栏菜单右侧被裁切**：清除 `<ul>` 浏览器默认 `padding-left: 40px`，菜单项（含 SHOWREEL / CATEGORIES 等长文本）完整显示
+- **移动端侧边栏菜单链接 `display: grid` 误用**：改为 `display: block` 并补齐 `white-space: nowrap + overflow: hidden + text-overflow: ellipsis` 省略号三件套
+- **暗色模式下移动端汉堡按钮显示为蓝色实心方块**：`dark-mode.less` 的 `.h-right-close svg path[fill]` 选择器过宽，命中了透明占位 path。改为 `:not([fill="none"])` 精确排除，三横线图标恢复正常
+
+### ✨ 优化 (Changed)
+
+- **侧边栏主题切换按钮对齐**：居中 → 靠右，与菜单项竖轴对齐，视觉更统一
+- **侧边栏菜单项新增 hover 效果**：亮色"灰 → 深黑"、暗色"灰蓝 → 亮白"，与顶部导航一致
+- **全站图标 hover 风格统一**：底部 footer 与侧边栏底部社交图标均去除"变蓝"filter，统一为"半透明 → 完全显现"；暗色模式下侧边栏底部图标补充 `filter: invert(1)` 反色以适配深色背景
+
+### 📝 文档 (Docs)
+
+- `PROJECT_STRUCTURE.md` / `CHANGELOG.md` 待优化清单对账：移除已完成项（Logo 压缩、TOC、404 本地化、社交图标、关于页正文），新增"Header 响应式重构"待办，"默认封面优化"措辞收敛为仅涉及首页与分类页
+
+---
+
 ## [1.1.0] - 2026-04-27
 
 ### 🎉 新增 (Added)
