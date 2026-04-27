@@ -11,7 +11,9 @@
 .showreel-post {
   max-width: @max-width-content;
   margin: 0 auto;
-  padding: @spacing-xxl @spacing-xl;
+  // 顶部额外加 50px 以避让 fixed header（@header.less .header-top height: 100px，
+  // 取一半即可让视频紧贴 header 下沿，避免顶部留白过大）
+  padding: calc(50px + @spacing-xxl) @spacing-xl @spacing-xxl;
 
   // 播放器外框
   &-player-wrap {
@@ -184,7 +186,7 @@
 // ─── 平板：内容区收紧 ───
 .respond-below(@breakpoint-lg, {
   .showreel-post {
-    padding: @spacing-xl @spacing-lg;
+    padding: calc(70px + @spacing-xl) @spacing-lg @spacing-xl;
     &-content { padding: @spacing-lg; }
   }
   .showreel-paging { padding: 0 @spacing-lg; }
@@ -193,7 +195,7 @@
 // ─── 移动端：邻接导航堆叠 ───
 .respond-below(@breakpoint-md, {
   .showreel-post {
-    padding: @spacing-lg @spacing-md;
+    padding: calc(70px + @spacing-lg) @spacing-md @spacing-lg;
     &-title { font-size: @font-size-h3; }
     &-content { padding: @spacing-md; }
   }
