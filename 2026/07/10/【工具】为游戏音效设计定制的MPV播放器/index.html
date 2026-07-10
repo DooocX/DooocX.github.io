@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    
+<title>【工具分享】游戏音效定制视频播放器 - Audio-Blog</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="shortcut icon" type="image/x-icon" href="/image/favicon.ico">
+<meta name="keywords" content="音频策划,工具链,工作流">
+<meta name="description" content="基于 mpv.net 定制的一款审片/审音频工具，核心围绕逐帧跳转、AB 循环、变速播放和无损切片——都是音效设计日常刚需。">
+
+<meta property="og:title" content="【工具分享】游戏音效定制视频播放器">
+<meta property="og:description" content="基于 mpv.net 定制的一款审片/审音频工具，核心围绕逐帧跳转、AB 循环、变速播放和无损切片——都是音效设计日常刚需。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://DooocX.github.io/2026/07/10/%E3%80%90%E5%B7%A5%E5%85%B7%E3%80%91%E4%B8%BA%E6%B8%B8%E6%88%8F%E9%9F%B3%E6%95%88%E8%AE%BE%E8%AE%A1%E5%AE%9A%E5%88%B6%E7%9A%84MPV%E6%92%AD%E6%94%BE%E5%99%A8/">
+<meta property="og:site_name" content="DocX的游戏音频博客">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【工具分享】游戏音效定制视频播放器">
+<meta name="twitter:description" content="基于 mpv.net 定制的一款审片/审音频工具，核心围绕逐帧跳转、AB 循环、变速播放和无损切片——都是音效设计日常刚需。">
+
+
+<link rel="stylesheet" href="/css/index.css">
+
+
+<script defer src="/js/index.js"></script>
+
+
+<script defer src="/js/fancybox.umd.js"></script>
+<script defer src="/js/hljs.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof hljs !== 'undefined') { hljs.highlightAll(); }
+  });
+</script>
+
+
+  <meta name="generator" content="Hexo 7.3.0"></head>
+  <body>
+    <div class="header">
+  <div class="header-top" id="header-top">
+    <div class="h-left">
+      <a href="/">
+        <img src="/image/logo.png" alt="DocX在做什么">
+      </a>
+    </div>
+    <div class="h-right">
+      <ul>
+        
+          
+            <li>
+              <a href="/">HOME</a>
+              <span class="dot"></span>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/showreel">SHOWREEL</a>
+              <span class="dot"></span>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/archives">ARCHIVE</a>
+              <span class="dot"></span>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/categories">CATEGORIES</a>
+              <span class="dot"></span>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/links">LINKS</a>
+              <span class="dot"></span>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/about">ABOUT</a>
+              <span class="dot"></span>
+            </li>
+          
+        
+        <li class="theme-toggle-btn" id="theme-toggle" title="切换暗色模式">
+          <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </li>
+      </ul>
+    </div>
+    <div class="h-right-close">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+        <path fill="none" d="M0 0h24v24H0z" />
+        <path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" fill="rgba(68,68,68,1)" />
+      </svg>
+    </div>
+  </div>
+</div>
+<div class="sidebar" id="sidebar">
+  <div class="topo">
+    <h2>DocX</h2>
+  </div>
+  <ul>
+    
+    <li>
+      <a href="/">HOME</a>
+    </li>
+    
+    <li>
+      <a href="/showreel">SHOWREEL</a>
+    </li>
+    
+    <li>
+      <a href="/archives">ARCHIVE</a>
+    </li>
+    
+    <li>
+      <a href="/categories">CATEGORIES</a>
+    </li>
+    
+    <li>
+      <a href="/links">LINKS</a>
+    </li>
+    
+    <li>
+      <a href="/about">ABOUT</a>
+    </li>
+    
+  </ul>
+  <div class="sidebar-theme-toggle" id="sidebar-theme-toggle" style="margin-top:20px;text-align:right;padding-right:10px;cursor:pointer;" title="切换暗色模式">
+    <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+    <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+  </div>
+  <div class="my_foot">
+    
+    <a target="_blank" rel="noopener" href="https://github.com/DooocX">
+      <img src="/image/icon-github.svg" alt="Github">
+    </a>
+    
+    <a target="_blank" rel="noopener" href="https://space.bilibili.com/5292339">
+      <img src="/image/icon-bilibili.svg" alt="Bilibili">
+    </a>
+    
+    <a href="mailto:your-email@example.com">
+      <img src="/image/icon-email.svg" alt="Email">
+    </a>
+    
+  </div>
+</div>
+<div class="shelter" id="shelter"></div>
+
+
+<div class="post">
+    <div class="post-header-background post-header-img"
+    style="background: url('https://api.ixiaowai.cn/gqapi/gqapi.php')" 
+>
+    <div class="post-header-background-content">
+        <ul class="post-header-tag">
+            
+            
+            <li><a href="/tags/音频策划">音频策划</a></li>
+            
+            <li><a href="/tags/工具链">工具链</a></li>
+            
+            <li><a href="/tags/工作流">工作流</a></li>
+            
+            
+        </ul>
+        
+        
+        
+        <h1 class="has-fullwidth-start">【工具分享】游戏音效定制视频播放器</h1>
+        <div class="post-header-info">
+            <div class="post-header-info-author">
+                
+                    <svg t="1604839279282" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg" p-id="2901" width="20" height="20">
+                        <path
+                            d="M513 956.3c-247.7 0-448-200.3-448-448S265.3 66.2 513 66.2s448 200.3 448 448-200.3 442.1-448 442.1z m0-830.9c-212.2 0-388.8 170.7-388.8 388.8C124.2 726.3 294.9 903 513 903c212.2 0 388.8-170.7 388.8-388.8S725.2 125.4 513 125.4z m0 430.2c-94.2 0-170.7-76.5-170.7-170.7S418.8 207.8 513 207.8s170.7 76.5 170.7 170.7S607.2 555.6 513 555.6z m0-289.1c-64.6 0-112 52.8-112 112s47.4 117.9 112 117.9 112-52.8 112-112-47.4-117.9-112-117.9z m0 689.8c-135.7 0-259-58.7-341.9-158.9l-11.8-17.8 11.8-17.8c76.5-117.9 206.2-188.5 347.8-188.5 135.7 0 265 64.6 341.9 182.6l11.8 17.8-11.8 17.8C778 897.1 648.7 956.3 513 956.3zM230.3 773.2C300.9 849.7 406.9 897 513 897c112 0 218.1-47.4 288.6-129.8-70.5-88.2-170.7-135.6-282.7-135.6s-218.1 53.3-288.6 141.6z"
+                            p-id="2902" fill="#ffffff"></path>
+                    </svg>
+                    
+                <span class="post-header-info-author-text"> <a target="_blank" rel="noopener" href="https://space.bilibili.com/5292339?spm_id_from=333.1391.0.0">DocX</a></span>
+                <div class="post-header-info-author-categories">
+                    
+                         <a href="../../categories/工具/" target="_blank" >工具</a>
+                    
+                </div>
+                <p>2026-07-10 15:40:00</p>
+            </div>
+            
+            <p class="post-wordcount">约 1945 字 · 预计 7 分钟</p>
+        </div>
+    </div>
+</div>
+    
+<div class="post-content" id="content">
+  
+  <aside class="toc-sidebar toc-no-transition" id="toc-sidebar">
+    <div class="toc-sidebar-inner">
+      <button class="toc-toggle-btn" id="toc-toggle-btn" title="折叠/展开目录" type="button">
+        <svg class="toc-icon-collapse" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+        <svg class="toc-icon-expand" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+      <div class="toc-sidebar-content">
+        <span class="toc-sidebar-title">文章目录</span>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BA%E6%B8%B8%E6%88%8F%E9%9F%B3%E6%95%88%E8%AE%BE%E8%AE%A1%E5%AE%9A%E5%88%B6%E7%9A%84%E8%A7%86%E9%A2%91%E6%92%AD%E6%94%BE%E5%99%A8"><span class="toc-text">为游戏音效设计定制的视频播放器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E8%87%AA%E5%B7%B1%E6%8A%98%E8%85%BE%EF%BC%9F"><span class="toc-text">一、为什么要自己折腾？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%AE%A1%E7%89%87%E6%A0%B8%E5%BF%83%EF%BC%9A%E9%80%90%E5%B8%A7-%E5%A4%9A%E7%BA%A7%E8%B7%B3%E8%BD%AC"><span class="toc-text">二、审片核心：逐帧 + 多级跳转</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81AB-%E5%BE%AA%E7%8E%AF-%E2%80%94%E2%80%94-%E5%8F%8D%E5%A4%8D%E5%90%AC%E5%90%8C%E4%B8%80%E6%AE%B5"><span class="toc-text">三、AB 循环 —— 反复听同一段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%8F%98%E9%80%9F%E6%92%AD%E6%94%BE-%E2%80%94%E2%80%94-%E6%85%A2%E6%94%BE%E6%89%BE%E9%97%AE%E9%A2%98"><span class="toc-text">四、变速播放 —— 慢放找问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E6%97%A0%E6%8D%9F%E5%88%87%E7%89%87-%E2%80%94%E2%80%94-%E4%B8%8D%E9%87%8D%E7%BC%96%E7%A0%81%E7%9B%B4%E6%8E%A5%E5%87%BA%E7%89%87"><span class="toc-text">五、无损切片 —— 不重编码直接出片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E7%94%BB%E8%B4%A8%E4%B8%8E%E9%9F%B3%E8%B4%A8%EF%BC%9A%E7%9B%B4%E9%80%9A%EF%BC%8C%E4%B8%8D%E5%81%9A%E4%BB%BB%E4%BD%95%E5%A4%84%E7%90%86"><span class="toc-text">六、画质与音质：直通，不做任何处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E5%AD%97%E5%B9%95%E4%B8%8E%E6%88%AA%E5%9B%BE-%E2%80%94%E2%80%94-%E8%BE%85%E5%8A%A9%E5%AE%A1%E7%89%87"><span class="toc-text">七、字幕与截图 —— 辅助审片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AB%E3%80%81%E6%98%BE%E7%A4%BA%E4%BF%A1%E6%81%AF-%E2%80%94%E2%80%94-%E6%8E%92%E6%9F%A5%E9%97%AE%E9%A2%98%E6%97%B6%E6%9F%A5%E5%8F%82%E6%95%B0"><span class="toc-text">八、显示信息 —— 排查问题时查参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B9%9D%E3%80%81%E6%92%AD%E6%94%BE%E5%88%97%E8%A1%A8%E4%B8%8E%E8%87%AA%E5%8A%A8%E5%8A%A0%E8%BD%BD"><span class="toc-text">九、播放列表与自动加载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%81%E3%80%81%E5%86%B7%E5%90%AF%E5%8A%A8%E5%8A%A0%E9%80%9F"><span class="toc-text">十、冷启动加速</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%81%E4%B8%80%E3%80%81%E5%85%B6%E4%BB%96%E5%BF%AB%E6%8D%B7%E9%94%AE%E9%80%9F%E6%9F%A5"><span class="toc-text">十一、其他快捷键速查</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-text">小结</span></a></li></ol></li></ol></li></ol>
+      </div>
+      <div class="toc-sidebar-collapsed-label">目录</div>
+    </div>
+  </aside>
+  <script>
+    // 在浏览器解析阶段立即读取 localStorage 折叠状态，避免 JS 初始化后才加类导致的动画闪现
+    (function () {
+      var el = document.getElementById('toc-sidebar');
+      if (!el) return;
+      if (localStorage.getItem('tocCollapsed') === '1') {
+        el.classList.add('collapsed');
+      }
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          el.classList.remove('toc-no-transition');
+        });
+      });
+    })();
+  </script>
+  
+  <div id="article" class="post-content-info">
+    <h1 id="为游戏音效设计定制的视频播放器"><a href="#为游戏音效设计定制的视频播放器" class="headerlink" title="为游戏音效设计定制的视频播放器"></a>为游戏音效设计定制的视频播放器</h1><p>日常审素材的时候，我手里攒了不少痛点——Windows 自带播放器切格式卡半天、PotPlayer 快捷键不够灵活、Audition 打开 10 秒的素材要等 5 秒……这些说到底都不是<strong>为”审”这个动作</strong>设计的。</p>
+<p>后来我把 mpv.net 从头到尾调了一版，专门适配音效设计的日常流。核心原则只有一条：**所见即所得，不加任何”美化”**——画面直出、音频原样、快捷键全围绕”反复听、仔细看、快速切”展开。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/DooocX/DocX_Images/mpv/mpv_main.png" loading="lazy"></p>
+<h3 id="一、为什么要自己折腾？"><a href="#一、为什么要自己折腾？" class="headerlink" title="一、为什么要自己折腾？"></a>一、为什么要自己折腾？</h3><p>市面上的播放器普遍有几个问题，对音效设计来说尤其致命：</p>
+<ul>
+<li><strong>默认带后处理</strong>：很多播放器会自动开混响、均衡器、画面锐化，你听到看到的和引擎里完全不一样。</li>
+<li><strong>跳转速度太慢</strong>：Windows 自带播放器加载视频需要等待很久，不同视频之间切换也比较卡顿，体验不佳</li>
+<li><strong>跳转粒度太粗</strong>：审素材最常干的事是”反复听某个 200ms 的片段”，但多数播放器只支持 5 秒、10 秒跳。</li>
+<li><strong>格式兼容玄学</strong>：拿到 .mkv &#x2F; VP9 &#x2F; FLAC 素材，Windows 自带播放器直接投降。</li>
+<li><strong>切片段要开 DAW</strong>：只是想从视频里抠一段给策划看，还要用剪辑软件处理再导出，非常麻烦。</li>
+</ul>
+<p><strong>什么是MPV?</strong></p>
+<blockquote>
+<p>MPV 是一款开源、跨平台的极简媒体播放器，源自 MPlayer &#x2F; mplayer2 分支，专注于高画质视频播放与专业审片场景。它采用命令行内核 + libmpv 库架构，支持 GPU 加速渲染（gpu-next &#x2F; D3D11 &#x2F; Vulkan）、硬件解码（nvdec &#x2F; dxva2）、HDR、10bit、8K 播放，并通过 Lua&#x2F;JavaScript 脚本、IPC 接口和高度可配置的 mpv.conf &#x2F; input.conf 提供极强的扩展性。轻量、无广告、纯净直出画面，是发烧友与音视频从业者的首选播放引擎。</p>
+</blockquote>
+<h3 id="二、审片核心：逐帧-多级跳转"><a href="#二、审片核心：逐帧-多级跳转" class="headerlink" title="二、审片核心：逐帧 + 多级跳转"></a>二、审片核心：逐帧 + 多级跳转</h3><p>音效审素材最频繁的操作就是<strong>反复看&#x2F;听某个短片段</strong>，所以跳转精度是重中之重：</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>按键</th>
+<th>粒度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>逐帧前进 &#x2F; 后退</td>
+<td><code>,</code> &#x2F; <code>.</code></td>
+<td><strong>1 帧</strong></td>
+</tr>
+<tr>
+<td>小步跳</td>
+<td><code>←</code> &#x2F; <code>→</code></td>
+<td><strong>1 秒</strong>（精确 seek）</td>
+</tr>
+<tr>
+<td>中步跳</td>
+<td><code>Shift+←</code> &#x2F; <code>Shift+→</code></td>
+<td><strong>5 秒</strong></td>
+</tr>
+<tr>
+<td>大步跳</td>
+<td><code>↑</code> &#x2F; <code>↓</code></td>
+<td><strong>10 秒</strong></td>
+</tr>
+<tr>
+<td>超大步</td>
+<td><code>Ctrl+←</code> &#x2F; <code>Ctrl+→</code></td>
+<td><strong>30 秒</strong></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>这里的 seek 全部加了 <code>exact</code> 参数，确保跳到目标帧而非最近的关键帧——对音频波形对齐来说至关重要。</p>
+</blockquote>
+<p><strong><code>Home</code> &#x2F; <code>End</code></strong> 秒到头尾，点进度条任意位置直接跳。整套跳转逻辑覆盖了从”逐帧对齐波形”到”快速浏览长视频”的所有场景。</p>
+<h3 id="三、AB-循环-——-反复听同一段"><a href="#三、AB-循环-——-反复听同一段" class="headerlink" title="三、AB 循环 —— 反复听同一段"></a>三、AB 循环 —— 反复听同一段</h3><p>审素材时最常见的场景：一段 2 秒的枪声，你得来回听十几遍确认尾音衰减对不对。</p>
+<p>按 <strong><code>l</code></strong> 打 A 点，再按打 B 点，第三次按清除。**<code>L</code>** 切换无限循环。</p>
+<p>配合 1 秒&#x2F;5 秒精确跳转和逐帧步进，打点可以卡得非常准。</p>
+<h3 id="四、变速播放-——-慢放找问题"><a href="#四、变速播放-——-慢放找问题" class="headerlink" title="四、变速播放 —— 慢放找问题"></a>四、变速播放 —— 慢放找问题</h3><p>有些音效的瑕疵要<strong>慢放</strong>才能听清楚——比如爆音、咔嗒声、或者转场衔接不自然：</p>
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>[</code> &#x2F; <code>]</code></td>
+<td>减速 &#x2F; 加速 <strong>10%</strong></td>
+</tr>
+<tr>
+<td><code>&#123;</code> &#x2F; <code>&#125;</code></td>
+<td><strong>半速</strong> &#x2F; <strong>双速</strong></td>
+</tr>
+<tr>
+<td><code>Backspace</code></td>
+<td>恢复 <strong>1x</strong></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>变速<strong>不影响音高</strong>，mpv 内部用了 <code>scaletempo2</code> 算法，0.5x~2x 范围内听感干净、无明显相位失真。这也是很多通用播放器做不到的。</p>
+</blockquote>
+<h3 id="五、无损切片-——-不重编码直接出片"><a href="#五、无损切片-——-不重编码直接出片" class="headerlink" title="五、无损切片 —— 不重编码直接出片"></a>五、无损切片 —— 不重编码直接出片</h3><p>做音效经常需要从长视频里截一段给策划看效果，或者从录制的 gameplay 里抠素材。传统做法是拖进剪辑软件→设入点出点→导出→等渲染。<strong>太慢了。</strong></p>
+<p>这套定制版直接绑了三个键：</p>
+<table>
+<thead>
+<tr>
+<th>键</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong><code>h</code></strong></td>
+<td>设起点</td>
+</tr>
+<tr>
+<td><strong><code>k</code></strong></td>
+<td>设终点</td>
+</tr>
+<tr>
+<td><strong><code>e</code></strong></td>
+<td>导出</td>
+</tr>
+</tbody></table>
+<p><code>-c copy</code> 模式，<strong>不重编码</strong>，一秒切完。导出文件自动编号放在源文件同目录。起点会回落至最近 I 帧（视频），音频不受影响。</p>
+<h3 id="六、画质与音质：直通，不做任何处理"><a href="#六、画质与音质：直通，不做任何处理" class="headerlink" title="六、画质与音质：直通，不做任何处理"></a>六、画质与音质：直通，不做任何处理</h3><p><strong>为什么？</strong> 因为审素材的时候我们要看的是素材<strong>本身</strong>长什么样，不是播放器帮你”美化”之后的样子。锐化、降噪、色调映射这些东西在某种程度上都是在<strong>篡改画面</strong>。你在播放器里看到的效果 ≠ 引擎里最终呈现的效果，这就失去了审核的意义。</p>
+<p>音频同理——<code>video-sync=audio</code> 以音频时钟为主，不做重采样对齐显示器刷新率；<code>interpolation=no</code> 不插帧，保留原始每一帧。<strong>听到的就是文件里存的那份 PCM。</strong> HDR 视频直出交给系统色彩管理。</p>
+<blockquote>
+<p>如果显卡和 nvdec 有兼容问题（黑屏&#x2F;花屏），把 <code>mpv.conf</code> 里 <code>hwdec=nvdec</code> 改成 <code>hwdec=no</code> 就行。软解在大多数现代 CPU 上也不成问题。</p>
+</blockquote>
+<h3 id="七、字幕与截图-——-辅助审片"><a href="#七、字幕与截图-——-辅助审片" class="headerlink" title="七、字幕与截图 —— 辅助审片"></a>七、字幕与截图 —— 辅助审片</h3><p>审带字幕的素材时，默认样式为<strong>微软雅黑 45pt 金黄 + 深色描边</strong>，辨识度够高，不会和画面内容混在一起：</p>
+<figure class="highlight ini"><table><tr><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">sub-font</span>=Microsoft YaHei<br><span class="hljs-attr">sub-font-size</span>=<span class="hljs-number">45</span><br>sub-color=<span class="hljs-comment">#fbc420</span><br>sub-border-color=<span class="hljs-comment">#000000</span><br><span class="hljs-attr">sub-border-size</span>=<span class="hljs-number">2.5</span><br></code></pre></td></tr></table></figure>
+
+<p>截图分三种：</p>
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>s</code></td>
+<td>带字幕 + OSD</td>
+</tr>
+<tr>
+<td><code>S</code></td>
+<td>纯净画面</td>
+</tr>
+<tr>
+<td><code>Ctrl+s</code></td>
+<td>带窗口装饰</td>
+</tr>
+</tbody></table>
+<p>截图格式 PNG，文件名自动带时间戳和序号：<code>文件名_时间戳_序号.png</code>。提 Bug 时直接贴纯净截图，不用再截完裁剪。</p>
+<h3 id="八、显示信息-——-排查问题时查参数"><a href="#八、显示信息-——-排查问题时查参数" class="headerlink" title="八、显示信息 —— 排查问题时查参数"></a>八、显示信息 —— 排查问题时查参数</h3><p>按 <strong><code>i</code></strong> 唤出持久统计面板（stats.lua），可以看到：</p>
+<ul>
+<li>当前视频&#x2F;音频编码格式、码率、分辨率、帧率</li>
+<li>解码器类型（硬解&#x2F;软解）</li>
+<li>丢帧数、渲染延迟</li>
+<li>音频采样率、声道布局</li>
+</ul>
+<p>按 <strong><code>I</code></strong> 显示单次统计，按 <strong><code>o</code></strong> 显示进度条。</p>
+<p>收到素材发现播不了？先按 <code>i</code> 看编码格式——八成是用了什么冷门编码器。</p>
+<h3 id="九、播放列表与自动加载"><a href="#九、播放列表与自动加载" class="headerlink" title="九、播放列表与自动加载"></a>九、播放列表与自动加载</h3><p>打开一个视频，同目录的其他视频&#x2F;音频<strong>自动加入列表</strong>，播完自动切下一个。<code>TAB</code> 呼出&#x2F;关闭列表面板，<strong>方向键导航</strong>（列表打开时），<code>Backspace</code> 从列表移除。</p>
+<p>批量审同一个文件夹的素材时非常顺手——拖一个进去，剩下的自动排队。</p>
+<h3 id="十、冷启动加速"><a href="#十、冷启动加速" class="headerlink" title="十、冷启动加速"></a>十、冷启动加速</h3><p>做了一些微调让启动快不少：</p>
+<ul>
+<li><code>resume-playback=no</code> —— 关掉续播记录扫描，上千条记录时能省几百毫秒</li>
+<li><code>force-window=immediate</code> —— 双击立刻出窗口，不等首帧就绪，体感快非常多</li>
+<li><code>hwdec=nvdec</code>裸用（不加 <code>-copy</code>）—— 减少 GPU→CPU 回拷，切文件秒开</li>
+<li><code>demuxer-max-bytes=64MiB</code> —— 降低预读，首帧更快</li>
+</ul>
+<p>结果就是：双击到画面出来，基本感觉不到延迟。</p>
+<h3 id="十一、其他快捷键速查"><a href="#十一、其他快捷键速查" class="headerlink" title="十一、其他快捷键速查"></a>十一、其他快捷键速查</h3><table>
+<thead>
+<tr>
+<th>分类</th>
+<th>按键</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>播放</td>
+<td><code>空格</code> &#x2F; <code>Enter</code></td>
+<td>暂停&#x2F;播放</td>
+</tr>
+<tr>
+<td>窗口</td>
+<td><code>f</code></td>
+<td>全屏</td>
+</tr>
+<tr>
+<td>窗口</td>
+<td><code>_</code></td>
+<td>置顶</td>
+</tr>
+<tr>
+<td>音量</td>
+<td><code>滚轮</code></td>
+<td>调整</td>
+</tr>
+<tr>
+<td>音量</td>
+<td><code>9</code> &#x2F; <code>0</code></td>
+<td>-2dB &#x2F; +2dB</td>
+</tr>
+<tr>
+<td>音量</td>
+<td><code>m</code></td>
+<td>静音</td>
+</tr>
+<tr>
+<td>字幕</td>
+<td><code>j</code> &#x2F; <code>J</code></td>
+<td>下&#x2F;上一条字幕</td>
+</tr>
+<tr>
+<td>字幕</td>
+<td><code>v</code></td>
+<td>显示&#x2F;隐藏</td>
+</tr>
+<tr>
+<td>音轨</td>
+<td><code>#</code></td>
+<td>切音轨</td>
+</tr>
+<tr>
+<td>列表</td>
+<td><code>&gt;</code> &#x2F; <code>&lt;</code></td>
+<td>下&#x2F;上一集</td>
+</tr>
+</tbody></table>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>这台播放器的定位很明确：<strong>不代替 DAW，不代替剪辑软件——就是审素材用的</strong>。你需要它的时候它足够快、足够准、不添乱；你不需要它的时候它安静待着。</p>
+<p>所有配置放在 <code>portable_config/</code> 里，解压即用，不写注册表。换电脑直接拷文件夹走。</p>
+<blockquote>
+<p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/DooocX/mpv-net-game-audio-version">GitHub</a><br>更多快捷键和配置细节见仓库 README 和 <code>input.conf</code> &#x2F; <code>mpv.conf</code> 内注释。</p>
+</blockquote>
+
+  </div>
+  
+
+
+
+
+
+<div class="giscus-container" id="giscus-container">
+  <script src="https://giscus.app/client.js"
+    data-repo="DooocX/DooocX.github.io"
+    data-repo-id="R_kgDONuR9yQ"
+    data-category="Announcements"
+    data-category-id="DIC_kwDONuR9yc4C7fTb"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="zh-CN"
+    crossorigin="anonymous"
+    async>
+  </script>
+</div>
+
+
+</div>
+
+    <div class="post-paging">
+    
+
+    
+    <a href="/2025/06/05/%E3%80%90Wwise%E3%80%91%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E4%B8%8E%E5%B7%A5%E4%BD%9C%E6%B5%81/">
+        <div class="post-paging-next">
+            <span>下一篇</span>
+            <p>【Wwise】版本控制与工作流</p>
+        </div>
+    </a>
+    
+</div>
+</div>
+    <div class="footer">
+  <div class="Copyright">
+    &copy;2026 By DocX.
+    主题：<a class="footer-theme-link" target="_blank" rel="noopener" href="https://github.com/79e/hexo-theme-quiet">Quiet</a>
+  </div>
+  <div class="contact">
+    
+    
+    <a target="_blank" rel="noopener" href="https://github.com/DooocX">
+      <img src="/image/icon-github.svg" alt="Github">
+    </a>
+    
+    
+    <a target="_blank" rel="noopener" href="https://space.bilibili.com/5292339">
+      <img src="/image/icon-bilibili.svg" alt="Bilibili">
+    </a>
+    
+    
+    <a href="mailto:your-email@example.com" data-email="your-email@example.com" class="contact-mailto">
+      <img src="/image/icon-email.svg" alt="Email">
+    </a>
+    
+  </div>
+</div>
+<div class="goTop" id="js-go_top">
+  <span>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+      <g>
+        <path d="M13 12v8h-2v-8H4l8-8 8 8z"></path>
+      </g>
+    </svg>
+  </span>
+</div>
+
+
+<!-- Giscus 评论已直接嵌入文章模板 post_content.ejs -->
+
+
+    <script>
+      // 在 DOM 加载前立即设置主题，避免闪屏
+      (function() {
+        var saved = localStorage.getItem('theme');
+        var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+  </body>
+</html>
