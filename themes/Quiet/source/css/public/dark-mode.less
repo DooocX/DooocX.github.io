@@ -33,9 +33,6 @@ body,
   }
   .header .header-top {
     background: #0f1923;
-    .h-left a img {
-      filter: brightness(1.2);
-    }
     .h-right ul li a {
       color: #8a9bb0;
       &:hover {
@@ -135,7 +132,12 @@ body,
 
   // === 文章详情页头部 ===
   .post-header-background {
-    background: linear-gradient(0deg, #0f1923, #0a1018) !important;
+    // 注意：不要把 background 用 !important 写在这里，
+    // 否则会盖掉 .post-header-img 的封面图（inline style 的 url()）。
+    // 暗色背景只应用于无封面图的 .post-header-color。
+    &:not(.post-header-img) {
+      background: linear-gradient(0deg, #0f1923, #0a1018) !important;
+    }
     &-content {
       h1 {
         color: #e0e0e0;
