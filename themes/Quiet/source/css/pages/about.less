@@ -1,81 +1,1254 @@
 @import (reference) "../public/_variables";
 @import (reference) "../public/_mixins";
 
+// ============================================================
+// About 页面样式
+// - 模块：Hero / Experience / Works(长条卡片+Modal) / Skills(Logo 卡片)
+// - 严格复用设计令牌（颜色 / 间距 / 圆角 / 阴影 / 过渡）
+// - 桌面 / 平板 / 手机 三档响应式适配
+// ============================================================
+
 .about {
-  &-header-background {
-    display: flex;
-    flex-shrink: 0;
-    background: @color-bg-page;
-    &-content {
+  background: @color-bg-page;
+  padding-bottom: @spacing-xxl;
+
+  // ------------------------------------------------------------
+  // 通用容器
+  // ------------------------------------------------------------
+  &-section {
+    max-width: @max-width-article;
+    margin: 0 auto @spacing-xl;
+    padding: @spacing-xxl @spacing-xl;
+    background: @color-bg-white;
+    border-radius: @border-radius-lg;
+    box-shadow: @shadow-card;
+    box-sizing: border-box;
+
+    &__header {
       display: flex;
-      flex-basis: @max-width-post-basis;
-      padding: 196px @spacing-xl 160px;
+      align-items: baseline;
+      gap: @spacing-md;
+      margin-bottom: @spacing-xl;
+      padding-bottom: @spacing-md;
+      border-bottom: 1px solid @color-border;
+    }
+
+    &__title {
+      font-size: @font-size-h2;
+      font-weight: 600;
+      color: @color-text-primary;
+      margin: 0;
+      letter-spacing: 0.5px;
+      position: relative;
+      padding-left: 14px;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 4px;
+        height: 20px;
+        background: @color-primary;
+        border-radius: 2px;
+      }
+    }
+
+    &__subtitle {
+      font-size: @font-size-sm;
+      color: @color-text-secondary;
+      margin: 0;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+  }
+
+  // ------------------------------------------------------------
+  // 1. Hero 身份介绍区
+  // ------------------------------------------------------------
+  &-hero {
+    width: 100%;
+    background: @color-bg-page;
+    padding: 160px @spacing-xl 80px;
+    box-sizing: border-box;
+
+    &__inner {
+      max-width: @max-width-article;
       margin: 0 auto;
-      h1 {
-        display: flex;
-        margin-top: @spacing-xl;
-        font-size: @font-size-page-title;
+      display: flex;
+      align-items: center;
+      gap: 48px;
+    }
+
+    &__avatar {
+      flex-shrink: 0;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: @color-bg-white;
+      box-shadow: @shadow-card;
+      .transition(all, 0.4s);
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: @shadow-card-hover;
+      }
+    }
+
+    &__meta {
+      flex: 1;
+      min-width: 0;
+    }
+
+    &__eyebrow {
+      font-size: @font-size-xs;
+      letter-spacing: 3px;
+      color: @color-primary;
+      margin: 0 0 @spacing-sm;
+      font-weight: 600;
+    }
+
+    &__name {
+      font-size: 44px;
+      font-weight: 700;
+      color: @color-text-primary;
+      margin: 0 0 @spacing-sm;
+      line-height: 1.2;
+      .transition(color);
+
+      &:hover { color: @color-primary; }
+    }
+
+    &__role {
+      font-size: @font-size-lg;
+      color: @color-text-secondary;
+      margin: 0 0 @spacing-md;
+    }
+
+    // Hero 内嵌邮箱行
+    &__email {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      margin: 0 0 @spacing-md;
+      font-size: @font-size-sm;
+      color: @color-text-primary;
+      background: @color-bg-light;
+      border: 1px solid @color-border;
+      border-radius: @border-radius-lg;
+      text-decoration: none;
+      .transition(all, 0.3s);
+
+      &-icon {
+        flex-shrink: 0;
+        color: @color-primary;
+      }
+
+      &-text {
         font-weight: 500;
-        color: @color-text-primary;
-        flex: 1;
-        flex-direction: column;
-        span {
-          display: flex;
-          font-size: @font-size-md;
-          margin-top: 10px;
-          color: @color-text-secondary;
+        letter-spacing: 0.3px;
+      }
+
+      &:hover {
+        color: @color-primary;
+        border-color: @color-primary;
+        background: @color-bg-white;
+        transform: translateY(-1px);
+        box-shadow: @shadow-link-hover;
+      }
+    }
+
+    &__slogan {
+      font-size: @font-size-md;
+      color: @color-text-heading;
+      line-height: 1.7;
+      margin: 0 0 @spacing-md;
+      padding-left: @spacing-md;
+      border-left: 3px solid @color-primary;
+    }
+
+    &__intro {
+      font-size: @font-size-md;
+      color: @color-text-body;
+      line-height: 1.8;
+      p { margin: 0 0 @spacing-sm; }
+    }
+  }
+
+  // ------------------------------------------------------------
+  // 2. 工作经历时间线
+  // ------------------------------------------------------------
+  .timeline {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: relative;
+
+    // 圆点尺寸：14px（含 3px 边框），圆心 x = 7px
+    // 竖线宽度 2px，为让竖线穿过圆心：left = 7 - 1 = 6px
+    &::before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 6px;
+      bottom: 6px;
+      width: 2px;
+      background: linear-gradient(to bottom, @color-primary, fade(@color-primary, 15%));
+      z-index: 0;
+    }
+
+    &__item {
+      position: relative;
+      padding-left: 40px;
+      margin-bottom: @spacing-xl;
+      &:last-child { margin-bottom: 0; }
+    }
+
+    // 圆点：left = 0，宽 14px，圆心 x = 7px，与竖线中心（6+1=7px）完全对齐
+    &__dot {
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: @color-bg-white;
+      border: 3px solid @color-primary;
+      box-shadow: 0 0 0 4px fade(@color-primary, 12%);
+      z-index: 1;
+      .transition(all, 0.3s);
+    }
+
+    &__card {
+      background: @color-bg-light;
+      border-radius: @border-radius-md;
+      padding: @spacing-lg;
+      .transition(all, 0.3s);
+
+      &:hover {
+        background: @color-bg-white;
+        box-shadow: @shadow-card;
+        transform: translateY(-2px);
+      }
+    }
+
+    &__head {
+      display: flex;
+      align-items: center;
+      gap: @spacing-md;
+      margin-bottom: @spacing-xs;
+      flex-wrap: wrap;
+    }
+
+    &__period {
+      font-size: @font-size-sm;
+      font-weight: 600;
+      color: @color-primary;
+      letter-spacing: 0.5px;
+    }
+
+    &__location {
+      font-size: @font-size-xs;
+      color: @color-text-muted;
+      padding: 2px 8px;
+      background: @color-bg-tag;
+      border-radius: @border-radius-sm;
+    }
+
+    &__company {
+      font-size: @font-size-h4;
+      font-weight: 600;
+      color: @color-text-primary;
+      margin: 0 0 @spacing-xs;
+    }
+
+    &__role {
+      font-size: @font-size-md;
+      color: @color-text-subtitle;
+      margin: 0 0 @spacing-md;
+    }
+
+    &__highlights {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 @spacing-md;
+
+      li {
+        position: relative;
+        padding-left: 18px;
+        line-height: 1.8;
+        color: @color-text-body;
+        font-size: @font-size-sm;
+
+        &::before {
+          content: '▸';
+          position: absolute;
+          left: 0;
+          color: @color-primary;
         }
       }
-      img {
-        display: flex;
-        flex: 0;
-        width: 88px;
-        height: 88px;
-        border-radius: @border-radius-xl;
-        margin-top: 30px;
-        margin-right: 30px;
+    }
+
+    &__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: @spacing-xs;
+    }
+  }
+
+  // ------------------------------------------------------------
+  // 通用 Tag Pill
+  // ------------------------------------------------------------
+  .tag-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    font-size: @font-size-xs;
+    color: @color-text-tag;
+    background: @color-bg-tag;
+    border-radius: @border-radius-lg;
+    letter-spacing: 0.3px;
+    .transition(all, 0.3s);
+
+    &:hover {
+      color: @color-bg-white;
+      background: @color-bg-tag-active;
+    }
+
+    &--soft {
+      color: @color-text-tag-alt;
+      background: fade(@color-primary, 8%);
+      &:hover {
+        color: @color-bg-white;
+        background: @color-primary;
       }
     }
   }
-  &-content {
-    .content-style();
-    &-info {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 60px 150px;
-      transition: @transition-default;
-      p {
-        font-size: 1.55rem;
-        margin-bottom: 20px;
-        font-weight: 500;
-        line-height: 1.2;
-        margin-top: 20px;
+
+  // ------------------------------------------------------------
+  // 3. 参与作品（长条卡片）
+  // ------------------------------------------------------------
+  .works-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: @spacing-lg;
+  }
+
+  .work-strip {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    min-height: 160px;
+    background: @color-bg-white;
+    border: 1px solid @color-border;
+    border-radius: @border-radius-lg;
+    overflow: hidden;
+    cursor: pointer;
+    outline: none;
+    .transition(all, 0.4s);
+
+    &__cover {
+      position: relative;
+      flex-shrink: 0;
+      width: 42%;
+      min-height: 160px;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-color: @color-bg-light;
+      .transition(all, 0.5s);
+    }
+
+    &__cover-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 56px;
+      font-weight: 700;
+      color: fade(@color-primary, 45%);
+      background: linear-gradient(135deg, @color-bg-light, fade(@color-primary, 10%));
+    }
+
+    // 关键：右侧渐隐融合浅色区（形成"图向左实、向右渐隐"）
+    &__cover-mask {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(
+        to right,
+        transparent 0%,
+        transparent 45%,
+        fade(@color-bg-white, 60%) 75%,
+        @color-bg-white 100%
+      );
+    }
+
+    &__body {
+      flex: 1;
+      min-width: 0;
+      padding: @spacing-lg @spacing-xl;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+      background: linear-gradient(
+        to right,
+        @color-bg-white 0%,
+        @color-bg-white 60%,
+        fade(@color-primary, 4%) 100%
+      );
+    }
+
+    &__name {
+      font-size: @font-size-h3;
+      font-weight: 700;
+      color: @color-text-primary;
+      margin: 0;
+      letter-spacing: 0.3px;
+      .transition(color, 0.3s);
+    }
+
+    &__role {
+      font-size: @font-size-sm;
+      color: @color-primary;
+      margin: 0;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    &__desc {
+      font-size: @font-size-sm;
+      color: @color-text-body;
+      line-height: 1.65;
+      margin: @spacing-xs 0 @spacing-sm;
+      .text-line(2);
+    }
+
+    &__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: @spacing-xs;
+    }
+
+    &__arrow {
+      position: absolute;
+      right: @spacing-lg;
+      top: 50%;
+      transform: translateY(-50%);
+      color: @color-text-muted;
+      opacity: 0;
+      .transition(all, 0.4s);
+    }
+
+    &:hover,
+    &:focus-visible {
+      transform: translateY(-4px);
+      box-shadow: @shadow-card-hover;
+      border-color: transparent;
+
+      .work-strip__cover { transform: scale(1.03); }
+      .work-strip__name  { color: @color-primary; }
+      .work-strip__arrow { opacity: 1; right: @spacing-md; color: @color-primary; }
+    }
+
+    &:focus-visible {
+      box-shadow: 0 0 0 3px fade(@color-primary, 30%), @shadow-card-hover;
+    }
+  }
+
+  // ------------------------------------------------------------
+  // 3.1 Modal 弹窗
+  // 注意：主样式已移到 .about {} 之外（顶级作用域），
+  //       因为 JS 会把 modal DOM 移动到 <body> 下以脱离父级层叠上下文，
+  //       若样式嵌套在 .about 内会导致选择器失效。
+  // ------------------------------------------------------------
+
+  // ------------------------------------------------------------
+  // 4. 技能栈（带 Logo 的卡片网格）
+  // ------------------------------------------------------------
+  .skills-groups {
+    display: flex;
+    flex-direction: column;
+    gap: @spacing-xl;
+  }
+
+  .skill-group {
+    &__title {
+      font-size: @font-size-md;
+      font-weight: 600;
+      color: @color-text-heading;
+      margin: 0 0 @spacing-md;
+      display: flex;
+      align-items: center;
+      gap: @spacing-sm;
+
+      &::before {
+        content: '';
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: @color-primary;
       }
     }
-    img {
+  }
+
+  .skill-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: @spacing-md;
+  }
+
+  .skill-card {
+    display: flex;
+    align-items: center;
+    gap: @spacing-md;
+    padding: @spacing-md;
+    background: @color-bg-white;
+    border: 1px solid @color-border;
+    border-radius: @border-radius-md;
+    .transition(all, 0.3s);
+    cursor: default;
+
+    &__logo {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      border-radius: @border-radius-sm;
+      background: @color-bg-light;
       display: flex;
-      width: 100%;
-      height: 100%;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+
+      img {
+        width: 60%;
+        height: 60%;
+        object-fit: contain;
+        .transition(transform, 0.3s);
+      }
+
+      // logo 加载失败时使用首字母兜底
+      &.is-fallback::before {
+        content: attr(data-fallback);
+        font-size: 20px;
+        font-weight: 700;
+        color: fade(@color-primary, 60%);
+      }
+    }
+
+    &__logo-fallback {
+      font-size: 20px;
+      font-weight: 700;
+      color: fade(@color-primary, 60%);
+    }
+
+    &__info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    &__name {
+      font-size: @font-size-sm;
+      font-weight: 600;
+      color: @color-text-primary;
+      .text-ellipsis();
+    }
+
+    &__level {
+      display: inline-block;
+      align-self: flex-start;
+      font-size: @font-size-xs;
+      color: @color-text-muted;
+      padding: 1px 8px;
+      border-radius: @border-radius-sm;
+      background: @color-bg-tag;
+    }
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: @shadow-card;
+      border-color: @color-primary;
+
+      .skill-card__name  { color: @color-primary; }
+      .skill-card__logo img { transform: scale(1.1); }
+    }
+
+    // 熟练度视觉分级
+    &--proficient {
+      border-color: fade(@color-primary, 25%);
+      background: fade(@color-primary, 4%);
+
+      .skill-card__level {
+        color: @color-primary;
+        background: fade(@color-primary, 12%);
+      }
+    }
+
+    &--familiar {
+      .skill-card__level { color: @color-text-subtitle; }
+    }
+
+    &--basic  { opacity: 0.95; }
+    &--know   { opacity: 0.8; }
+  }
+}
+
+// ============================================================
+// 3.1 Modal 弹窗（顶级作用域）
+// JS 会把 modal DOM 节点移到 <body> 下，因此样式必须放在 .about {} 之外，
+// 否则编译后的选择器 `.about .work-modal` 无法匹配已被移出的节点。
+// ============================================================
+.work-modal {
+  // 完全覆盖视口
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: @spacing-lg;
+  box-sizing: border-box;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  overflow: hidden;
+  // 消除磨砂延迟：提前提示浏览器要对 filter/backdrop-filter/opacity 做合成层
+  will-change: opacity, visibility;
+  .transition(opacity, 0.28s);
+
+  &.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    .work-modal__panel {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+
+    // 打开时才启用磨砂，且给 backdrop-filter 做过渡，避免"先发黑后磨砂"的观感延迟
+    .work-modal__backdrop {
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      background: fade(#0a0a0a, 55%);
+    }
+  }
+
+  &__backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: fade(#0a0a0a, 0%);
+    backdrop-filter: blur(0);
+    -webkit-backdrop-filter: blur(0);
+    cursor: pointer;
+    will-change: backdrop-filter, background-color;
+    .transition(backdrop-filter, 0.28s);
+    transition-property: backdrop-filter, -webkit-backdrop-filter, background-color;
+  }
+
+  &__panel {
+    position: relative;
+    width: 100%;
+    max-width: 720px;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    background: @color-bg-white;
+    border-radius: @border-radius-lg;
+    box-shadow: 0 24px 60px fade(#000, 25%);
+    transform: translateY(20px) scale(0.98);
+    opacity: 0;
+    .transition(all, 0.35s);
+
+    // 自定义滚动条
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: fade(@color-text-muted, 40%);
+      border-radius: 4px;
+      &:hover { background: fade(@color-text-muted, 60%); }
+    }
+  }
+
+  &__close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: fade(@color-bg-light, 90%);
+    color: @color-text-primary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+    .transition(all, 0.3s);
+
+    &:hover {
+      background: @color-primary;
+      color: @color-bg-white;
+      transform: rotate(90deg);
+    }
+  }
+
+  &__cover {
+    width: 100%;
+    height: 220px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: @color-bg-light;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, @color-bg-white 100%);
+    }
+
+    &.is-empty {
+      background: linear-gradient(135deg, @color-bg-light, fade(@color-primary, 12%));
+    }
+  }
+
+  &__body {
+    padding: @spacing-lg @spacing-xl @spacing-xl;
+    position: relative;
+    margin-top: -40px;
+    z-index: 1;
+  }
+
+  &__eyebrow {
+    font-size: @font-size-xs;
+    color: @color-primary;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin: 0 0 @spacing-xs;
+  }
+
+  &__title {
+    font-size: @font-size-h2;
+    font-weight: 700;
+    color: @color-text-primary;
+    margin: 0 0 @spacing-md;
+    letter-spacing: 0.3px;
+  }
+
+  &__summary {
+    font-size: @font-size-md;
+    color: @color-text-body;
+    line-height: 1.75;
+    margin: 0 0 @spacing-lg;
+  }
+
+  &__section {
+    margin-bottom: @spacing-lg;
+    &:last-child { margin-bottom: 0; }
+  }
+
+  &__subtitle {
+    font-size: @font-size-sm;
+    font-weight: 600;
+    color: @color-text-heading;
+    margin: 0 0 @spacing-sm;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: @spacing-sm;
+
+    &::before {
+      content: '';
+      width: 3px;
+      height: 14px;
+      background: @color-primary;
+      border-radius: 2px;
+    }
+  }
+
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      position: relative;
+      padding: 6px 0 6px 20px;
+      line-height: 1.7;
+      color: @color-text-body;
+      font-size: @font-size-sm;
+
+      &::before {
+        content: '▸';
+        position: absolute;
+        left: 4px;
+        top: 6px;
+        color: @color-primary;
+      }
+    }
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    font-size: @font-size-sm;
+    color: @color-bg-white;
+    background: @color-primary;
+    border-radius: @border-radius-lg;
+    text-decoration: none;
+    font-weight: 500;
+    .transition(all, 0.3s);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: @shadow-link-hover;
+      opacity: 0.92;
     }
   }
 }
 
-.respond-below(@breakpoint-md, {
+// ============================================================
+// 入场动画
+// ============================================================
+@keyframes about-fade-in-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.about-hero,
+.about-section {
+  animation: about-fade-in-up 0.7s ease-out both;
+}
+
+.about-hero        { animation-delay: 0.05s; }
+.about-experience  { animation-delay: 0.15s; }
+.about-works       { animation-delay: 0.25s; }
+.about-skills      { animation-delay: 0.35s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .about-hero,
+  .about-section,
+  .work-modal,
+  .work-modal__panel { animation: none !important; }
+  .about .work-strip,
+  .about .timeline__card,
+  .about .skill-card,
+  .about .work-modal,
+  .about .work-modal__panel,
+  .about-hero__avatar { transition: none !important; }
+}
+
+// ============================================================
+// 响应式适配
+// ============================================================
+.respond-below(@breakpoint-lg, {
   .about {
-    &-content {
-      &-info {
-        padding: @spacing-xl 50px;
-      }
+    &-hero {
+      padding: 140px @spacing-xl 60px;
+      &__name { font-size: 36px; }
+    }
+    &-section {
+      margin-left: @spacing-lg;
+      margin-right: @spacing-lg;
+      padding: @spacing-xl @spacing-lg;
+    }
+    .work-strip {
+      &__cover { width: 38%; }
+      &__body  { padding: @spacing-md @spacing-lg; }
+      &__name  { font-size: @font-size-h4; }
     }
   }
 });
 
+.respond-below(@breakpoint-md, {
+  .about {
+    &-hero {
+      padding: 120px @spacing-lg 48px;
+      &__inner {
+        flex-direction: column;
+        text-align: center;
+        gap: @spacing-lg;
+      }
+      &__avatar { width: 110px; height: 110px; }
+      &__name   { font-size: 32px; }
+      &__slogan { text-align: left; }
+      &__email  { align-self: center; }
+    }
+    &-section {
+      margin-left: @spacing-md;
+      margin-right: @spacing-md;
+      padding: @spacing-xl @spacing-lg;
+
+      &__header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: @spacing-xs;
+      }
+    }
+    // 长条卡片：竖排布局
+    .work-strip {
+      flex-direction: column;
+      min-height: auto;
+
+      &__cover {
+        width: 100%;
+        height: 180px;
+        min-height: auto;
+      }
+      &__cover-mask {
+        background: linear-gradient(
+          to bottom,
+          transparent 0%,
+          transparent 55%,
+          fade(@color-bg-white, 70%) 85%,
+          @color-bg-white 100%
+        );
+      }
+      &__body {
+        background: @color-bg-white;
+        padding: @spacing-md @spacing-lg @spacing-lg;
+      }
+      &__arrow { display: none; }
+    }
+    .timeline__item { padding-left: 32px; }
+    .skill-cards { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+  }
+
+  // Modal 已被 JS 移到 body 下，必须放在 .about 外
+  .work-modal__body  { padding: @spacing-md @spacing-lg @spacing-lg; }
+  .work-modal__cover { height: 180px; }
+});
+
 .respond-below(@breakpoint-sm, {
   .about {
-    &-content {
-      &-info {
-        padding: @spacing-xl 20px;
+    padding-bottom: @spacing-xl;
+
+    &-hero {
+      padding: 100px @spacing-md 40px;
+      &__name  { font-size: 28px; }
+      &__role  { font-size: @font-size-md; }
+    }
+    &-section {
+      margin-left: @spacing-sm;
+      margin-right: @spacing-sm;
+      padding: @spacing-lg @spacing-md;
+      border-radius: @border-radius-md;
+
+      &__title { font-size: @font-size-h3; }
+    }
+    // 小屏：圆点缩为 12px，圆心 x = 6px；竖线宽 2px，left = 6 - 1 = 5px
+    .timeline {
+      &::before { left: 5px; }
+      &__item  { padding-left: 26px; }
+      &__dot   { left: 0; width: 12px; height: 12px; }
+      &__card  { padding: @spacing-md; }
+    }
+    .work-strip__cover  { height: 150px; }
+    .work-strip__body   { padding: @spacing-sm @spacing-md @spacing-md; }
+    .work-strip__name   { font-size: @font-size-lg; }
+    .skill-cards        { grid-template-columns: 1fr 1fr; gap: @spacing-sm; }
+    .skill-card         { padding: @spacing-sm; gap: @spacing-sm; }
+    .skill-card__logo   { width: 32px; height: 32px; }
+  }
+
+  // Modal 已被 JS 移到 body 下，必须放在 .about 外
+  .work-modal        { padding: @spacing-sm; }
+  .work-modal__panel { max-height: calc(100vh - 32px); }
+  .work-modal__body  { padding: @spacing-md; }
+  .work-modal__title { font-size: @font-size-h3; }
+  .work-modal__cover { height: 150px; }
+});
+
+// ============================================================
+// 深色模式适配（[data-theme="dark"]）
+// 复用 dark-mode.less 中的配色（#0f1923 / #162030 / #e0e0e0 / #8a9bb0 / #409EFF）
+// 覆盖 About 页面 + 顶级 Modal 的所有硬编码亮色
+// ============================================================
+[data-theme="dark"] {
+
+  // ---- About 页面主容器 ----
+  .about {
+    background: transparent; // 由 body 的深色渐变承担底色
+  }
+
+  // ---- Hero 头部 ----
+  .about-hero {
+    background: linear-gradient(135deg, #0f1923 0%, #0a1018 100%);
+    color: #e0e0e0;
+
+    &__name  { color: #ffffff; }
+    &__role  { color: #8a9bb0; }
+    &__intro { color: #c8d0dc; }
+
+    &__avatar {
+      border-color: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    &__tag {
+      background: rgba(64, 158, 255, 0.12);
+      color: #7ab7ff;
+      border-color: rgba(64, 158, 255, 0.28);
+    }
+
+    &__email {
+      background: rgba(255, 255, 255, 0.06);
+      color: #c8d0dc;
+      border-color: rgba(255, 255, 255, 0.1);
+
+      &:hover {
+        background: rgba(64, 158, 255, 0.14);
+        color: #7ab7ff;
+        border-color: rgba(64, 158, 255, 0.4);
       }
     }
   }
-});
+
+  // ---- 通用 Section 卡片 ----
+  .about-section {
+    background: #162030;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    color: #c8d0dc;
+
+    &__title {
+      color: #e0e0e0;
+      &::before {
+        background: #409EFF;
+      }
+    }
+
+    &__subtitle {
+      color: #8a9bb0;
+    }
+  }
+
+  // ---- 工作经历 时间线 ----
+  .timeline {
+    &::before {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    &__dot {
+      background: #409EFF;
+      box-shadow: 0 0 0 4px rgba(64, 158, 255, 0.18);
+    }
+
+    &__card {
+      background: rgba(255, 255, 255, 0.03);
+      border-color: rgba(255, 255, 255, 0.06);
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.05);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      }
+    }
+
+    &__meta   { color: #8a9bb0; }
+    &__role   { color: #ffffff; }
+    &__org    { color: #7ab7ff; }
+    &__desc   { color: #c8d0dc; }
+
+    &__tag {
+      background: rgba(64, 158, 255, 0.12);
+      color: #7ab7ff;
+      border-color: rgba(64, 158, 255, 0.25);
+    }
+  }
+
+  // ---- 参与作品 长条卡片 ----
+  .about-works {
+    .work-strip {
+      background: #1a2a3a;
+      border-color: rgba(255, 255, 255, 0.06);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+
+      &:hover {
+        background: #1e3044;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+      }
+
+      &__cover-mask {
+        // 桌面：封面向右渐隐到深色面板
+        background: linear-gradient(
+          to right,
+          transparent 0%,
+          transparent 45%,
+          fade(#1a2a3a, 60%) 70%,
+          #1a2a3a 100%
+        );
+      }
+
+      &__body {
+        background: linear-gradient(
+          to right,
+          #1a2a3a 0%,
+          #1a2a3a 60%,
+          rgba(26, 42, 58, 0.85) 100%
+        );
+      }
+
+      &__role  { color: #7ab7ff; }
+      &__name  { color: #ffffff; }
+      &__desc  { color: #8a9bb0; }
+      &__arrow {
+        color: #7ab7ff;
+      }
+    }
+  }
+
+  // ---- 技能栈 Logo 卡片 ----
+  .skills-group__title {
+    color: #e0e0e0;
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+
+    &::before { background: #409EFF; }
+  }
+
+  .skill-card {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.06);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.07);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
+      border-color: rgba(64, 158, 255, 0.3);
+    }
+
+    &__logo {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    &__logo-fallback {
+      background: linear-gradient(135deg, #1e3044, #162030);
+      color: #7ab7ff;
+    }
+
+    &__name  { color: #e0e0e0; }
+    &__level { color: #8a9bb0; }
+
+    &--expert   .skill-card__level { color: #7ab7ff; }
+    &--proficient .skill-card__level { color: #7ab7ff; }
+    &--familiar .skill-card__level { color: #8a9bb0; }
+  }
+
+  // ---- 响应式断点里的作品卡片渐变（平板尺寸下变竖直渐变） ----
+  .respond-below(@breakpoint-md, {
+    [data-theme="dark"] .about-works .work-strip {
+      &__cover-mask {
+        background: linear-gradient(
+          to bottom,
+          transparent 0%,
+          transparent 55%,
+          fade(#1a2a3a, 70%) 85%,
+          #1a2a3a 100%
+        );
+      }
+      &__body {
+        background: #1a2a3a;
+      }
+    }
+  });
+}
+
+// ---- 顶级 Modal 深色模式（放在 [data-theme] 外，因为 Modal 会被移到 body） ----
+[data-theme="dark"] .work-modal {
+
+  &.is-open .work-modal__backdrop {
+    background: fade(#000, 65%);
+  }
+
+  &__panel {
+    background: #162030;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      &:hover { background: rgba(255, 255, 255, 0.28); }
+    }
+  }
+
+  &__close {
+    background: rgba(255, 255, 255, 0.08);
+    color: #e0e0e0;
+
+    &:hover {
+      background: #409EFF;
+      color: #ffffff;
+    }
+  }
+
+  &__cover {
+    background-color: #1e3044;
+
+    &::after {
+      background: linear-gradient(to bottom, transparent 40%, #162030 100%);
+    }
+
+    &.is-empty {
+      background: linear-gradient(135deg, #1e3044, rgba(64, 158, 255, 0.12));
+    }
+  }
+
+  &__eyebrow { color: #7ab7ff; }
+  &__title   { color: #ffffff; }
+  &__summary { color: #c8d0dc; }
+  &__subtitle {
+    color: #e0e0e0;
+    &::before { background: #409EFF; }
+  }
+
+  &__list li {
+    color: #c8d0dc;
+    &::before { color: #409EFF; }
+  }
+
+  &__link {
+    background: #409EFF;
+    color: #ffffff;
+
+    &:hover {
+      background: #5aabff;
+      box-shadow: 0 10px 24px rgba(64, 158, 255, 0.3);
+    }
+  }
+}

@@ -1,10 +1,12 @@
 <div class="grouping">
     <% keys.forEach(function(item){  %>
-        <p>
+        <p class="grouping-year" data-year="<%= item %>">
             <%= item %>
         </p>
         <% data[item].map(function(post){  %>
-        <a href="<%- config.root %><%- post.path %>">
+        <a class="grouping-item" data-date="<%= post.date.unix() %>" data-year="<%= item %>" data-title="<%- (post.title || "Untitled").replace(/[<>&"]/g,function(c){
+                    return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c];
+                }) %>" href="<%- config.root %><%- post.path %>">
             <span><%- (post.title || "Untitled").replace(/[<>&"]/g,function(c){
                     return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c];
                 }) %></span>

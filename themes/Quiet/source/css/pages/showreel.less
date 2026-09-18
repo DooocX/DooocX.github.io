@@ -14,8 +14,172 @@
   // 内容容器（复用文章页白底圆角容器）
   &-content {
     .content-style();
-    padding: @spacing-xxl @spacing-xl;
+    padding: @page-content-top-gap @spacing-xl;
     transition: padding 1s;
+    position: relative;
+  }
+
+  // ─── 顶部居中的工具栏：排序（左）+ 搜索（右）───
+  &-toolbar {
+    position: absolute;
+    top: -52px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: @z-element;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: @spacing-sm;
+    height: 40px;
+  }
+
+  &-sort {
+    position: static;
+    display: inline-flex;
+    align-items: center;
+    gap: @spacing-xs;
+    padding: 4px;
+    border-radius: 999px;
+    background: @color-bg-light;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+
+    &-label {
+      margin-left: @spacing-xs;
+      margin-right: 2px;
+      font-size: @font-size-sm;
+      color: @color-text-secondary;
+      line-height: 1;
+    }
+
+    &-btn {
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: @color-text-secondary;
+      font-size: @font-size-sm;
+      line-height: 1.4;
+      padding: 4px @spacing-sm;
+      cursor: pointer;
+      transition: @transition-fast;
+
+      &:hover {
+        color: @color-text-primary;
+        background: fade(@color-bg-white, 70%);
+      }
+
+      &.active {
+        color: @color-text-primary;
+        background: @color-bg-white;
+        box-shadow: 0 2px 10px rgba(50, 50, 50, 0.08);
+      }
+    }
+  }
+
+  // ─── 搜索图标 + 浮层 ───
+  &-search {
+    position: static;
+
+    &-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      border: 1px solid @color-border;
+      border-radius: 50%;
+      background: @color-bg-white;
+      color: @color-text-secondary;
+      cursor: pointer;
+      transition: @transition-fast;
+
+      &:hover {
+        color: @color-primary;
+        border-color: @color-primary;
+      }
+    }
+
+    &-panel {
+      position: absolute;
+      top: 48px;
+      right: 0;
+      z-index: @z-element;
+      width: 320px;
+      max-width: calc(100vw - 30px);
+      padding: @spacing-md;
+      border: 1px solid @color-border;
+      border-radius: @border-radius-md;
+      background: @color-bg-white;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+      box-sizing: border-box;
+
+      &[hidden] {
+        display: none;
+      }
+    }
+
+    &-box {
+      display: flex;
+      align-items: center;
+      gap: @spacing-sm;
+    }
+
+    &-input {
+      flex: 1;
+      min-width: 0;
+      border: 1px solid @color-border;
+      background: @color-bg-white;
+      border-radius: @border-radius-md;
+      font-size: @font-size-base;
+      color: @color-text-primary;
+      line-height: 1.5;
+      padding: 10px @spacing-md;
+      transition: @transition-fast;
+
+      &:focus {
+        outline: none;
+        border-color: @color-primary;
+        box-shadow: 0 0 0 3px fade(@color-primary, 12%);
+      }
+    }
+
+    &-clear {
+      border: 0;
+      border-radius: @border-radius-md;
+      background: @color-bg-light;
+      color: @color-text-secondary;
+      font-size: @font-size-sm;
+      padding: 10px @spacing-md;
+      cursor: pointer;
+      transition: @transition-fast;
+      visibility: hidden;
+
+      &:hover {
+        color: @color-text-primary;
+        background: fade(@color-bg-tag-active, 12%);
+      }
+    }
+
+    &-meta {
+      margin: @spacing-sm 0 0;
+      min-height: 20px;
+      font-size: @font-size-sm;
+      color: @color-text-secondary;
+    }
+
+    &-empty {
+      width: 100%;
+      margin: 0;
+      padding: @spacing-xl 0 0;
+      box-sizing: border-box;
+      color: @color-text-secondary;
+      font-size: @font-size-base;
+      text-align: center;
+
+      p {
+        margin: 0;
+      }
+    }
   }
 
   // ─── 列表容器（默认 3 列网格，移动端切换）───
@@ -159,16 +323,30 @@
 
 // ─── 平板：2 列 ───
 .respond-below(@breakpoint-lg, {
-  .showreel-content { padding: @spacing-xl @spacing-lg; }
+  .showreel-content { padding: @page-content-top-gap @spacing-lg; }
   .showreel-list { grid-template-columns: repeat(2, 1fr); }
 });
 
 // ─── 移动端：垂直列表（左封面右信息）───
 .respond-below(@breakpoint-md, {
-  .showreel-content { padding: @spacing-xl @spacing-md; }
+  .showreel-content { padding: @page-content-top-gap @spacing-md; }
   .showreel-list {
     grid-template-columns: 1fr;
     gap: @spacing-md;
+  }
+  .showreel-toolbar {
+    position: static;
+    transform: none;
+    justify-content: flex-start;
+    margin-bottom: @spacing-md;
+  }
+  .showreel-search {
+    &-panel {
+      width: calc(100vw - @spacing-md * 2);
+      right: auto;
+      left: 50%;
+      transform: translateX(-50%);
+    }
   }
   .showreel-card {
     &-link {
@@ -215,6 +393,69 @@
       color: #c0cad8;
     }
     &-date { color: #8a9bb0; }
+  }
+  .showreel-sort {
+    background: #0f1923;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+    &-label {
+      color: #8a9bb0;
+    }
+    &-btn {
+      color: #8a9bb0;
+      &:hover {
+        color: #e0e0e0;
+        background: rgba(255, 255, 255, 0.06);
+      }
+      &.active {
+        color: #e0e0e0;
+        background: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+  .showreel-search {
+    &-toggle {
+      background: #162030;
+      border-color: rgba(255, 255, 255, 0.12);
+      color: #8a9bb0;
+
+      &:hover {
+        color: #409EFF;
+        border-color: #409EFF;
+      }
+    }
+
+    &-panel {
+      background: #162030;
+      border-color: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    &-meta,
+    &-empty {
+      color: #8a9bb0;
+    }
+
+    &-input {
+      background: #0f1923;
+      border-color: rgba(255, 255, 255, 0.1);
+      color: #e0e0e0;
+
+      &:focus {
+        border-color: #409EFF;
+        box-shadow: 0 0 0 3px rgba(64, 158, 255, 0.16);
+      }
+    }
+
+    &-clear {
+      background: rgba(255, 255, 255, 0.06);
+      color: #8a9bb0;
+
+      &:hover {
+        color: #e0e0e0;
+        background: rgba(255, 255, 255, 0.12);
+      }
+    }
   }
   .showreel-empty { color: #8a9bb0; }
 }

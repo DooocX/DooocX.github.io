@@ -45,8 +45,34 @@
         <%- partial('_widget/header_body',{message:"文章分类："+page.category,icon:theme.headers.categories.icon}) %>
     <% } %>
     <div class="archive-content" id="content">
+        <% if(is_archive()){ %>
+        <div class="archive-toolbar" aria-label="归档工具栏">
+            <div class="archive-sort" role="group" aria-label="文章排序">
+                <span class="archive-sort-label">排序：</span>
+                <button class="archive-sort-btn active" type="button" data-sort="date_desc" aria-pressed="true">最新发布</button>
+                <button class="archive-sort-btn" type="button" data-sort="date_asc" aria-pressed="false">最早发布</button>
+            </div>
+            <div class="archive-search" aria-label="归档搜索">
+                <button class="archive-search-toggle" type="button" aria-label="搜索文章" aria-expanded="false" aria-controls="archive-search-panel">
+                    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                        <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M21 21l-4.35-4.35M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14z"/>
+                    </svg>
+                </button>
+                <div class="archive-search-panel" id="archive-search-panel" hidden>
+                    <div class="archive-search-box">
+                        <input id="archive-search-input" class="archive-search-input" type="search" placeholder="输入标题关键词..." autocomplete="off" />
+                        <button class="archive-search-clear" type="button" aria-label="清空搜索">清空</button>
+                    </div>
+                    <p class="archive-search-meta" id="archive-search-meta"></p>
+                </div>
+            </div>
+        </div>
+        <% } %>
         <div class="archive-content-data">
             <%- partial('_widget/grouping',{data:years,keys:Object.keys(years).reverse()}) %>
+        </div>
+        <div class="archive-search-empty" id="archive-search-empty" hidden>
+            <p>未找到匹配文章</p>
         </div>
     </div>    
 </div>

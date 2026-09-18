@@ -1,17 +1,383 @@
-<%- partial('_partial/header',{name:'about'}) %>
+<%- partial('_partial/header', { name: 'about' }) %>
 <div class="about">
-    <div class="about-header-background">
-        <div class="about-header-background-content">
-            <img src="<%= page.portrait %>" alt="Q">
-            <h1> <%- page.aubot %>
-                <span><%- page.describe %></span>
-            </h1>
-        </div>
+
+  <%# ============ 1. 身份介绍 Hero 区 ============ %>
+  <section class="about-hero" id="about-hero">
+    <div class="about-hero__inner">
+      <div class="about-hero__avatar">
+        <img src="<%= page.portrait %>" alt="<%= page.aubot %>">
+      </div>
+      <div class="about-hero__meta">
+        <p class="about-hero__eyebrow">ABOUT ME</p>
+        <h1 class="about-hero__name"><%= page.aubot %></h1>
+        <p class="about-hero__role"><%- page.describe %></p>
+
+        <% if (page.email) { %>
+          <a class="about-hero__email" href="mailto:<%= page.email %>" title="发送邮件">
+            <svg class="about-hero__email-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+              <path d="M3 7l9 6 9-6"></path>
+            </svg>
+            <span class="about-hero__email-text"><%= page.email %></span>
+          </a>
+        <% } %>
+
+        <% if (page.slogan) { %>
+          <p class="about-hero__slogan"><%- page.slogan %></p>
+        <% } %>
+        <% if (page.content) { %>
+          <div class="about-hero__intro"><%- page.content %></div>
+        <% } %>
+      </div>
     </div>
-    
-    <div class="about-content" id="content" >
-        <div id="article" class="about-content-info">
-            <%- page.content %>
+  </section>
+
+  <%# ============ 2. 工作经历 ============ %>
+  <% if (page.experiences && page.experiences.length) { %>
+    <section class="about-section about-experience" id="about-experience">
+      <header class="about-section__header">
+        <h2 class="about-section__title">工作经历</h2>
+        <p class="about-section__subtitle">Career &amp; Experience</p>
+      </header>
+
+      <ol class="timeline">
+        <% page.experiences.forEach(function(item) { %>
+          <li class="timeline__item">
+            <span class="timeline__dot" aria-hidden="true"></span>
+            <div class="timeline__card">
+              <div class="timeline__head">
+                <span class="timeline__period"><%= item.period %></span>
+                <% if (item.location) { %>
+                  <span class="timeline__location"><%= item.location %></span>
+                <% } %>
+              </div>
+              <h3 class="timeline__company"><%= item.company %></h3>
+              <p class="timeline__role"><%= item.role %></p>
+
+              <% if (item.highlights && item.highlights.length) { %>
+                <ul class="timeline__highlights">
+                  <% item.highlights.forEach(function(h) { %>
+                    <li><%- h %></li>
+                  <% }); %>
+                </ul>
+              <% } %>
+
+              <% if (item.tags && item.tags.length) { %>
+                <div class="timeline__tags">
+                  <% item.tags.forEach(function(t) { %>
+                    <span class="tag-pill"><%= t %></span>
+                  <% }); %>
+                </div>
+              <% } %>
+            </div>
+          </li>
+        <% }); %>
+      </ol>
+    </section>
+  <% } %>
+
+  <%# ============ 3. 参与作品（长条卡片 + Modal 弹窗） ============ %>
+  <% if (page.works && page.works.length) { %>
+    <section class="about-section about-works" id="about-works">
+      <header class="about-section__header">
+        <h2 class="about-section__title">参与作品</h2>
+        <p class="about-section__subtitle">Selected Works</p>
+      </header>
+
+      <ul class="works-list" id="works-list">
+        <% page.works.forEach(function(work, idx) { %>
+          <li class="work-strip"
+              data-work-index="<%= idx %>"
+              tabindex="0"
+              role="button"
+              aria-haspopup="dialog"
+              aria-label="查看作品 <%= work.name %> 的详情">
+            <div class="work-strip__cover" style="<% if (work.cover) { %>background-image:url('<%= work.cover %>');<% } %>">
+              <% if (!work.cover) { %>
+                <span class="work-strip__cover-placeholder"><%= work.name.charAt(0) %></span>
+              <% } %>
+              <span class="work-strip__cover-mask" aria-hidden="true"></span>
+            </div>
+            <div class="work-strip__body">
+              <h3 class="work-strip__name"><%= work.name %></h3>
+              <% if (work.role) { %>
+                <p class="work-strip__role"><%= work.role %></p>
+              <% } %>
+              <% if (work.desc) { %>
+                <p class="work-strip__desc"><%- work.desc %></p>
+              <% } %>
+              <% if (work.tags && work.tags.length) { %>
+                <div class="work-strip__tags">
+                  <% work.tags.forEach(function(t) { %>
+                    <span class="tag-pill tag-pill--soft"><%= t %></span>
+                  <% }); %>
+                </div>
+              <% } %>
+            </div>
+            <span class="work-strip__arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 6l6 6-6 6"></path>
+              </svg>
+            </span>
+          </li>
+        <% }); %>
+      </ul>
+
+      <%# ---- Modal 弹窗容器（全部作品共用一个） ---- %>
+      <div class="work-modal" id="work-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="work-modal-title">
+        <div class="work-modal__backdrop" data-modal-close></div>
+        <div class="work-modal__panel" role="document">
+          <button class="work-modal__close" type="button" aria-label="关闭" data-modal-close>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 6L6 18"></path>
+              <path d="M6 6l12 12"></path>
+            </svg>
+          </button>
+          <div class="work-modal__cover" id="work-modal-cover"></div>
+          <div class="work-modal__body">
+            <p class="work-modal__eyebrow" id="work-modal-role"></p>
+            <h3 class="work-modal__title" id="work-modal-title"></h3>
+            <p class="work-modal__summary" id="work-modal-summary"></p>
+
+            <div class="work-modal__section">
+              <h4 class="work-modal__subtitle">我在项目中的职责</h4>
+              <ul class="work-modal__list" id="work-modal-resp"></ul>
+            </div>
+
+            <div class="work-modal__section work-modal__section--link" id="work-modal-link-wrap">
+              <h4 class="work-modal__subtitle">项目链接</h4>
+              <a class="work-modal__link" id="work-modal-link" href="#" target="_blank" rel="noopener">
+                <span id="work-modal-link-label"></span>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M7 17L17 7"></path>
+                  <path d="M8 7h9v9"></path>
+                </svg>
+              </a>
+            </div>
+          </div>
         </div>
-    </div>
+      </div>
+
+      <%# ---- 数据注入：给 JS 使用的 JSON ---- %>
+      <script id="works-data" type="application/json">
+        <%- JSON.stringify(page.works || []) %>
+      </script>
+      <script>
+      (function () {
+        var TAG = '[about-modal]';
+        console.log(TAG, 'script loaded');
+
+        function ready(fn) {
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', fn);
+          } else {
+            fn();
+          }
+        }
+
+        ready(function () {
+          console.log(TAG, 'DOM ready');
+
+          var dataEl = document.getElementById('works-data');
+          if (!dataEl) { console.warn(TAG, 'no #works-data'); return; }
+
+          var works = [];
+          try {
+            works = JSON.parse(dataEl.textContent || '[]');
+          } catch (e) {
+            console.error(TAG, 'JSON.parse works failed:', e);
+            works = [];
+          }
+          console.log(TAG, 'works count =', works.length);
+
+          var modal = document.getElementById('work-modal');
+          if (!modal) { console.warn(TAG, 'no #work-modal'); return; }
+
+          // 把 modal 移到 body 末尾，脱离父级层叠上下文
+          try {
+            if (modal.parentNode && modal.parentNode !== document.body) {
+              document.body.appendChild(modal);
+              console.log(TAG, 'modal moved to <body>');
+            }
+          } catch (err) {
+            console.warn(TAG, 'move modal failed:', err);
+          }
+
+          var savedScrollY = 0;
+
+          function q(id) { return document.getElementById(id); }
+
+          function openModal(work) {
+            console.log(TAG, 'openModal', work && work.name);
+            if (!work) return;
+
+            var modalCover = q('work-modal-cover');
+            var elRole     = q('work-modal-role');
+            var elTitle    = q('work-modal-title');
+            var elSummary  = q('work-modal-summary');
+            var elResp     = q('work-modal-resp');
+            var linkWrap   = q('work-modal-link-wrap');
+            var elLink     = q('work-modal-link');
+            var elLinkLbl  = q('work-modal-link-label');
+
+            if (modalCover) {
+              if (work.cover) {
+                modalCover.style.backgroundImage = "url('" + work.cover + "')";
+                modalCover.classList.remove('is-empty');
+              } else {
+                modalCover.style.backgroundImage = '';
+                modalCover.classList.add('is-empty');
+              }
+            }
+            if (elRole)    elRole.textContent    = work.role || '';
+            if (elTitle)   elTitle.textContent   = work.name || '';
+            var detail = work.detail || {};
+            if (elSummary) elSummary.textContent = detail.summary || work.desc || '';
+
+            if (elResp) {
+              elResp.innerHTML = '';
+              var resps = detail.responsibilities || [];
+              if (resps.length) {
+                for (var i = 0; i < resps.length; i++) {
+                  var li = document.createElement('li');
+                  li.textContent = resps[i];
+                  elResp.appendChild(li);
+                }
+                if (elResp.parentNode) elResp.parentNode.style.display = '';
+              } else {
+                if (elResp.parentNode) elResp.parentNode.style.display = 'none';
+              }
+            }
+
+            var url = detail.link_url || work.link || '';
+            if (linkWrap && elLink && elLinkLbl) {
+              if (url) {
+                elLink.setAttribute('href', url);
+                elLinkLbl.textContent = detail.link_label || '前往查看';
+                if (/^https?:\/\//.test(url)) {
+                  elLink.setAttribute('target', '_blank');
+                  elLink.setAttribute('rel', 'noopener');
+                } else {
+                  elLink.removeAttribute('target');
+                  elLink.removeAttribute('rel');
+                }
+                linkWrap.style.display = '';
+              } else {
+                linkWrap.style.display = 'none';
+              }
+            }
+
+            // 锁定页面滚动（补偿滚动条宽度，避免布局跳动）
+            savedScrollY = window.scrollY || window.pageYOffset || 0;
+            var scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+            document.body.style.position = 'fixed';
+            document.body.style.top = '-' + savedScrollY + 'px';
+            document.body.style.left = '0';
+            document.body.style.right = '0';
+            document.body.style.width = '100%';
+            // 补偿因滚动条消失导致的宽度突变（视觉上避免整个页面抖动一下）
+            if (scrollBarWidth > 0) {
+              document.body.style.paddingRight = scrollBarWidth + 'px';
+            }
+
+            modal.classList.add('is-open');
+            modal.setAttribute('aria-hidden', 'false');
+
+            var panel = modal.querySelector('.work-modal__panel');
+            if (panel) panel.scrollTop = 0;
+          }
+
+          function closeModal() {
+            console.log(TAG, 'closeModal');
+            modal.classList.remove('is-open');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.left = '';
+            document.body.style.right = '';
+            document.body.style.width = '';
+            document.body.style.paddingRight = '';
+            window.scrollTo(0, savedScrollY);
+          }
+
+          // ---- 用事件委托监听整个 document，避免任何 DOM 时机 / 层级问题 ----
+          document.addEventListener('click', function (e) {
+            // 关闭按钮 / 遮罩
+            var closeEl = e.target.closest && e.target.closest('[data-modal-close]');
+            if (closeEl && modal.contains(closeEl)) {
+              closeModal();
+              return;
+            }
+            // 点击卡片
+            var strip = e.target.closest && e.target.closest('#works-list .work-strip');
+            if (strip) {
+              var idx = parseInt(strip.getAttribute('data-work-index'), 10);
+              console.log(TAG, 'strip clicked, idx =', idx);
+              openModal(works[idx]);
+            }
+          });
+
+          document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+              closeModal();
+              return;
+            }
+            var active = document.activeElement;
+            if ((e.key === 'Enter' || e.key === ' ') && active && active.classList && active.classList.contains('work-strip')) {
+              e.preventDefault();
+              var idx = parseInt(active.getAttribute('data-work-index'), 10);
+              openModal(works[idx]);
+            }
+          });
+
+          // 诊断：初始化时打印一下卡片数量
+          var stripsNow = document.querySelectorAll('#works-list .work-strip');
+          console.log(TAG, 'strips found =', stripsNow.length);
+        });
+      })();
+      </script>
+    </section>
+  <% } %>
+
+  <%# ============ 4. 技能栈（Logo 卡片网格） ============ %>
+  <% if (page.skills && page.skills.length) { %>
+    <section class="about-section about-skills" id="about-skills">
+      <header class="about-section__header">
+        <h2 class="about-section__title">技能栈</h2>
+        <p class="about-section__subtitle">Tech &amp; Toolchain</p>
+      </header>
+
+      <div class="skills-groups">
+        <% page.skills.forEach(function(group) { %>
+          <div class="skill-group">
+            <h3 class="skill-group__title"><%= group.group %></h3>
+            <% if (group.items && group.items.length) { %>
+              <div class="skill-cards">
+                <% group.items.forEach(function(item) { %>
+                  <% var lvl = (item.level || '').toString(); %>
+                  <% var lvlClass = lvl === '熟练' ? 'proficient' : (lvl === '熟悉' ? 'familiar' : (lvl === '基础' ? 'basic' : 'know')); %>
+                  <div class="skill-card skill-card--<%= lvlClass %>">
+                    <div class="skill-card__logo">
+                      <% if (item.logo) { %>
+                        <img src="<%= item.logo %>" alt="<%= item.name %>" loading="lazy" onerror="this.style.display='none';this.parentNode.classList.add('is-fallback');this.parentNode.setAttribute('data-fallback','<%= item.name.charAt(0) %>');">
+                      <% } else { %>
+                        <span class="skill-card__logo-fallback"><%= item.name.charAt(0) %></span>
+                      <% } %>
+                    </div>
+                    <div class="skill-card__info">
+                      <span class="skill-card__name"><%= item.name %></span>
+                      <% if (item.level) { %>
+                        <span class="skill-card__level"><%= item.level %></span>
+                      <% } %>
+                    </div>
+                  </div>
+                <% }); %>
+              </div>
+            <% } %>
+          </div>
+        <% }); %>
+      </div>
+    </section>
+  <% } %>
+
 </div>

@@ -458,6 +458,339 @@
     });
   }
 
+  // === Showreel 排序切换 ===
+  function initShowreel() {
+    var list = document.querySelector('.showreel-list');
+    var sortBtns = document.querySelectorAll('.showreel-sort-btn');
+    if (!list || sortBtns.length === 0) return;
+
+    var cards = Array.prototype.slice.call(list.querySelectorAll('.showreel-card'));
+    if (cards.length === 0) return;
+
+    var STORAGE_KEY = 'showreelSortType';
+
+    var input = document.getElementById('showreel-search-input');
+    var clearBtn = document.querySelector('.showreel-search-clear');
+    var meta = document.getElementById('showreel-search-meta');
+    var empty = document.getElementById('showreel-search-empty');
+    var toggleBtn = document.querySelector('.showreel-search-toggle');
+    var panel = document.getElementById('showreel-search-panel');
+
+    function getCardDate(card) {
+      var ts = Number(card.getAttribute('data-date'));
+      return Number.isFinite(ts) ? ts : 0;
+    }
+
+    // ─── 搜索：标题关键词即时筛选 ───
+    function updateMeta(keyword, visibleCount) {
+      if (!meta) return;
+      meta.textContent = keyword ? '找到 ' + visibleCount + ' 个作品' : '';
+    }
+
+    function setClearBtnVisible(visible) {
+      if (clearBtn) clearBtn.style.visibility = visible ? 'visible' : 'hidden';
+    }
+
+    function applyFilter() {
+      if (!input) return;
+      var keyword = (input.value || '').trim().toLowerCase();
+      var visibleCount = 0;
+
+      cards.forEach(function (card) {
+        var titleNode = card.querySelector('.showreel-card-title');
+        var titleText = titleNode ? (titleNode.textContent || '').toLowerCase() : '';
+        var matched = !keyword || titleText.indexOf(keyword) > -1;
+        card.style.display = matched ? '' : 'none';
+        if (matched) visibleCount += 1;
+      });
+
+      if (empty) empty.hidden = visibleCount !== 0;
+      setClearBtnVisible(!!keyword);
+      updateMeta(keyword, visibleCount);
+    }
+
+    var timer = null;
+    function debouncedApplyFilter() {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(applyFilter, 180);
+    }
+
+    function setPanelOpen(open) {
+      if (!panel || !toggleBtn) return;
+      panel.hidden = !open;
+      toggleBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
+    if (toggleBtn && panel) {
+      toggleBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (panel.hidden) {
+          setPanelOpen(true);
+          if (input) input.focus();
+        } else {
+          setPanelOpen(false);
+        }
+      });
+      panel.addEventListener('click', function (e) {
+        e.stopPropagation();
+      });
+      document.addEventListener('click', function () {
+        if (!panel.hidden) setPanelOpen(false);
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !panel.hidden) setPanelOpen(false);
+      });
+    }
+
+    if (input) {
+      input.addEventListener('input', debouncedApplyFilter);
+    }
+    if (clearBtn) {
+      clearBtn.addEventListener('click', function () {
+        if (!input || !input.value) return;
+        input.value = '';
+        applyFilter();
+        input.focus();
+      });
+    }
+
+    // ─── 排序：按卡片 data-date 重排 ───
+    function applySort(sortType, save) {
+      var sorted = cards.slice().sort(function (a, b) {
+        var dateA = getCardDate(a);
+        var dateB = getCardDate(b);
+        if (sortType === 'date_asc') {
+          return dateA - dateB;
+        }
+        return dateB - dateA;
+      });
+
+      var frag = document.createDocumentFragment();
+      sorted.forEach(function (card) {
+        frag.appendChild(card);
+      });
+      list.appendChild(frag);
+
+      // 排序后保持当前搜索筛选
+      applyFilter();
+
+      sortBtns.forEach(function (btn) {
+        var active = btn.dataset.sort === sortType;
+        btn.classList.toggle('active', active);
+        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+
+      if (save) {
+        localStorage.setItem(STORAGE_KEY, sortType);
+      }
+    }
+
+    var savedSort = localStorage.getItem(STORAGE_KEY);
+    var initialSort = savedSort === 'date_asc' ? 'date_asc' : 'date_desc';
+    applySort(initialSort, false);
+
+    sortBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var sortType = btn.dataset.sort;
+        if (!sortType) return;
+        applySort(sortType, true);
+      });
+    });
+  }
+
+  // === Archive 搜索 + 排序（图标浮层筛选 + 时间线排序） ===
+  function initArchive() {
+    var input = document.getElementById('archive-search-input');
+    var clearBtn = document.querySelector('.archive-search-clear');
+    var meta = document.getElementById('archive-search-meta');
+    var empty = document.getElementById('archive-search-empty');
+    var toggleBtn = document.querySelector('.archive-search-toggle');
+    var panel = document.getElementById('archive-search-panel');
+    var grouping = document.querySelector('.archive .grouping');
+    var sortBtns = document.querySelectorAll('.archive-sort-btn');
+
+    if (!grouping) return;
+
+    var STORAGE_KEY = 'archiveSortType';
+
+    // 当前列表引用（排序后会重建，需要刷新）
+    var yearBlocks = [];
+    var allItems = [];
+
+    function getYearBlocks() {
+      var years = Array.prototype.slice.call(grouping.querySelectorAll('.grouping-year'));
+      return years.map(function (yearEl) {
+        var items = [];
+        var node = yearEl.nextElementSibling;
+        while (node && !node.classList.contains('grouping-year')) {
+          if (node.classList.contains('grouping-item')) {
+            items.push(node);
+          }
+          node = node.nextElementSibling;
+        }
+        return { yearEl: yearEl, items: items };
+      });
+    }
+
+    function refreshRefs() {
+      yearBlocks = getYearBlocks();
+      allItems = [];
+      yearBlocks.forEach(function (block) {
+        allItems = allItems.concat(block.items);
+      });
+    }
+
+    // ─── 排序：按所有文章 data-date 重排，并重建年份分组 ───
+    function applySort(sortType, save) {
+      var sortedItems = allItems.slice().sort(function (a, b) {
+        var dateA = Number(a.getAttribute('data-date')) || 0;
+        var dateB = Number(b.getAttribute('data-date')) || 0;
+        return sortType === 'date_asc' ? dateA - dateB : dateB - dateA;
+      });
+
+      // 按年份聚合（年份顺序随排序方向变化）
+      var groups = {};
+      sortedItems.forEach(function (item) {
+        var year = item.getAttribute('data-year');
+        if (!groups[year]) groups[year] = [];
+        groups[year].push(item);
+      });
+
+      var yearKeys = Object.keys(groups);
+      yearKeys.sort(function (a, b) {
+        return sortType === 'date_asc' ? Number(a) - Number(b) : Number(b) - Number(a);
+      });
+
+      // 重建 .grouping 内部 DOM
+      grouping.innerHTML = '';
+      yearKeys.forEach(function (year) {
+        var p = document.createElement('p');
+        p.className = 'grouping-year';
+        p.setAttribute('data-year', year);
+        p.textContent = year;
+        grouping.appendChild(p);
+        groups[year].forEach(function (item) {
+          grouping.appendChild(item);
+        });
+      });
+
+      refreshRefs();
+      applyFilter();
+
+      sortBtns.forEach(function (btn) {
+        var active = btn.dataset.sort === sortType;
+        btn.classList.toggle('active', active);
+        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+
+      if (save) {
+        localStorage.setItem(STORAGE_KEY, sortType);
+      }
+    }
+
+    // ─── 筛选：标题关键词 ───
+    var timer = null;
+
+    function updateMeta(keyword, visibleCount) {
+      if (!meta) return;
+      meta.textContent = keyword ? '找到 ' + visibleCount + ' 篇文章' : '';
+    }
+
+    function setClearBtnVisible(visible) {
+      if (clearBtn) clearBtn.style.visibility = visible ? 'visible' : 'hidden';
+    }
+
+    function applyFilter() {
+      if (!input) return;
+      var keyword = (input.value || '').trim().toLowerCase();
+      var visibleCount = 0;
+
+      allItems.forEach(function (item) {
+        var titleNode = item.querySelector('span');
+        var titleText = titleNode ? (titleNode.textContent || '').toLowerCase() : '';
+        var matched = !keyword || titleText.indexOf(keyword) > -1;
+        item.style.display = matched ? '' : 'none';
+        if (matched) visibleCount += 1;
+      });
+
+      yearBlocks.forEach(function (block) {
+        var hasVisible = block.items.some(function (item) {
+          return item.style.display !== 'none';
+        });
+        block.yearEl.style.display = hasVisible ? '' : 'none';
+      });
+
+      if (empty) {
+        empty.hidden = !(keyword && visibleCount === 0);
+      }
+
+      setClearBtnVisible(!!keyword);
+      updateMeta(keyword, visibleCount);
+    }
+
+    function debouncedApplyFilter() {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(applyFilter, 180);
+    }
+
+    // ─── 搜索浮层展开/收起 ───
+    function setPanelOpen(open) {
+      if (!panel || !toggleBtn) return;
+      panel.hidden = !open;
+      toggleBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open && input) input.focus();
+    }
+
+    if (toggleBtn && panel) {
+      toggleBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        setPanelOpen(panel.hidden);
+      });
+      panel.addEventListener('click', function (e) {
+        e.stopPropagation();
+      });
+      document.addEventListener('click', function () {
+        if (!panel.hidden) setPanelOpen(false);
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !panel.hidden) setPanelOpen(false);
+      });
+    }
+
+    if (input) {
+      input.addEventListener('input', debouncedApplyFilter);
+    }
+    if (clearBtn) {
+      clearBtn.addEventListener('click', function () {
+        if (!input || !input.value) return;
+        input.value = '';
+        applyFilter();
+        input.focus();
+      });
+    }
+
+    // ─── 排序按钮 ───
+    if (sortBtns.length) {
+      var savedSort = localStorage.getItem(STORAGE_KEY);
+      var initialSort = savedSort === 'date_asc' ? 'date_asc' : 'date_desc';
+
+      sortBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var sortType = btn.dataset.sort;
+          if (sortType) applySort(sortType, true);
+        });
+      });
+
+      // 先填充引用，再执行排序（避免 applySort 用空 allItems 清空 DOM）
+      refreshRefs();
+      // 初始化排序（重建 DOM 后应用默认筛选）
+      applySort(initialSort, false);
+    } else {
+      refreshRefs();
+      applyFilter();
+    }
+  }
+
   // === 初始化 ===
   document.addEventListener('DOMContentLoaded', function () {
     initDarkMode();
@@ -468,5 +801,7 @@
     initCodeCopy();
     initMailto();
     initCategoriesTabs();
+    initShowreel();
+    initArchive();
   });
 })();
