@@ -167,7 +167,7 @@
       <img src="/image/icon-bilibili.svg" alt="Bilibili">
     </a>
     
-    <a href="mailto:your-email@example.com">
+    <a href="mailto:dooocx@163.com">
       <img src="/image/icon-email.svg" alt="Email">
     </a>
     
@@ -193,50 +193,76 @@
 </div>
     
     <div class="archive-content" id="content">
+        
+        <div class="archive-toolbar" aria-label="归档工具栏">
+            <div class="archive-sort" role="group" aria-label="文章排序">
+                <span class="archive-sort-label">排序：</span>
+                <button class="archive-sort-btn active" type="button" data-sort="date_desc" aria-pressed="true">最新发布</button>
+                <button class="archive-sort-btn" type="button" data-sort="date_asc" aria-pressed="false">最早发布</button>
+            </div>
+            <div class="archive-search" aria-label="归档搜索">
+                <button class="archive-search-toggle" type="button" aria-label="搜索文章" aria-expanded="false" aria-controls="archive-search-panel">
+                    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                        <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M21 21l-4.35-4.35M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14z"/>
+                    </svg>
+                </button>
+                <div class="archive-search-panel" id="archive-search-panel" hidden>
+                    <div class="archive-search-box">
+                        <input id="archive-search-input" class="archive-search-input" type="search" placeholder="输入标题关键词..." autocomplete="off" />
+                        <button class="archive-search-clear" type="button" aria-label="清空搜索">清空</button>
+                    </div>
+                    <p class="archive-search-meta" id="archive-search-meta"></p>
+                </div>
+            </div>
+        </div>
+        
         <div class="archive-content-data">
             <div class="grouping">
     
-        <p>
+        <p class="grouping-year" data-year="2026">
             2026
         </p>
         
-        <a href="/2026/08/12/【Reaper插件】采集一切！Global Sampler/">
+        <a class="grouping-item" data-date="1786528729" data-year="2026" data-title="【Reaper插件】实时采集一切！Global Sampler" href="/2026/08/12/【Reaper插件】采集一切！Global Sampler/">
             <span>【Reaper插件】实时采集一切！Global Sampler</span>
             <time>08-12</time>
         </a>
         
-        <a href="/2026/07/10/【工具】为游戏音效设计定制的MPV播放器/">
+        <a class="grouping-item" data-date="1783669200" data-year="2026" data-title="【工具分享】游戏音效定制视频播放器" href="/2026/07/10/【工具】为游戏音效设计定制的MPV播放器/">
             <span>【工具分享】游戏音效定制视频播放器</span>
             <time>07-10</time>
         </a>
         
         
-        <p>
+        <p class="grouping-year" data-year="2025">
             2025
         </p>
         
-        <a href="/2025/06/05/【Wwise】版本控制与工作流/">
+        <a class="grouping-item" data-date="1749118536" data-year="2025" data-title="【Wwise】版本控制与工作流" href="/2025/06/05/【Wwise】版本控制与工作流/">
             <span>【Wwise】版本控制与工作流</span>
             <time>06-05</time>
         </a>
         
-        <a href="/2025/03/06/【视频总结】手游领域打造3A音频效果/">
+        <a class="grouping-item" data-date="1741254816" data-year="2025" data-title="【音效设计】手游领域打造3A音频效果" href="/2025/03/06/【视频总结】手游领域打造3A音频效果/">
             <span>【音效设计】手游领域打造3A音频效果</span>
             <time>03-06</time>
         </a>
         
-        <a href="/2025/01/24/【Wwise】101/">
+        <a class="grouping-item" data-date="1737699996" data-year="2025" data-title="【Wwise】101笔记" href="/2025/01/24/【Wwise】101/">
             <span>【Wwise】101笔记</span>
             <time>01-24</time>
         </a>
         
-        <a href="/2025/01/24/FIRST/">
+        <a class="grouping-item" data-date="1737689016" data-year="2025" data-title="MarkDown语法示例" href="/2025/01/24/FIRST/">
             <span>MarkDown语法示例</span>
             <time>01-24</time>
         </a>
         
         
 </div>
+        </div>
+        <div class="archive-search-empty" id="archive-search-empty" hidden>
+            <p>未找到匹配文章</p>
         </div>
     </div>    
 </div>
@@ -262,7 +288,7 @@
     </a>
     
     
-    <a href="mailto:your-email@example.com" data-email="your-email@example.com" class="contact-mailto">
+    <a href="mailto:dooocx@163.com" data-email="dooocx@163.com" class="contact-mailto">
       <img src="/image/icon-email.svg" alt="Email">
     </a>
     

@@ -164,7 +164,7 @@
       <img src="/image/icon-bilibili.svg" alt="Bilibili">
     </a>
     
-    <a href="mailto:your-email@example.com">
+    <a href="mailto:dooocx@163.com">
       <img src="/image/icon-email.svg" alt="Email">
     </a>
     
@@ -187,9 +187,30 @@
 
   <div class="showreel-content" id="content">
     
+      <div class="showreel-toolbar" aria-label="作品工具栏">
+        <div class="showreel-sort" role="group" aria-label="作品排序">
+          <span class="showreel-sort-label">排序：</span>
+          <button class="showreel-sort-btn active" type="button" data-sort="date_desc" aria-pressed="true">最新发布</button>
+          <button class="showreel-sort-btn" type="button" data-sort="date_asc" aria-pressed="false">最早发布</button>
+        </div>
+        <div class="showreel-search" aria-label="作品搜索">
+          <button class="showreel-search-toggle" type="button" aria-label="搜索作品" aria-expanded="false" aria-controls="showreel-search-panel">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+              <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M21 21l-4.35-4.35M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14z"/>
+            </svg>
+          </button>
+          <div class="showreel-search-panel" id="showreel-search-panel" hidden>
+            <div class="showreel-search-box">
+              <input id="showreel-search-input" class="showreel-search-input" type="search" placeholder="输入标题关键词..." autocomplete="off" />
+              <button class="showreel-search-clear" type="button" aria-label="清空搜索">清空</button>
+            </div>
+            <p class="showreel-search-meta" id="showreel-search-meta"></p>
+          </div>
+        </div>
+      </div>
       <ul class="showreel-list">
         
-          <li class="showreel-card">
+          <li class="showreel-card" data-date="1777260000000">
             <a class="showreel-card-link" href="/showreel/welcome/">
               <div class="showreel-card-cover">
                 <img src="https://i1.hdslb.com/bfs/archive/5242750857121e05146d5d5b13a47a2a6dd36e98.jpg" alt="博客必看" loading="lazy" referrerpolicy="no-referrer">
@@ -228,6 +249,9 @@
           </li>
         
       </ul>
+      <div class="showreel-search-empty" id="showreel-search-empty" hidden>
+        <p>未找到匹配作品</p>
+      </div>
     
   </div>
 </div>
@@ -250,7 +274,7 @@
     </a>
     
     
-    <a href="mailto:your-email@example.com" data-email="your-email@example.com" class="contact-mailto">
+    <a href="mailto:dooocx@163.com" data-email="dooocx@163.com" class="contact-mailto">
       <img src="/image/icon-email.svg" alt="Email">
     </a>
     

@@ -21,9 +21,6 @@ body,
 [data-theme="dark"] .header .header-top {
   background: #0f1923;
 }
-[data-theme="dark"] .header .header-top .h-left a img {
-  filter: brightness(1.2);
-}
 [data-theme="dark"] .header .header-top .h-right ul li a {
   color: #8a9bb0;
 }
@@ -103,7 +100,7 @@ body,
   color: #8a9bb0;
   box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.3);
 }
-[data-theme="dark"] .post-header-background {
+[data-theme="dark"] .post-header-background:not(.post-header-img) {
   background: linear-gradient(0deg, #0f1923, #0a1018) !important;
 }
 [data-theme="dark"] .post-header-background-content h1 {

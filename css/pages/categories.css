@@ -10,7 +10,7 @@
 .categories-content-data {
   display: flex;
   flex-direction: column;
-  padding: 64px 80px;
+  padding: 40px 80px;
   font-size: 18px;
   transition: padding 1s;
 }
@@ -81,12 +81,12 @@
 }
 @media screen and (max-width: 800px) {
   .categories-content-data {
-    padding: 64px 50px;
+    padding: 40px 50px;
   }
 }
 @media screen and (max-width: 600px) {
   .categories-content-data {
-    padding: 64px 20px;
+    padding: 40px 20px;
   }
 }
 .cat-tab-nav {
