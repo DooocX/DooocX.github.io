@@ -637,9 +637,9 @@
   visibility: hidden;
   pointer-events: none;
   overflow: hidden;
-  // 消除磨砂延迟：提前提示浏览器要对 filter/backdrop-filter/opacity 做合成层
-  will-change: opacity, visibility;
-  .transition(opacity, 0.28s);
+  // 只做 opacity + visibility 过渡：整个 modal（含磨砂）作为一个整体淡入，
+  // 避免 backdrop-filter 从 blur(0) → blur(6px) 需要逐帧重采样导致的"滞后感"
+  transition: opacity 0.18s ease-out, visibility 0.18s ease-out;
 
   &.is-open {
     opacity: 1;
@@ -650,13 +650,6 @@
       transform: translateY(0) scale(1);
       opacity: 1;
     }
-
-    // 打开时才启用磨砂，且给 backdrop-filter 做过渡，避免"先发黑后磨砂"的观感延迟
-    .work-modal__backdrop {
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      background: fade(#0a0a0a, 55%);
-    }
   }
 
   &__backdrop {
@@ -665,13 +658,12 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: fade(#0a0a0a, 0%);
-    backdrop-filter: blur(0);
-    -webkit-backdrop-filter: blur(0);
+    // 磨砂"常驻"：一开始就是最终强度，只依靠父级 opacity 控制显隐
+    // 这样磨砂无需过渡计算，展开瞬间就是完整效果，感官上"零延迟"
+    background: fade(#0a0a0a, 55%);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     cursor: pointer;
-    will-change: backdrop-filter, background-color;
-    .transition(backdrop-filter, 0.28s);
-    transition-property: backdrop-filter, -webkit-backdrop-filter, background-color;
   }
 
   &__panel {
@@ -1062,37 +1054,64 @@
     }
   }
 
-  // ---- 工作经历 时间线 ----
+  // ---- 工作经历 时间线（使用真实字段：__period / __location / __company / __role / __highlights / __tags） ----
   .timeline {
-    &::before {
-      background: rgba(255, 255, 255, 0.1);
-    }
-
+    // 圆点内部原本是白色 @color-bg-white，深色下必须改成深色底才能与背景协调
     &__dot {
-      background: #409EFF;
+      background: #162030;
+      border-color: #409EFF;
       box-shadow: 0 0 0 4px rgba(64, 158, 255, 0.18);
     }
 
+    // 竖线渐变颜色不变（本身用主色），无需覆盖 ::before
+
     &__card {
-      background: rgba(255, 255, 255, 0.03);
-      border-color: rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.04);
+      color: #c8d0dc;
 
       &:hover {
-        background: rgba(255, 255, 255, 0.05);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        background: rgba(255, 255, 255, 0.07);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
       }
     }
 
-    &__meta   { color: #8a9bb0; }
-    &__role   { color: #ffffff; }
-    &__org    { color: #7ab7ff; }
-    &__desc   { color: #c8d0dc; }
-
-    &__tag {
-      background: rgba(64, 158, 255, 0.12);
-      color: #7ab7ff;
-      border-color: rgba(64, 158, 255, 0.25);
+    &__period   { color: #7ab7ff; }   // 时间段
+    &__location {                     // 地点标签
+      color: #8a9bb0;
+      background: rgba(255, 255, 255, 0.06);
     }
+    &__company  { color: #ffffff; }   // 公司名（原黑色，就是看不清的元凶）
+    &__role     { color: #8a9bb0; }   // 职位
+
+    &__highlights li {
+      color: #c8d0dc;                 // 工作要点正文（原深灰 @color-text-body）
+      &::before { color: #409EFF; }
+    }
+  }
+
+  // ---- 通用 Tag Pill（工作经历技能标签 / 作品标签都会用到） ----
+  .tag-pill {
+    color: #8a9bb0;
+    background: rgba(255, 255, 255, 0.06);
+
+    &:hover {
+      color: #ffffff;
+      background: #409EFF;
+    }
+
+    &--soft {
+      color: #7ab7ff;
+      background: rgba(64, 158, 255, 0.12);
+      &:hover {
+        color: #ffffff;
+        background: #409EFF;
+      }
+    }
+  }
+
+  // ---- About 页面正文容器（.about-content 等由 content-style() 生成的白色区） ----
+  .about-content {
+    background: #162030;
   }
 
   // ---- 参与作品 长条卡片 ----

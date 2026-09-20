@@ -41,7 +41,7 @@ DooocX.github.io/
 │   │   ├── 【Wwise】版本控制与工作流.md
 │   │   └── 【视频总结】手游领域打造3A音频效果.md
 │   ├── _showreel/              #   [v1.1.0] 作品内容（下划线目录，由自定义 generator 处理）
-│   ├── about/index.md          #   关于页
+│   ├── about/index.md          #   [v1.1.3] 关于页（front-matter 驱动：experiences / works / skills / email）
 │   ├── tags/index.md           #   标签页
 │   ├── categories/index.md     #   分类页
 │   └── links/index.md          #   友链页
@@ -49,11 +49,11 @@ DooocX.github.io/
 └── themes/Quiet/               # Quiet 主题
     ├── _config.yml             #   主题配置（唯一配置入口）
     ├── layout/                 #   EJS 模板
-    │   ├── layout.ejs          #     根布局（含进度条 div + 主题初始化脚本）
+    │   ├── layout.ejs          #     根布局（含主题初始化脚本）
     │   ├── index.ejs           #     首页
     │   ├── post.ejs            #     文章详情
     │   ├── archive.ejs         #     归档/分类归档
-    │   ├── about.ejs           #     关于
+    │   ├── about.ejs           #     [v1.1.3] 关于页：Hero / 工作经历时间线 / 作品长条卡片 + Modal / 技能栈网格（含 works JSON 数据岛与 Modal 交互 IIFE）
     │   ├── categories.ejs      #     分类列表（[v1.1.0] 改造为分类/标签 Tab 切换）
     │   ├── tags.ejs            #     标签列表（独立页保留，顶部导航已移除）
     │   ├── tag.ejs             #     单标签文章列表
@@ -87,10 +87,10 @@ DooocX.github.io/
         │   │   ├── _mixins.less     # Mixin 工具库
         │   │   ├── article_content.less  # 文章正文排版样式
         │   │   ├── animation.less   # 内容进场动画
-        │   │   ├── dark-mode.less   # 暗色模式全局覆盖样式（NEW）
-        │   │   ├── progress-bar.less # 阅读进度条样式（NEW）
-        │   │   └── code-copy.less   # 代码块复制按钮样式（NEW）
-        │   ├── pages/          #     页面级样式（含 [v1.1.0] showreel.less / showreel_post.less）
+        │   │   ├── dark-mode.less   # 暗色模式全局覆盖样式
+        │   │   ├── code-copy.less   # 代码块复制按钮样式
+        │   │   └── toast.less       # 全局 Toast 提示组件样式
+        │   ├── pages/          #     页面级样式（含 [v1.1.0] showreel.less / showreel_post.less、[v1.1.3] about.less 含深色模式覆盖段）
         │   ├── widget/         #     组件样式
         │   │   ├── header.less #     含暗色切换按钮样式
         │   │   ├── footer.less

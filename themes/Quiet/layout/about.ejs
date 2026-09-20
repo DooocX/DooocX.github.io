@@ -164,9 +164,6 @@
       </script>
       <script>
       (function () {
-        var TAG = '[about-modal]';
-        console.log(TAG, 'script loaded');
-
         function ready(fn) {
           if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', fn);
@@ -176,39 +173,43 @@
         }
 
         ready(function () {
-          console.log(TAG, 'DOM ready');
-
           var dataEl = document.getElementById('works-data');
-          if (!dataEl) { console.warn(TAG, 'no #works-data'); return; }
+          if (!dataEl) return;
 
           var works = [];
           try {
             works = JSON.parse(dataEl.textContent || '[]');
           } catch (e) {
-            console.error(TAG, 'JSON.parse works failed:', e);
             works = [];
           }
-          console.log(TAG, 'works count =', works.length);
 
           var modal = document.getElementById('work-modal');
-          if (!modal) { console.warn(TAG, 'no #work-modal'); return; }
+          if (!modal) return;
 
           // 把 modal 移到 body 末尾，脱离父级层叠上下文
           try {
             if (modal.parentNode && modal.parentNode !== document.body) {
               document.body.appendChild(modal);
-              console.log(TAG, 'modal moved to <body>');
             }
-          } catch (err) {
-            console.warn(TAG, 'move modal failed:', err);
-          }
+          } catch (err) { /* noop */ }
+
+          // 预热 backdrop-filter：让浏览器提前编译 GPU 着色器，
+          // 避免首次点击时因着色器编译产生的额外几十~上百毫秒延迟
+          try {
+            var backdrop = modal.querySelector('.work-modal__backdrop');
+            if (backdrop) {
+              // 强制浏览器对 backdrop-filter 进行一次布局/合成，触发着色器编译
+              // 由于 modal 本身 visibility:hidden + opacity:0，用户看不到这一步
+              // eslint-disable-next-line no-unused-expressions
+              backdrop.offsetHeight;
+            }
+          } catch (err) { /* noop */ }
 
           var savedScrollY = 0;
 
           function q(id) { return document.getElementById(id); }
 
           function openModal(work) {
-            console.log(TAG, 'openModal', work && work.name);
             if (!work) return;
 
             var modalCover = q('work-modal-cover');
@@ -267,17 +268,23 @@
               }
             }
 
-            // 锁定页面滚动（补偿滚动条宽度，避免布局跳动）
+            // 锁定页面滚动：给 <html> 加 overflow:hidden，并补偿滚动条宽度
+            // 不用 body { position:fixed } 那套，避免 body 高度塌陷导致深色渐变背景失效
             savedScrollY = window.scrollY || window.pageYOffset || 0;
             var scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
-            document.body.style.position = 'fixed';
-            document.body.style.top = '-' + savedScrollY + 'px';
-            document.body.style.left = '0';
-            document.body.style.right = '0';
-            document.body.style.width = '100%';
-            // 补偿因滚动条消失导致的宽度突变（视觉上避免整个页面抖动一下）
+            var htmlEl = document.documentElement;
+            htmlEl.style.overflow = 'hidden';
             if (scrollBarWidth > 0) {
-              document.body.style.paddingRight = scrollBarWidth + 'px';
+              htmlEl.style.paddingRight = scrollBarWidth + 'px';
+              // fixed 定位的顶部 header 不受 <html> padding 影响：
+              // .header 本身 width:100% 会跟着视口变宽 15px，导致内部 .header-top 的
+              // padding: calc((100%-1160)/2) 居中值也变大，菜单项两侧扩展，视觉上"缩进"。
+              // 解决办法：直接把 .header 的 width 收缩滚动条宽度，让内部一切保持原样。
+              var fixedHeader = document.querySelector('.header');
+              if (fixedHeader) {
+                fixedHeader.dataset.prevWidth = fixedHeader.style.width || '';
+                fixedHeader.style.width = 'calc(100% - ' + scrollBarWidth + 'px)';
+              }
             }
 
             modal.classList.add('is-open');
@@ -288,16 +295,17 @@
           }
 
           function closeModal() {
-            console.log(TAG, 'closeModal');
             modal.classList.remove('is-open');
             modal.setAttribute('aria-hidden', 'true');
-            document.body.style.position = '';
-            document.body.style.top = '';
-            document.body.style.left = '';
-            document.body.style.right = '';
-            document.body.style.width = '';
-            document.body.style.paddingRight = '';
-            window.scrollTo(0, savedScrollY);
+            var htmlEl = document.documentElement;
+            htmlEl.style.overflow = '';
+            htmlEl.style.paddingRight = '';
+            // 恢复顶部 header 的原始 width
+            var fixedHeader = document.querySelector('.header');
+            if (fixedHeader) {
+              fixedHeader.style.width = fixedHeader.dataset.prevWidth || '';
+              delete fixedHeader.dataset.prevWidth;
+            }
           }
 
           // ---- 用事件委托监听整个 document，避免任何 DOM 时机 / 层级问题 ----
@@ -312,7 +320,6 @@
             var strip = e.target.closest && e.target.closest('#works-list .work-strip');
             if (strip) {
               var idx = parseInt(strip.getAttribute('data-work-index'), 10);
-              console.log(TAG, 'strip clicked, idx =', idx);
               openModal(works[idx]);
             }
           });
@@ -330,9 +337,6 @@
             }
           });
 
-          // 诊断：初始化时打印一下卡片数量
-          var stripsNow = document.querySelectorAll('#works-list .work-strip');
-          console.log(TAG, 'strips found =', stripsNow.length);
         });
       })();
       </script>

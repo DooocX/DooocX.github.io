@@ -294,7 +294,13 @@ const categoryName = post.categories.data[0]
 - **禁止** 在 EJS 模板中使用 `<style>` 标签（样式归入 Less 文件）
 - **禁止** 在 EJS 模板中使用业务逻辑的 `<script>` 标签（脚本归入 JS 文件）
 - **禁止** 使用内联 `style` 属性（如 `style="color: red"`）
-- 例外：第三方库初始化代码（如 `hljs.highlightAll()`）可保留在模板中
+- **例外**：
+  - 第三方库初始化代码（如 `hljs.highlightAll()`）可保留在模板中
+  - **页面私有的 JSON 数据岛与交互脚本**：当脚本仅服务于单一 EJS 模板、且强依赖模板同页数据（例如 About 页 `works` 数组驱动的 Modal 交互），允许作为 `<script>` 内联在模板末尾，但必须满足：
+    1. 使用 IIFE（`(function(){ ... })()`）封装，避免污染全局作用域
+    2. 数据部分独立为 `<script type="application/json" id="xxx-data">` 数据岛，与逻辑代码解耦
+    3. 顶部注释说明用途与限制作用范围
+    4. 不得引入外部第三方依赖（如需依赖 npm 包则必须抽独立 JS 文件）
 
 ---
 

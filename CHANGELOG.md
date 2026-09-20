@@ -20,6 +20,38 @@
 
 ---
 
+## [1.1.3] - 2026-09-20
+
+### 🎉 新增 (Added)
+
+- **About 页专业化改版（个人简历式布局）**
+  - Hero 区：头像 + 身份标签 + slogan + 邮箱联系入口（图标 + 一键复制 + `mailto:`）
+  - 工作经历时间线：`experiences` 数组驱动，公司 / 职位 / 亮点 / 标签四段式，`::before` 圆点与竖轴严格居中对齐
+  - 参与作品长条卡片：`works` 数组驱动，左侧封面向右渐隐融入浅色区，右侧展示项目名与角色
+  - 作品详情 Modal：点击卡片弹出，含项目概述 / 具体职责 / 外链跳转，全屏遮罩 + 毛玻璃背景 + 关闭按钮
+  - 技能栈卡片网格：`skills` 分组渲染，每张卡片带 Simple Icons 官方 Logo（无 logo 时回退首字母占位）+ 熟练度胶囊
+  - 内容全部由 `source/about/index.md` 的 front-matter 驱动，非硬编码
+
+### 🔄 变更 (Changed)
+
+- **联系方式模块下沉**：删除页面末尾"联系方式"独立区块，邮箱统一迁移到 Hero 区，避免与底部社交图标信息重复
+
+### 🔧 修复 (Fixed)
+
+- **Modal 打开抖动 & 顶部导航右缩进（高危教训）**：`overflow: hidden` 锁滚动会移除滚动条宽度，导致 header（`position: fixed; width: 100vw`）与内容整体错位。**方案**：打开 Modal 时预先测量滚动条宽度 `window.innerWidth - documentElement.clientWidth`，同步给 `<body>` 加 `padding-right` 并给 fixed header 同宽 `padding-right` 补偿，关闭时清理
+- **Modal 打开时页面变白（深色模式）**：Modal 遮罩层挂在内容区容器（有 `background: #fff`）之上，深色模式下白底穿透。**方案**：将 Modal DOM 从 `.about-page` 内**移到 `<body>` 末尾**，脱离父容器背景污染，同时 `z-index` 提升到 9999 覆盖 fixed header
+- **Modal 无法滚动**：遮罩层与内容层拆分，内容层 `max-height: 85vh + overflow-y: auto`，遮罩层仅负责点击关闭
+- **毛玻璃背景加载延迟**：`backdrop-filter` 首次触发会有编译延迟，通过在遮罩上预设 `will-change: backdrop-filter` 提示浏览器预热合成层
+- **深色模式下工作经历黑字看不清**：`about.less` 追加深色覆盖段，公司名 / 职位 / 亮点 / 标签四类文本统一替换为深色语义色（`#e0e0e0 / #c8d0dc / #8a9bb0 / #7ab7ff`）
+- **时间线圆点未穿过竖轴中心**：`::before` 从 `left: -6px` 精确调整为 `left: -5px` 并配合 `width: 10px`，使圆点直径中点严格落在 `1px` 竖轴上
+
+### 📝 文档 (Docs)
+
+- `PROJECT_STRUCTURE.md` About 页描述从"关于"扩写为五段式模块说明；清理已不存在的 `progress-bar.less`；补上 `toast.less`；移除全部过时的 `(NEW)` 标记
+- `Rules.md` 5.4 节新增例外条款：**页面私有的 JSON 数据岛与交互脚本**允许作为 `<script>` 内联在对应 EJS 模板中，但需 IIFE 封装并位于模板末尾（依据：About 页 Modal 交互脚本与 `works` 数据强绑定，抽独立 JS 文件反而增加加载分裂与耦合复杂度）
+
+---
+
 ## [1.1.2] - 2026-04-27
 
 ### ✨ 优化 (Changed)
