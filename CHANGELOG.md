@@ -1,208 +1,130 @@
 # 更新日志 | Changelog
 
-本文件记录本博客的所有重要改动，方便回顾历史与在新对话中快速同步上下文。
+> 本文件为**版本索引**：每次改动一行一条，细节请跳转到对应的 spec / troubleshooting / roadmap。
+>
+> - 详细技术方案 → `specs/<feature-vX.Y.Z>/spec.md`
+> - Bug 根因与规则 → `docs/troubleshooting.md`
+> - 待办规划 → `docs/roadmap.md`
 
 格式遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 规范，
 版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)：`主版本号.次版本号.修订号`。
 
-- **主版本号 (Major)**：不兼容的重大改版（如主题整体重构）
-- **次版本号 (Minor)**：新增功能，向下兼容（如加了暗色模式、TOC 等）
-- **修订号 (Patch)**：小修复、样式微调、文案修改
+- **Major**：不兼容的重大改版（如主题整体重构）
+- **Minor**：新增功能，向下兼容（如加了暗色模式、TOC 等）
+- **Patch**：小修复、样式微调、文案修改
 
 ---
 
 ## [Unreleased] - 待办
 
-### 计划新增 (Planned)
-- [ ] **Header 响应式重构**：header 高度当前固定 100px（桌面/平板/移动同值），计划抽出变量并做三档响应式（桌面 100px / 平板 80px / 移动 56-64px），同步收敛各页面对 fixed header 的避让 padding
-- [ ] **首页/分类页默认封面优化**：文章详情页已支持 `page.cover` 优先，但首页卡片与分类页 banner 在 `post.cover` 缺失时仍回退第三方随机图片 API，建议替换为本地图片池或可控 CDN
-- [ ] **文章搜索功能**：基于 `hexo-generator-searchdb` 实现站内搜索
+计划项已迁移到 [`docs/roadmap.md`](./docs/roadmap.md)。
 
 ---
 
 ## [1.1.3] - 2026-09-20
 
 ### 🎉 新增 (Added)
-
-- **About 页专业化改版（个人简历式布局）**
-  - Hero 区：头像 + 身份标签 + slogan + 邮箱联系入口（图标 + 一键复制 + `mailto:`）
-  - 工作经历时间线：`experiences` 数组驱动，公司 / 职位 / 亮点 / 标签四段式，`::before` 圆点与竖轴严格居中对齐
-  - 参与作品长条卡片：`works` 数组驱动，左侧封面向右渐隐融入浅色区，右侧展示项目名与角色
-  - 作品详情 Modal：点击卡片弹出，含项目概述 / 具体职责 / 外链跳转，全屏遮罩 + 毛玻璃背景 + 关闭按钮
-  - 技能栈卡片网格：`skills` 分组渲染，每张卡片带 Simple Icons 官方 Logo（无 logo 时回退首字母占位）+ 熟练度胶囊
-  - 内容全部由 `source/about/index.md` 的 front-matter 驱动，非硬编码
+- About 页专业化改版（Hero / 工作经历时间线 / 参与作品长条卡片 + Modal / 技能栈网格），内容由 `source/about/index.md` front-matter 驱动
 
 ### 🔄 变更 (Changed)
-
-- **联系方式模块下沉**：删除页面末尾"联系方式"独立区块，邮箱统一迁移到 Hero 区，避免与底部社交图标信息重复
+- 联系方式模块下沉：删除页面末尾"联系方式"独立区块，邮箱统一迁移到 Hero 区
 
 ### 🔧 修复 (Fixed)
-
-- **Modal 打开抖动 & 顶部导航右缩进（高危教训）**：`overflow: hidden` 锁滚动会移除滚动条宽度，导致 header（`position: fixed; width: 100vw`）与内容整体错位。**方案**：打开 Modal 时预先测量滚动条宽度 `window.innerWidth - documentElement.clientWidth`，同步给 `<body>` 加 `padding-right` 并给 fixed header 同宽 `padding-right` 补偿，关闭时清理
-- **Modal 打开时页面变白（深色模式）**：Modal 遮罩层挂在内容区容器（有 `background: #fff`）之上，深色模式下白底穿透。**方案**：将 Modal DOM 从 `.about-page` 内**移到 `<body>` 末尾**，脱离父容器背景污染，同时 `z-index` 提升到 9999 覆盖 fixed header
-- **Modal 无法滚动**：遮罩层与内容层拆分，内容层 `max-height: 85vh + overflow-y: auto`，遮罩层仅负责点击关闭
-- **毛玻璃背景加载延迟**：`backdrop-filter` 首次触发会有编译延迟，通过在遮罩上预设 `will-change: backdrop-filter` 提示浏览器预热合成层
-- **深色模式下工作经历黑字看不清**：`about.less` 追加深色覆盖段，公司名 / 职位 / 亮点 / 标签四类文本统一替换为深色语义色（`#e0e0e0 / #c8d0dc / #8a9bb0 / #7ab7ff`）
-- **时间线圆点未穿过竖轴中心**：`::before` 从 `left: -6px` 精确调整为 `left: -5px` 并配合 `width: 10px`，使圆点直径中点严格落在 `1px` 竖轴上
+- Modal 打开抖动 + fixed header 右缩进 → [troubleshooting](./docs/troubleshooting.md#1-modal-打开时页面抖动--fixed-header-右缩进高危)
+- Modal 打开时页面变白（深色模式下背景穿透）→ [troubleshooting](./docs/troubleshooting.md#2-modal-打开时页面变白深色模式)
+- Modal 内容无法滚动 → [troubleshooting](./docs/troubleshooting.md#3-modal-内容无法滚动)
+- 毛玻璃背景首次加载延迟 → [troubleshooting](./docs/troubleshooting.md#4-毛玻璃背景backdrop-filter首次加载延迟)
+- 深色模式下工作经历黑字看不清 → [troubleshooting](./docs/troubleshooting.md#2-深色模式下工作经历about-页时间线黑字看不清)
+- 时间线圆点未穿过竖轴中心 → [troubleshooting](./docs/troubleshooting.md#4-时间线圆点未穿过竖轴中心)
 
 ### 📝 文档 (Docs)
-
-- `PROJECT_STRUCTURE.md` About 页描述从"关于"扩写为五段式模块说明；清理已不存在的 `progress-bar.less`；补上 `toast.less`；移除全部过时的 `(NEW)` 标记
-- `Rules.md` 5.4 节新增例外条款：**页面私有的 JSON 数据岛与交互脚本**允许作为 `<script>` 内联在对应 EJS 模板中，但需 IIFE 封装并位于模板末尾（依据：About 页 Modal 交互脚本与 `works` 数据强绑定，抽独立 JS 文件反而增加加载分裂与耦合复杂度）
+- `PROJECT_STRUCTURE.md` About 页描述扩写为五段式模块说明
+- `Rules.md` 新增例外条款：页面私有 JSON 数据岛 + IIFE 交互脚本允许内联在 EJS 模板末尾（现已迁移到 `docs/conventions/ejs-guidelines.md`）
 
 ---
 
 ## [1.1.2] - 2026-04-27
 
 ### ✨ 优化 (Changed)
-
-- **文章详情页标题区收紧 + 响应式补齐**：`.post-header-background-content` 桌面 padding 从 `196/160` 调到 `140/96`（总空白压缩 34%）；新增平板（≤992px）`116/72`、移动（≤768px）`104/56` 两档断点；h1/标签/字数统计的垂直 margin 同步收敛
-- **标题区四元素左基准线对齐**：tag 列表清除 `<ul>` 默认 `padding-left: 40px`、容器固定 `width: @max-width-post-basis`，使"tag 胶囊左边框 / h1 / 作者头像 / 字数行"严格垂直对齐
-- **tag 胶囊瘦身**：字号 `font-size-xs`、内边距 `4px 10px`、行高 `18px`，视觉权重让位标题
-- **中文全角开括号标题智能首行缩进**：以【『「《〈（［｛开头的标题自动加 `text-indent: -0.5em`，避免视觉左偏（h1 加条件 class `has-fullwidth-start`）
+- 文章详情页标题区收紧 + 三档响应式补齐（桌面 140/96、平板 116/72、移动 104/56）
+- 标题区四元素（tag / h1 / 头像 / 字数）左基准线严格对齐；tag 胶囊瘦身
+- 中文全角开括号标题智能首行缩进（`text-indent: -0.5em`）
 
 ### 🔧 修复 (Fixed)
-
-- **EJS 模板属性输出转义陷阱（高危教训）**：`post_head.ejs` 用 `<%= %>` 拼装 h1 的 class 属性，导致引号被转成 `&quot;`，浏览器把 className 解析成带引号的字符串 `"has-fullwidth-start"`，CSS 选择器 `.has-fullwidth-start` 永远命中失败。**规则**：EJS 中拼装含 `"` 的 HTML 属性片段必须用 `<%- %>` 不转义输出；`<%= %>` 仅用于纯文本内容
+- EJS 属性输出转义陷阱（`<%= %>` vs `<%- %>`）→ [troubleshooting](./docs/troubleshooting.md#1-ejs-属性输出转义陷阱高危)
 
 ---
 
 ## [1.1.1] - 2026-04-27
 
 ### 🔧 修复 (Fixed)
-
-- **SHOWREEL 详情页视频被 fixed header 遮挡**：移动端/平板/桌面三档分别为 `.showreel-post` 容器顶部新增 50-70px 避让，视频播放器不再被顶部导航裁剪
-- **文章详情页 banner 强制使用第三方随机图**：`post_head.ejs` 的封面回退链改为 `page.cover || theme.default_cover`，文章 front-matter 中自定义 cover 现已生效（与首页卡片行为一致）
-- **移动端侧边栏菜单右侧被裁切**：清除 `<ul>` 浏览器默认 `padding-left: 40px`，菜单项（含 SHOWREEL / CATEGORIES 等长文本）完整显示
-- **移动端侧边栏菜单链接 `display: grid` 误用**：改为 `display: block` 并补齐 `white-space: nowrap + overflow: hidden + text-overflow: ellipsis` 省略号三件套
-- **暗色模式下移动端汉堡按钮显示为蓝色实心方块**：`dark-mode.less` 的 `.h-right-close svg path[fill]` 选择器过宽，命中了透明占位 path。改为 `:not([fill="none"])` 精确排除，三横线图标恢复正常
+- SHOWREEL 详情页视频被 fixed header 遮挡（三档避让 padding）→ [troubleshooting](./docs/troubleshooting.md#3-showreel-详情页视频被-fixed-header-遮挡)
+- 文章详情页 banner 强制使用第三方随机图（改为 `page.cover || theme.default_cover`）
+- 移动端侧边栏菜单右侧被裁切 → [troubleshooting](./docs/troubleshooting.md#1-移动端侧边栏菜单右侧被裁切)
+- 移动端侧边栏菜单链接 `display: grid` 误用 → [troubleshooting](./docs/troubleshooting.md#2-移动端侧边栏菜单链接-display-grid-误用导致省略号失效)
+- 暗色模式下移动端汉堡按钮显示为蓝色实心方块 → [troubleshooting](./docs/troubleshooting.md#1-深色模式下移动端汉堡按钮显示为蓝色实心方块)
 
 ### ✨ 优化 (Changed)
-
-- **侧边栏主题切换按钮对齐**：居中 → 靠右，与菜单项竖轴对齐，视觉更统一
-- **侧边栏菜单项新增 hover 效果**：亮色"灰 → 深黑"、暗色"灰蓝 → 亮白"，与顶部导航一致
-- **全站图标 hover 风格统一**：底部 footer 与侧边栏底部社交图标均去除"变蓝"filter，统一为"半透明 → 完全显现"；暗色模式下侧边栏底部图标补充 `filter: invert(1)` 反色以适配深色背景
-
-### 📝 文档 (Docs)
-
-- `PROJECT_STRUCTURE.md` / `CHANGELOG.md` 待优化清单对账：移除已完成项（Logo 压缩、TOC、404 本地化、社交图标、关于页正文），新增"Header 响应式重构"待办，"默认封面优化"措辞收敛为仅涉及首页与分类页
+- 侧边栏主题切换按钮由居中改为靠右对齐
+- 侧边栏菜单项新增 hover 效果（亮色/暗色统一）
+- 全站图标 hover 风格统一：footer 与侧边栏底部社交图标去除变蓝 filter；暗色下侧边栏底部图标补 `filter: invert(1)`
 
 ---
 
 ## [1.1.0] - 2026-04-27
 
 ### 🎉 新增 (Added)
-
-- **🎬 SHOWREEL 音效作品展示模块**
-  - 新增 `/showreel/` 列表页（响应式：桌面 3 列网格 / 平板 2 列 / 移动端垂直列表）
-  - 新增作品详情页 `/showreel/<slug>/`：播放器 + 创作说明 + 工具标签 + 评论 + 邻接导航
-  - 视频源抽象：首期支持 B 站 iframe 嵌入，架构预留 mp4 / CDN 扩展
-  - Markdown 内容管理：`source/_showreel/` 目录 + `hexo new showreel "标题"` 命令
-  - 自定义 Hexo Generator（`scripts/showreel.js`）负责扫描、解析、排序、邻接计算
-- **🏷️ `CATEGORIES` 页 Tab 化改造**：合并"分类 / 标签"为同页 Tab 切换（支持 URL hash `#tags` 直达）
-- **💬 公共评论 Partial** `_partial/comment.ejs`：博客文章页与作品详情页共享一份 Giscus 配置
+- **🎬 SHOWREEL 音效作品展示模块** → [spec](./specs/showreel-feature-v1.1.0/spec.md)
+  - `/showreel/` 列表页 + `/showreel/<slug>/` 详情页
+  - 视频源抽象：B 站 iframe / mp4，架构预留扩展
+  - `source/_showreel/` 内容管理 + `hexo new showreel "标题"` 命令
+  - 自定义 Generator `scripts/showreel.js`
+- **🏷️ CATEGORIES 页 Tab 化改造**：合并"分类 / 标签"为同页 Tab，支持 `#tags` hash 直达
+- **💬 公共评论 Partial** `_partial/comment.ejs`：文章页与作品页共享
 
 ### 🔄 变更 (Changed)
-
-- **顶部导航重排**：移除独立 `TAGS` 入口，新增 `SHOWREEL`，顺序为 HOME → SHOWREEL → ARCHIVE → CATEGORIES → LINKS → ABOUT
-- `categories.message` 更新为 "分类 & 标签"
+- 顶部导航重排：移除独立 `TAGS`，新增 `SHOWREEL`
 
 ### 🔧 修复 (Fixed)
-
-- **Giscus 暗色模式同步**：放宽 postMessage 判定逻辑，iframe 首次加载即同步当前主题（修复"空评论页首次打开保持白色"的 bug，影响博客文章页与作品页）
-- **hexo-front-matter CRLF 兼容**：generator 读取 md 前归一化换行符与 BOM，避免 Windows 下新建作品 md 解析失败
-
-### 📝 备注 (Notes)
-
-- 原 `/tags`、`/tags/<name>` 子页面仍保留可访问，不破坏外链
-- 详细规格文档：[`specs/showreel-feature-v1.1.0/spec.md`](./specs/showreel-feature-v1.1.0/spec.md)
+- Giscus 暗色模式首次加载不同步 → [troubleshooting](./docs/troubleshooting.md#1-暗色模式下-giscus-首次加载不同步)
+- Windows 下 CRLF/BOM 导致 SHOWREEL front-matter 解析失败 → [troubleshooting](./docs/troubleshooting.md#1-windows-下-crlf--bom-导致-showreel-front-matter-解析失败)
 
 ---
 
 ## [1.0.1] - 2026-04-23
 
 ### 🔧 修复 (Fixed)
-
-- **404 页面本地化**
-  - 移除外部 CDN 图片依赖（原先引用 `cdn.jsdelivr.net` 上的 logo 与背景图，存在加载失败风险）
-  - 改为纯 CSS 实现：大号 `404` 渐变数字 + 文案 + 返回首页按钮
-  - 支持暗色模式（跟随站点 `data-theme` 切换配色）
-  - 移动端响应式适配
-  - 返回首页链接改用 `url_for('/')`，兼容子路径部署
-  - 新增 `source/404.md` 入口文件，修复原项目 `404.ejs` 从未被 Hexo 渲染的问题（现可正常生成 `public/404.html`，GitHub Pages 会在访问不存在路径时自动展示）
+- **404 页面本地化**：移除外部 CDN 图片依赖，改为纯 CSS 实现（渐变数字 + 文案 + 返回首页按钮），支持暗色模式 + 响应式；新增 `source/404.md` 入口修复原项目 `404.ejs` 从未被 Hexo 渲染的问题
 
 ---
 
 ## [1.0.0] - 2026-04-23
 
-首个正式版本。博客具备完整的阅读、互动与个性化体验。
+首个正式版本，博客具备完整的阅读、互动与个性化体验。
 
 ### 🎉 新增 (Added)
-
-- **暗色模式 (Dark Mode)**
-  - 深蓝黑色系配色方案
-  - 支持跟随系统偏好 (`prefers-color-scheme`)
-  - 使用 `localStorage` 持久化用户选择
-  - Giscus 评论区主题同步切换 (`light` / `dark_dimmed`)
-  - 右上角一键切换按钮
-
-- **文章目录 (TOC)**
-  - 默认开启，悬浮在正文左侧
-  - 支持折叠 / 展开
-  - 滚动时自动高亮当前阅读的标题
-  - 点击标题平滑跳转
-  - 仅在屏幕宽度 ≥ 1500px 时显示，避免遮挡内容
-
-- **关于页面 (About)**
-  - 包含个人简介、技能栈、正在做什么、联系方式、关于博客 五大模块
-  - 统一视觉风格，支持暗色模式
-
-- **代码块一键复制**
-  - 复制按钮固定在代码块右上角
-  - 点击后给出 Toast 反馈
-
-- **字数统计 & 阅读时间**
-  - 显示在文章标题下方，独立一行
-  - 颜色跟随标题色，深浅主题自适应
-
-- **图片懒加载**
-  - 启用 `marked.lazyload: true`
-  - 优化长文章首屏加载速度
-
-- **底部社交图标**
-  - GitHub、B站、邮箱 三个入口
-  - 使用本地 SVG 图标（无外部依赖）
-  - 邮箱点击后：复制邮箱地址到剪贴板 + 触发 `mailto:`
-
-- **通用 Toast 组件**
-  - 全局 `showToast()` 方法
-  - 自动适配亮色 / 暗色主题
-  - 用于复制成功、操作反馈等场景
+- **暗色模式**：深蓝黑色系配色，跟随系统偏好，localStorage 持久化，Giscus 主题同步
+- **文章目录 (TOC)**：悬浮左侧，滚动高亮，折叠展开，宽屏（≥1500px）自动显示
+- **关于页面 (About)**：个人简介 / 技能栈 / 正在做什么 / 联系方式 / 关于博客
+- **代码块一键复制**：右上角复制按钮 + Toast 反馈
+- **字数统计 & 阅读时间**：显示在文章标题下方
+- **图片懒加载**：`marked.lazyload: true`
+- **底部社交图标**：GitHub / B站 / 邮箱（本地 SVG，无外部依赖）
+- **通用 Toast 组件**：全局 `showToast()`，主题自适应
 
 ### ⚡ 优化 (Changed)
-
-- **Logo 图片压缩**：从 1058 KB 压缩至 118 KB（节省 88.84%），尺寸 512×512，首屏加载显著加快
-- **导航栏视觉修复**：header 改为纯色背景，滚动时 fixed 缩小无白色缝隙
+- Logo 图片压缩：1058 KB → 118 KB（-88.84%）
+- 导航栏视觉修复：纯色背景，滚动缩小无白色缝隙
 
 ### 🔥 移除 (Removed)
-
-- **阅读进度条**：根据需求移除
-
----
-
-## 版本规划建议
-
-> 以下为未来版本号的使用建议，实际版本由每次更新内容决定：
-
-- `1.1.0`：完成首页封面优化 + 404 本地化 + 搜索功能（全部属新增功能）
-- `1.x.x`：后续功能迭代
-- `2.0.0`：如果未来更换主题或整站重构
+- 阅读进度条
 
 ---
 
 ## 维护约定
 
-1. **每次功能改动后**，在本文件顶部追加新版本块
-2. 版本块包含：版本号、日期、本次改动分类（新增 / 优化 / 修复 / 移除）
-3. 未完成的想法写入 `[Unreleased]` 区，完成后移至对应版本
-4. 开启新 AI 对话时，可直接附带本文件，快速同步项目历史
+1. **每次功能改动后**，在本文件顶部追加新版本块（一行一条，细节链接外部）
+2. 版本块包含：版本号、日期、分类（新增 / 优化 / 修复 / 移除）
+3. **未完成的想法**写入 [`docs/roadmap.md`](./docs/roadmap.md)
+4. **Bug 根因与规则**写入 [`docs/troubleshooting.md`](./docs/troubleshooting.md)
+5. **大改动**先在 [`specs/`](./specs/) 建 spec，本文条目链接到 spec

@@ -1,8 +1,13 @@
-# 项目结构总结
+# 项目结构
+
+> 本文件是**目录结构索引**，仅描述"文件在哪里 + 做什么"。
+> 版本演进请看 [`CHANGELOG.md`](./CHANGELOG.md)，待办计划请看 [`docs/roadmap.md`](./docs/roadmap.md)。
+
+---
 
 ## 项目概览
 
-基于 **Hexo 7.3.0** 的个人博客项目，使用 **Quiet** 主题（v1.1.0），定位为**游戏音频博客与作品集**，部署到 GitHub Pages（`DooocX.github.io`）。
+基于 **Hexo 7.3.0** 的个人博客与游戏音频作品集，使用 **Quiet** 主题（深度定制），部署到 **GitHub Pages**（`DooocX.github.io`）。
 
 ---
 
@@ -10,106 +15,114 @@
 
 ```
 DooocX.github.io/
-├── _config.yml                 # Hexo 主配置文件（含 marked.lazyload 图片懒加载配置）
-├── Rules.md                    # 编程规范文件
-├── PROJECT_STRUCTURE.md        # 项目结构说明
-├── .editorconfig               # 编辑器统一配置
-├── .gitignore                  # Git 忽略规则
-├── package.json                # 项目依赖
-├── package-lock.json           # 依赖锁定
+├── README.md                    # 项目门面
+├── AGENTS.md                    # AI 协作入口地图
+├── CHANGELOG.md                 # 版本索引
+├── PROJECT_STRUCTURE.md         # 本文件
+├── Rules.md                     # 规范指路 stub → docs/conventions/
+├── _config.yml                  # Hexo 主配置（含 marked.lazyload）
+├── package.json                 # 项目依赖
+├── .editorconfig                # 编辑器统一配置
+├── .gitignore                   # Git 忽略规则
 │
-├── .github/                    # GitHub 配置
-│   └── dependabot.yml          #   自动依赖更新
+├── docs/                        # 文档中心
+│   ├── conventions/             #   编码规范（按领域拆分）
+│   │   ├── coding-style.md      #     通用编码风格（缩进/命名/注释/JS）
+│   │   ├── git-workflow.md      #     Git 分支与提交
+│   │   ├── directory-structure.md  #  目录组织原则
+│   │   ├── css-guidelines.md    #     CSS/Less 规范
+│   │   └── ejs-guidelines.md    #     EJS 模板规范
+│   ├── runbooks/                #   操作手册
+│   │   ├── new-post.md          #     发布新文章
+│   │   ├── new-showreel.md      #     发布新 SHOWREEL 作品
+│   │   ├── deploy.md            #     部署上线
+│   │   └── image-hosting.md     #     七牛云图床使用
+│   ├── troubleshooting.md       #   踩坑手册（症状/根因/修复/规则）
+│   └── roadmap.md               #   待办与规划
 │
-├── scaffolds/                  # 文章模板
-│   ├── post.md                 #   新文章模板
-│   ├── page.md                 #   新页面模板
-│   ├── draft.md                #   草稿模板
-│   └── showreel.md             #   [v1.1.0] 新作品模板（hexo new showreel "xxx"）
+├── specs/                       # 功能规格文档
+│   ├── README.md                #   spec 索引
+│   ├── _template/spec.md        #   标准 spec 模板
+│   └── showreel-feature-v1.1.0/spec.md
 │
-├── scripts/                    # [v1.1.0] Hexo 扩展脚本
-│   └── showreel.js             #   SHOWREEL Generator：扫描 _showreel/ → 生成列表页与详情页
+├── .github/                     # GitHub 配置
+│   └── dependabot.yml           #   自动依赖更新
 │
-├── specs/                      # 规格文档
-│   └── showreel-feature-v1.1.0/
-│       └── spec.md             #   SHOWREEL 模块规格说明
+├── scaffolds/                   # hexo new 使用的模板
+│   ├── post.md                  #   新文章模板
+│   ├── page.md                  #   新页面模板
+│   ├── draft.md                 #   草稿模板
+│   └── showreel.md              #   新作品模板
 │
-├── source/                     # 内容源文件
-│   ├── _posts/                 #   博客文章（4 篇）
-│   │   ├── FIRST.md
-│   │   ├── 【Wwise】101.md
-│   │   ├── 【Wwise】版本控制与工作流.md
-│   │   └── 【视频总结】手游领域打造3A音频效果.md
-│   ├── _showreel/              #   [v1.1.0] 作品内容（下划线目录，由自定义 generator 处理）
-│   ├── about/index.md          #   [v1.1.3] 关于页（front-matter 驱动：experiences / works / skills / email）
-│   ├── tags/index.md           #   标签页
-│   ├── categories/index.md     #   分类页
-│   └── links/index.md          #   友链页
+├── scripts/                     # Hexo 扩展脚本（自动加载）
+│   └── showreel.js              #   SHOWREEL Generator：扫描 _showreel/ → 生成列表页与详情页
 │
-└── themes/Quiet/               # Quiet 主题
-    ├── _config.yml             #   主题配置（唯一配置入口）
-    ├── layout/                 #   EJS 模板
-    │   ├── layout.ejs          #     根布局（含主题初始化脚本）
-    │   ├── index.ejs           #     首页
-    │   ├── post.ejs            #     文章详情
-    │   ├── archive.ejs         #     归档/分类归档
-    │   ├── about.ejs           #     [v1.1.3] 关于页：Hero / 工作经历时间线 / 作品长条卡片 + Modal / 技能栈网格（含 works JSON 数据岛与 Modal 交互 IIFE）
-    │   ├── categories.ejs      #     分类列表（[v1.1.0] 改造为分类/标签 Tab 切换）
-    │   ├── tags.ejs            #     标签列表（独立页保留，顶部导航已移除）
-    │   ├── tag.ejs             #     单标签文章列表
-    │   ├── links.ejs           #     友链
-    │   ├── 404.ejs             #     404 页面
-    │   ├── showreel.ejs        #     [v1.1.0] SHOWREEL 作品列表页
-    │   ├── showreel_post.ejs   #     [v1.1.0] SHOWREEL 作品详情页
-    │   ├── _partial/           #     局部模板
-    │   │   ├── head.ejs        #       HTML head
-    │   │   ├── header.ejs      #       导航栏（含暗色模式切换按钮）
-    │   │   ├── foot.ejs        #       页脚
-    │   │   ├── home.ejs        #       首页文章列表
-    │   │   ├── post_head.ejs   #       文章头部（含字数统计 + 阅读时间）
-    │   │   ├── post_content.ejs#       文章正文（评论区已抽至 comment.ejs）
-    │   │   ├── post_paging.ejs #       上下篇导航
-    │   │   ├── comment.ejs     #       [v1.1.0] Giscus 评论公共 partial（文章/作品共享）
-    │   │   ├── showreel_player.ejs #   [v1.1.0] 视频播放器抽象（bilibili / mp4 分支）
-    │   │   └── showreel_paging.ejs #   [v1.1.0] 作品邻接导航（上一部/下一部）
-    │   └── _widget/            #     小组件
-    │       ├── analytics.ejs   #       百度统计（已禁用）
-    │       ├── comment.ejs     #       Giscus 评论（已迁至 post_content.ejs）
-    │       ├── gotop.ejs       #       回到顶部按钮
-    │       ├── grouping.ejs    #       按年份分组列表
-    │       ├── header_body.ejs #       页面 banner
-    │       └── sidebar.ejs     #       移动端侧边栏（含暗色模式切换入口）
-    └── source/                 #   主题静态资源
+├── source/                      # 内容源文件
+│   ├── _posts/                  #   博客文章
+│   ├── _showreel/               #   作品（下划线目录，由 generator 处理）
+│   ├── about/index.md           #   关于页（front-matter 驱动：experiences / works / skills / email）
+│   ├── categories/index.md      #   分类页（Tab 化，含标签）
+│   ├── tags/index.md            #   独立标签页（保留可访问，导航已移除）
+│   ├── links/index.md           #   友链页
+│   └── 404.md                   #   404 入口
+│
+└── themes/Quiet/                # Quiet 主题
+    ├── _config.yml              #   主题配置（唯一配置入口）
+    ├── layout/                  #   EJS 模板
+    │   ├── layout.ejs           #     根布局（主题初始化脚本）
+    │   ├── index.ejs            #     首页
+    │   ├── post.ejs             #     文章详情
+    │   ├── archive.ejs          #     归档 / 分类归档
+    │   ├── about.ejs            #     关于页（Hero / 时间线 / 作品卡片 + Modal / 技能栈；含 works JSON 数据岛 + IIFE）
+    │   ├── categories.ejs       #     分类列表（Tab 化：分类 + 标签）
+    │   ├── tags.ejs             #     标签列表（独立页保留）
+    │   ├── tag.ejs              #     单标签文章列表
+    │   ├── links.ejs            #     友链
+    │   ├── 404.ejs              #     404 页面
+    │   ├── showreel.ejs         #     SHOWREEL 作品列表页
+    │   ├── showreel_post.ejs    #     SHOWREEL 作品详情页
+    │   ├── _partial/            #     局部模板
+    │   │   ├── head.ejs         #       HTML <head>
+    │   │   ├── header.ejs       #       导航栏（含暗色切换按钮）
+    │   │   ├── foot.ejs         #       页脚
+    │   │   ├── home.ejs         #       首页文章列表
+    │   │   ├── post_head.ejs    #       文章头部（字数统计 + 阅读时间）
+    │   │   ├── post_content.ejs #       文章正文
+    │   │   ├── post_paging.ejs  #       上下篇导航
+    │   │   ├── comment.ejs      #       Giscus 评论公共 partial（文章/作品共享）
+    │   │   ├── showreel_player.ejs  #   视频播放器抽象（bilibili / mp4 分支）
+    │   │   └── showreel_paging.ejs  #   作品邻接导航
+    │   └── _widget/             #     可复用小组件
+    │       ├── analytics.ejs    #       百度统计（已禁用）
+    │       ├── comment.ejs      #       Giscus（已迁至 _partial/comment.ejs）
+    │       ├── gotop.ejs        #       回到顶部
+    │       ├── grouping.ejs     #       按年份分组
+    │       ├── header_body.ejs  #       页面 banner
+    │       └── sidebar.ejs      #       移动端侧边栏（含暗色切换入口）
+    └── source/                  #   主题静态资源
         ├── css/
-        │   ├── index.less      #     样式入口（仅 @import）
-        │   ├── public/         #     基础层
-        │   │   ├── _variables.less  # 设计令牌系统
-        │   │   ├── _mixins.less     # Mixin 工具库
-        │   │   ├── article_content.less  # 文章正文排版样式
-        │   │   ├── animation.less   # 内容进场动画
-        │   │   ├── dark-mode.less   # 暗色模式全局覆盖样式
-        │   │   ├── code-copy.less   # 代码块复制按钮样式
-        │   │   └── toast.less       # 全局 Toast 提示组件样式
-        │   ├── pages/          #     页面级样式（含 [v1.1.0] showreel.less / showreel_post.less、[v1.1.3] about.less 含深色模式覆盖段）
-        │   ├── widget/         #     组件样式
-        │   │   ├── header.less #     含暗色切换按钮样式
-        │   │   ├── footer.less
-        │   │   ├── header_body.less
-        │   │   ├── grouping.less
-        │   │   ├── sidebar.less
-        │   │   └── gotop.less
-        │   ├── highlight/      #     代码高亮（Atom One Dark）
-        │   └── plugin/         #     第三方插件样式（Fancybox、Giscus）
+        │   ├── index.less       #     样式入口（仅 @import）
+        │   ├── public/          #     基础层
+        │   │   ├── _variables.less     # 设计令牌系统
+        │   │   ├── _mixins.less        # Mixin 工具库
+        │   │   ├── article_content.less # 文章正文排版
+        │   │   ├── animation.less      # 内容进场动画
+        │   │   ├── dark-mode.less      # 暗色模式全局覆盖
+        │   │   ├── code-copy.less      # 代码块复制按钮
+        │   │   └── toast.less          # 全局 Toast 提示组件
+        │   ├── pages/           #     页面级样式（home / post / about / archive / categories / tags / tag / links / showreel / showreel_post）
+        │   ├── widget/          #     组件样式（header / footer / sidebar / gotop / grouping / header_body / toc）
+        │   ├── highlight/       #     代码高亮（Atom One Dark）
+        │   └── plugin/          #     第三方插件样式（Fancybox / Giscus）
         ├── js/
-        │   ├── index.js        #     主脚本（含暗色模式、进度条、代码复制）
-        │   ├── fancybox.umd.js #     Fancybox 图片灯箱
-        │   └── hljs.min.js     #     highlight.js 代码高亮
+        │   ├── index.js         #     主脚本（暗色模式、代码复制、Toast、Fancybox 初始化等）
+        │   ├── fancybox.umd.js  #     Fancybox 图片灯箱
+        │   └── hljs.min.js      #     highlight.js 代码高亮
         └── image/
-            ├── favicon.ico     #     网站图标
-            ├── logo.png        #     网站 Logo
-            ├── pattern.png     #     侧边栏背景纹理
-            ├── 1776072826849.png  # 标签页图片
-            └── 1776072828872.png  # 标签页图片
+            ├── favicon.ico      #     网站图标
+            ├── logo.png         #     网站 Logo
+            ├── pattern.png      #     侧边栏背景纹理
+            └── icon-*.svg       #     底部社交图标（GitHub / B站 / 邮箱）
 ```
 
 ---
@@ -127,45 +140,32 @@ DooocX.github.io/
 
 ---
 
-## 文章内容
-
-| 文章 | 分类 | 标签 |
-|---|---|---|
-| MarkDown语法示例 | Markdown | Markdown |
-| 【Wwise】101笔记 | Wwise | Wwise笔记, Wwise |
-| 【Wwise】版本控制与工作流 | Wwise | 音频策划, 版本控制, Wwise |
-| 【音效设计】手游领域打造3A音频效果 | 音效设计 | 音效设计, 视频总结 |
-
----
-
 ## 主题配置要点
 
 - **首页布局**：`block-card`（图文块状卡片）
-- **导航栏**：HOME / SHOWREEL / ARCHIVE / CATEGORIES / LINKS / ABOUT + 暗色模式切换
-- **SHOWREEL 模块**（v1.1.0）：音效作品展示，`source/_showreel/` 管理，`hexo new showreel "标题"` 创建；支持 B 站 iframe 嵌入，架构预留 mp4 扩展
-- **分类/标签合并**（v1.1.0）：`/categories` 页内 Tab 切换，支持 `#tags` hash 直达
-- **暗色模式**：跟随系统偏好自动切换，支持手动切换，localStorage 持久化
-- **代码高亮**：highlight.js（Atom One Dark 主题，仅文章页加载）
+- **导航栏**：HOME → SHOWREEL → ARCHIVE → CATEGORIES → LINKS → ABOUT + 暗色模式切换
+- **SHOWREEL 模块**：音效作品展示，`source/_showreel/` 管理，支持 B 站 iframe / mp4
+- **分类/标签合并**：`/categories` 页内 Tab 切换，支持 `#tags` hash 直达
+- **暗色模式**：跟随系统偏好 + 手动切换 + localStorage 持久化
+- **代码高亮**：highlight.js（Atom One Dark，仅文章页加载）
 - **图片灯箱**：Fancybox（仅文章页加载）
-- **评论系统**：Giscus（基于 GitHub Discussions，已启用，主题跟随暗色模式）
-- **阅读进度条**：仅文章页顶部显示，3px 主色调进度条
+- **评论系统**：Giscus（基于 GitHub Discussions，主题跟随暗色模式）
 - **代码复制**：代码块右上角一键复制按钮
-- **字数统计**：文章头部显示字数和预计阅读时间
-- **图片懒加载**：通过 `marked.lazyload: true` 自动为 Markdown 图片添加 `loading="lazy"`
-- **统计**：百度统计（已禁用）
-- **底部图标**：GitHub（链接到 `github.com/DooocX`）
+- **字数统计**：文章头部显示字数与预计阅读时间
+- **图片懒加载**：`marked.lazyload: true` 自动为图片加 `loading="lazy"`
+- **图床**：七牛云 CDN `cdn.docxaudioblog.top`（详见 [`docs/runbooks/image-hosting.md`](./docs/runbooks/image-hosting.md)）
 
 ---
 
 ## 架构特性
 
 ### 设计令牌系统
-- 所有颜色、间距、断点等值集中在 `_variables.less` 中管理
-- 通用 mixin 集中在 `_mixins.less` 中（响应式断点、过渡动画、flex 布局等）
-- 暗色模式使用 `[data-theme="dark"]` CSS 选择器覆盖，不破坏现有 LESS 变量体系
+- 所有颜色、间距、断点等值集中在 `_variables.less`
+- 通用 mixin 集中在 `_mixins.less`（响应式断点、过渡动画、flex 布局等）
+- 暗色模式使用 `[data-theme="dark"]` CSS 选择器覆盖，不破坏 LESS 变量体系
 
 ### 性能优化
-- 移除 jQuery 依赖，使用原生 ES6+ DOM API
+- 移除 jQuery，使用原生 ES6+ DOM API
 - JS 脚本 `defer` 非阻塞加载
 - Fancybox / highlight.js 仅在文章详情页按需加载
 - scroll 事件使用 `requestAnimationFrame` 节流
@@ -178,8 +178,10 @@ DooocX.github.io/
 
 ---
 
-## 待优化项
+## 相关文档
 
-1. **Header 响应式重构**：header 高度当前固定 `100px`（桌面/平板/移动同值），建议抽出 `@header-height-desktop / @header-height-mobile` 变量并做响应式（桌面 100px / 平板 80px / 移动 56-64px），同步收敛各页面对 fixed header 的避让 padding，避免零散硬编码（如 `showreel_post.less` 中的 `calc(50px + ...)` / `calc(70px + ...)`）
-2. **首页/分类页默认封面优化**：文章详情页已支持 `page.cover` 优先（front-matter 有 cover 则用文章自己的），但首页卡片（`home.ejs`）和分类页 banner（`categories.ejs`）在 `post.cover` 缺失时仍回退到第三方随机图片 API（`api.ixiaowai.cn`），建议替换为本地图片池或可控 CDN
-3. **全站搜索功能**：基于 `hexo-generator-searchdb` + 前端搜索框实现站内搜索
+- 编码规范：[`docs/conventions/`](./docs/conventions/)
+- 操作手册：[`docs/runbooks/`](./docs/runbooks/)
+- 踩坑手册：[`docs/troubleshooting.md`](./docs/troubleshooting.md)
+- 待办规划：[`docs/roadmap.md`](./docs/roadmap.md)
+- 功能规格：[`specs/`](./specs/)
